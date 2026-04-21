@@ -137,27 +137,29 @@
     .btn-secondary:hover { background: #2a2f45; }
 
     /* SCREENSHOTS */
-    .screenshots {
-      padding: 60px 20px;
-      overflow: hidden;
-    }
-    .screenshots-track {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .screenshot-frame {
-      width: 180px;
+    .screenshots { padding: 40px 20px 20px; }
+    .hero-shot {
+      max-width: 700px;
+      margin: 0 auto 20px;
       border-radius: 24px;
       overflow: hidden;
-      border: 2px solid rgba(255,255,255,0.08);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-      flex-shrink: 0;
-      transition: transform 0.3s;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
     }
-    .screenshot-frame:hover { transform: translateY(-6px); }
-    .screenshot-frame img { width: 100%; display: block; }
+    .hero-shot img { width: 100%; display: block; }
+    .shot-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      max-width: 700px;
+      margin: 0 auto 16px;
+    }
+    .shot-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    .shot-card {
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    }
+    .shot-card img { width: 100%; display: block; }
 
     /* FEATURES */
     .section { padding: 60px 20px; max-width: 960px; margin: 0 auto; }
@@ -312,12 +314,16 @@
 
 <!-- SCREENSHOTS -->
 <section class="screenshots">
-  <div class="screenshots-track">
-    <div class="screenshot-frame"><img src="screenshots/screen_01.png" alt="Day modal"></div>
-    <div class="screenshot-frame"><img src="screenshots/screen_02_closed.png" alt="Calendar"></div>
-    <div class="screenshot-frame"><img src="screenshots/screen_03_next_month.png" alt="Next month"></div>
-    <div class="screenshot-frame"><img src="screenshots/screen_04_prev_month.png" alt="Prev month"></div>
-    <div class="screenshot-frame"><img src="screenshots/screen_05_may.png" alt="May"></div>
+  <div class="hero-shot">
+    <img src="screenshots/lifestyle_main.jpeg" alt="ShiftSchedule — главный экран">
+  </div>
+  <div class="shot-row">
+    <div class="shot-card"><img src="screenshots/lifestyle_two.jpeg" alt="Тёмная и светлая тема"></div>
+    <div class="shot-card"><img src="screenshots/lifestyle_features.jpeg" alt="Функции приложения"></div>
+  </div>
+  <div class="shot-row" style="grid-template-columns: 1fr 1fr; max-width: 700px; margin: 0 auto;">
+    <div class="shot-card"><img src="screenshots/lifestyle_grid.jpeg" alt="Разные сцены"></div>
+    <div class="shot-card"><img src="screenshots/lifestyle_desk.jpeg" alt="Рабочий стол"></div>
   </div>
 </section>
 

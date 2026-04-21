@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShiftSchedule — Сменный график</title>
+  <meta name="description" content="Приложение для ведения сменного графика. Всегда знай, когда работаешь.">
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --accent: #4a8fe8;
+      --accent2: #66b8b2;
+      --text: #e8eaf0;
+      --text2: #8b90a0;
+      --work: #4a8fe8;
+      --extra: #4caf7a;
+      --vacation: #e8a44a;
+      --sick: #e85454;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 40px;
+      background: rgba(15,17,23,0.92);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo { font-size: 18px; font-weight: 700; color: var(--text); }
+    .nav-logo span { color: var(--accent); }
+    .lang-toggle {
+      display: flex;
+      gap: 4px;
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 4px;
+    }
+    .lang-btn {
+      background: none;
+      border: none;
+      color: var(--text2);
+      cursor: pointer;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .lang-btn.active { background: var(--accent); color: #fff; }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 80px 20px 60px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(74,143,232,0.15);
+      color: var(--accent);
+      border: 1px solid rgba(74,143,232,0.3);
+      border-radius: 20px;
+      padding: 5px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 52px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+      line-height: 1.15;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      font-size: 18px;
+      color: var(--text2);
+      margin-bottom: 36px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+    .btn-secondary:hover { background: #2a2f45; }
+
+    /* SCREENSHOTS */
+    .screenshots {
+      padding: 60px 20px;
+      overflow: hidden;
+    }
+    .screenshots-track {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .screenshot-frame {
+      width: 180px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.08);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      flex-shrink: 0;
+      transition: transform 0.3s;
+    }
+    .screenshot-frame:hover { transform: translateY(-6px); }
+    .screenshot-frame img { width: 100%; display: block; }
+
+    /* FEATURES */
+    .section { padding: 60px 20px; max-width: 960px; margin: 0 auto; }
+    .section-title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .section-sub {
+      text-align: center;
+      color: var(--text2);
+      margin-bottom: 40px;
+      font-size: 16px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .feature-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 24px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .feature-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+    .feature-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .feature-card p { font-size: 14px; color: var(--text2); }
+
+    /* STATUS BADGES */
+    .statuses {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
+    }
+    .status-badge {
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* PRO */
+    .pro-section {
+      background: var(--surface);
+      border: 1px solid rgba(74,143,232,0.2);
+      border-radius: 24px;
+      padding: 48px 32px;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 60px;
+    }
+    .pro-badge {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      border-radius: 8px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    .pro-section h2 { font-size: 26px; font-weight: 800; margin-bottom: 12px; }
+    .pro-section p { color: var(--text2); margin-bottom: 24px; }
+    .pro-list {
+      list-style: none;
+      text-align: left;
+      display: inline-block;
+      margin-bottom: 28px;
+    }
+    .pro-list li {
+      padding: 6px 0;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pro-list li::before { content: "✦"; color: var(--accent); font-size: 11px; }
+    .price {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .price span { font-size: 16px; color: var(--text2); font-weight: 400; }
+    .trial-note { font-size: 13px; color: var(--text2); margin-top: 10px; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 32px 20px;
+      text-align: center;
+      color: var(--text2);
+      font-size: 13px;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    .footer-links { display: flex; gap: 20px; justify-content: center; margin-bottom: 12px; flex-wrap: wrap; }
+
+    /* LANG */
+    [data-en] { display: none; }
+    body.lang-en [data-ru] { display: none; }
+    body.lang-en [data-en] { display: revert; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Shift<span>Schedule</span></div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">
+    <span data-ru>Android приложение</span>
+    <span data-en>Android App</span>
+  </div>
+  <h1>
+    <span data-ru>Твой сменный<br><span>график</span> — всегда под рукой</span>
+    <span data-en>Your shift schedule —<br>always at <span>hand</span></span>
+  </h1>
+  <p>
+    <span data-ru>Простое и удобное приложение для работников со сменным графиком. Отмечай смены, следи за выходными, планируй вместе с партнёром.</span>
+    <span data-en>A simple and convenient app for shift workers. Mark your shifts, track days off, and plan together with a partner.</span>
+  </p>
+  <div class="hero-buttons">
+    <a href="#download" class="btn-primary">
+      ↓ <span data-ru>Скачать</span><span data-en>Download</span>
+    </a>
+    <a href="privacy.html" class="btn-secondary">
+      <span data-ru>Политика конфиденциальности</span>
+      <span data-en>Privacy Policy</span>
+    </a>
+  </div>
+</section>
+
+<!-- SCREENSHOTS -->
+<section class="screenshots">
+  <div class="screenshots-track">
+    <div class="screenshot-frame"><img src="screenshots/screen_01.png" alt="Day modal"></div>
+    <div class="screenshot-frame"><img src="screenshots/screen_02_closed.png" alt="Calendar"></div>
+    <div class="screenshot-frame"><img src="screenshots/screen_03_next_month.png" alt="Next month"></div>
+    <div class="screenshot-frame"><img src="screenshots/screen_04_prev_month.png" alt="Prev month"></div>
+    <div class="screenshot-frame"><img src="screenshots/screen_05_may.png" alt="May"></div>
+  </div>
+</section>
+
+<!-- STATUSES -->
+<div class="statuses">
+  <span class="status-badge" style="background:#4a8fe8" data-ru>Работа</span>
+  <span class="status-badge" style="background:#4a8fe8" data-en>Work</span>
+  <span class="status-badge" style="background:#5a6070" data-ru>Выходной</span>
+  <span class="status-badge" style="background:#5a6070" data-en>Day off</span>
+  <span class="status-badge" style="background:#4caf7a" data-ru>Подработка</span>
+  <span class="status-badge" style="background:#4caf7a" data-en>Extra shift</span>
+  <span class="status-badge" style="background:#e8a44a" data-ru>Отпуск</span>
+  <span class="status-badge" style="background:#e8a44a" data-en>Vacation</span>
+  <span class="status-badge" style="background:#e85454" data-ru>Больничный</span>
+  <span class="status-badge" style="background:#e85454" data-en>Sick leave</span>
+</div>
+
+<!-- FEATURES -->
+<section class="section">
+  <h2 class="section-title" data-ru>Всё что нужно для сменного графика</h2>
+  <h2 class="section-title" data-en>Everything for your shift schedule</h2>
+  <p class="section-sub" data-ru>Бесплатные функции, которые работают без интернета</p>
+  <p class="section-sub" data-en>Free features that work offline</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">📅</div>
+      <h3 data-ru>Умный календарь</h3>
+      <h3 data-en>Smart calendar</h3>
+      <p data-ru>Автоматический расчёт цикла смен по якорной дате. Поддержка любых графиков: 2/2, 3/3, 5/2 и других.</p>
+      <p data-en>Automatic shift cycle calculation from an anchor date. Supports any schedule: 2/2, 3/3, 5/2 and more.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">✏️</div>
+      <h3 data-ru>5 типов дней</h3>
+      <h3 data-en>5 day types</h3>
+      <p data-ru>Работа, Выходной, Подработка, Отпуск, Больничный. Добавляй заметки к любому дню.</p>
+      <p data-en>Work, Day off, Extra shift, Vacation, Sick leave. Add notes to any day.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔔</div>
+      <h3 data-ru>Уведомления</h3>
+      <h3 data-en>Notifications</h3>
+      <p data-ru>Напоминания о сменах за 6, 12 или 24 часа. Никогда не опоздаешь на работу.</p>
+      <p data-en>Reminders about shifts 6, 12, or 24 hours in advance. Never be late for work.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📆</div>
+      <h3 data-ru>Синхронизация с календарём</h3>
+      <h3 data-en>Calendar sync</h3>
+      <p data-ru>Экспортируй смены в системный календарь телефона. Работает с Google Calendar и любым другим.</p>
+      <p data-en>Export shifts to your phone's system calendar. Works with Google Calendar and any other.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🏠</div>
+      <h3 data-ru>Home Assistant</h3>
+      <h3 data-en>Home Assistant</h3>
+      <p data-ru>Автоматически отправляй статус смены в Home Assistant для умного дома.</p>
+      <p data-en>Automatically send your shift status to Home Assistant for smart home automations.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌍</div>
+      <h3 data-ru>3 языка</h3>
+      <h3 data-en>3 languages</h3>
+      <p data-ru>Русский, English, Español. Язык определяется автоматически или выбирается вручную.</p>
+      <p data-en>Russian, English, Spanish. Language is detected automatically or selected manually.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRO -->
+<section class="section">
+  <div class="pro-section">
+    <div class="pro-badge">PRO</div>
+    <h2 data-ru>Больше возможностей</h2>
+    <h2 data-en>More features</h2>
+    <p data-ru>Откройте расширенные функции одним платежом</p>
+    <p data-en>Unlock advanced features with a one-time payment</p>
+    <ul class="pro-list">
+      <li data-ru>Облачная синхронизация между устройствами</li>
+      <li data-en>Cloud sync between devices</li>
+      <li data-ru>Совместный просмотр графика с партнёром</li>
+      <li data-en>Shared schedule view with a partner</li>
+      <li data-ru>Стили Glass &amp; Air и iOS</li>
+      <li data-en>Glass &amp; Air and iOS styles</li>
+      <li data-ru>Новые стили Aurora, Nordic, Forest</li>
+      <li data-en>New Aurora, Nordic, Forest styles</li>
+    </ul>
+    <div class="price">199 ₽ <span data-ru>/ навсегда</span><span data-en>/ one-time</span></div>
+    <a href="#download" class="btn-primary" data-ru>Попробовать бесплатно 14 дней</a>
+    <a href="#download" class="btn-primary" data-en>Try free for 14 days</a>
+    <div class="trial-note" data-ru>После пробного периода — 199 ₽ один раз</div>
+    <div class="trial-note" data-en>After the trial — one-time payment</div>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section class="section" id="download" style="text-align:center; padding-top: 0;">
+  <h2 class="section-title" data-ru>Скачать</h2>
+  <h2 class="section-title" data-en>Download</h2>
+  <p class="section-sub" data-ru>Доступно для Android</p>
+  <p class="section-sub" data-en>Available for Android</p>
+  <a href="#" class="btn-primary" style="font-size:18px; padding: 16px 36px; margin-top: 8px;">
+    <span data-ru>RuStore — скоро</span>
+    <span data-en>RuStore — coming soon</span>
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-links">
+    <a href="privacy.html" data-ru>Политика конфиденциальности</a>
+    <a href="privacy.html" data-en>Privacy Policy</a>
+    <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a>
+  </div>
+  <div>© 2026 ShiftSchedule · <span data-ru>Все права защищены</span><span data-en>All rights reserved</span></div>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.body.classList.toggle('lang-en', lang === 'en');
+    document.querySelectorAll('.lang-btn').forEach((b, i) => {
+      b.classList.toggle('active', (i === 0 && lang === 'ru') || (i === 1 && lang === 'en'));
+    });
+    localStorage.setItem('lang', lang);
+  }
+  const saved = localStorage.getItem('lang');
+  if (saved) setLang(saved);
+</script>
+</body>
+</html>

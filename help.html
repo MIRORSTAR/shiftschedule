@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Инструкции — ShiftSchedule</title>
+  <style>
+    :root {
+      --bg: #0f1117; --surface: #1a1d27; --surface2: #22263a;
+      --accent: #4a8fe8; --text: #e8eaf0; --text2: #8b90a0;
+      --border: rgba(255,255,255,0.07);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; border-bottom: 1px solid var(--border); }
+    .nav-logo { font-size: 18px; font-weight: 700; }
+    .nav-logo span { color: var(--accent); }
+    nav a { color: var(--accent); text-decoration: none; font-size: 14px; }
+    .content { max-width: 800px; margin: 0 auto; padding: 60px 24px 80px; }
+    h1 { font-size: 36px; font-weight: 800; margin-bottom: 8px; }
+    .subtitle { color: var(--text2); font-size: 16px; margin-bottom: 56px; }
+
+    .section { margin-bottom: 72px; }
+    .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+    .section-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; background: var(--surface2); flex-shrink: 0; }
+    h2 { font-size: 24px; font-weight: 700; }
+    .section-desc { color: var(--text2); font-size: 15px; margin-bottom: 28px; line-height: 1.75; }
+
+    .screenshots { display: flex; gap: 16px; margin-bottom: 32px; overflow-x: auto; padding-bottom: 4px; }
+    .screenshots img { width: 200px; border-radius: 18px; flex-shrink: 0; border: 1px solid var(--border); }
+
+    .steps { list-style: none; counter-reset: steps; display: flex; flex-direction: column; gap: 14px; }
+    .steps li { counter-increment: steps; display: flex; align-items: flex-start; gap: 14px; background: var(--surface); border-radius: 14px; padding: 16px 20px; }
+    .steps li::before { content: counter(steps); min-width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .steps li span { color: var(--text2); font-size: 15px; }
+    .steps li span strong { color: var(--text); }
+
+    .tip { background: var(--surface2); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; padding: 14px 18px; margin-top: 20px; color: var(--text2); font-size: 14px; line-height: 1.65; }
+    .tip strong { color: var(--accent); }
+
+    .path { display: inline-flex; align-items: center; gap: 4px; background: var(--surface2); border-radius: 8px; padding: 4px 10px; font-size: 13px; font-family: monospace; color: var(--accent); margin-bottom: 20px; }
+    .path-sep { color: var(--text2); }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0 0 72px; }
+
+    footer { text-align: center; padding: 32px; color: var(--text2); font-size: 13px; border-top: 1px solid var(--border); }
+    footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">Shift<span>Schedule</span></div>
+  <a href="index.html">← На главную</a>
+</nav>
+
+<div class="content">
+  <h1>Инструкции</h1>
+  <p class="subtitle">Подробные руководства по PRO-функциям: синхронизация, партнёры и Home Assistant.</p>
+
+  <!-- ── ОБЛАЧНАЯ СИНХРОНИЗАЦИЯ ──────────────────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">☁️</div>
+      <h2>Облачная синхронизация</h2>
+    </div>
+
+    <div class="path">
+      <span>Настройки</span><span class="path-sep"> › </span>
+      <span>Синхронизация</span><span class="path-sep"> › </span>
+      <span>Аккаунт</span>
+    </div>
+
+    <p class="section-desc">
+      Зарегистрируйтесь один раз — и ваш график автоматически сохраняется в облаке. Установите приложение на второй телефон или планшет, войдите в тот же аккаунт и скачайте данные. Всё синхронизировано.
+    </p>
+
+    <div class="screenshots">
+      <img src="screenshots/account_dark.png" alt="Аккаунт — тёмная тема">
+      <img src="screenshots/account_light.png" alt="Аккаунт — светлая тема">
+    </div>
+
+    <ol class="steps">
+      <li><span>Откройте <strong>Настройки → Синхронизация → Аккаунт</strong>.</span></li>
+      <li><span>Нажмите <strong>Войти</strong> и введите email и пароль. Если аккаунта нет — нажмите <strong>Зарегистрироваться</strong>.</span></li>
+      <li><span>После входа ваши данные загрузятся в облако автоматически. Дата последней синхронизации отображается под email.</span></li>
+      <li><span>На втором устройстве войдите в тот же аккаунт и нажмите <strong>Скачать из облака</strong> — данные появятся мгновенно.</span></li>
+      <li><span>Используйте <strong>Синхронизировать сейчас</strong>, чтобы вручную загрузить свежие данные с устройства в облако.</span></li>
+    </ol>
+
+    <div class="tip">
+      <strong>Совет:</strong> Если на двух устройствах разные данные — нажмите <strong>Скачать из облака</strong> на том, которое нужно обновить. Это заменит локальные данные облачными.
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── ПАРТНЁРЫ ────────────────────────────────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">👥</div>
+      <h2>Партнёры</h2>
+    </div>
+
+    <div class="path">
+      <span>Настройки</span><span class="path-sep"> › </span>
+      <span>Синхронизация</span><span class="path-sep"> › </span>
+      <span>Партнёры</span>
+    </div>
+
+    <p class="section-desc">
+      Добавьте коллегу или члена семьи как партнёра — и видите его выходные прямо на своём календаре. Дни, когда вы оба отдыхаете, выделяются цветным маркером снизу.
+    </p>
+
+    <div class="screenshots">
+      <img src="screenshots/partners_dark.png" alt="Партнёры — тёмная тема">
+      <img src="screenshots/partners_light.png" alt="Партнёры — светлая тема">
+    </div>
+
+    <ol class="steps">
+      <li><span>Оба пользователя должны иметь <strong>PRO</strong> и быть <strong>авторизованы</strong> в приложении.</span></li>
+      <li><span>Первый пользователь открывает экран Партнёров и нажимает <strong>Скопировать</strong> под своим кодом — код попадает в буфер обмена.</span></li>
+      <li><span>Второй пользователь вставляет код в поле <strong>Код партнёра</strong>, при желании вводит никнейм и нажимает <strong>Добавить</strong>.</span></li>
+      <li><span>Партнёр появится в списке. Чекбокс слева включает и выключает отображение его расписания на вашем календаре.</span></li>
+      <li><span>На календаре дни, когда <em>все активные партнёры</em> тоже отдыхают, получают жёлтый маркер снизу — сразу видно, когда у всех выходной.</span></li>
+    </ol>
+
+    <div class="tip">
+      <strong>Совет:</strong> Добавьте партнёра с никнеймом — например «Катя» или «Напарник». Никнейм отображается в строках расписания рядом с каждым его выходным.
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── HOME ASSISTANT ──────────────────────────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">🏠</div>
+      <h2>Home Assistant</h2>
+    </div>
+
+    <div class="path">
+      <span>Настройки</span><span class="path-sep"> › </span>
+      <span>Синхронизация</span><span class="path-sep"> › </span>
+      <span>Home Assistant</span>
+    </div>
+
+    <p class="section-desc">
+      Передавайте статус текущего дня в Home Assistant как сенсор. Используйте его в автоматизациях: включайте будильник в рабочие дни, меняйте освещение в выходные, отправляйте уведомления.
+    </p>
+
+    <div class="screenshots">
+      <img src="screenshots/ha_dark.png" alt="Home Assistant — тёмная тема">
+      <img src="screenshots/ha_light.png" alt="Home Assistant — светлая тема">
+    </div>
+
+    <ol class="steps">
+      <li><span>В Home Assistant откройте <strong>Профиль → Долгосрочные токены доступа</strong> и создайте новый токен. Скопируйте его — он отображается один раз.</span></li>
+      <li><span>В приложении откройте <strong>Настройки → Синхронизация → Home Assistant</strong>.</span></li>
+      <li><span>Введите <strong>URL вашего HA</strong>, например <code>http://192.168.1.100:8123</code> или <code>https://myhome.duckdns.org</code>.</span></li>
+      <li><span>Вставьте скопированный <strong>токен доступа</strong> в соответствующее поле.</span></li>
+      <li><span>Задайте <strong>имя сенсора</strong> (например, <code>shift_schedule</code>). В HA он появится как <code>sensor.shift_schedule</code>.</span></li>
+      <li><span>Нажмите <strong>Сохранить</strong>. Состояние сенсора будет обновляться при каждом открытии приложения и при смене даты.</span></li>
+    </ol>
+
+    <div class="tip">
+      <strong>Пример автоматизации:</strong> триггер — <code>sensor.shift_schedule</code> меняет состояние на <code>work</code>, действие — включить умный будильник. Или наоборот: при <code>day_off</code> — выключить.
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2026 ShiftSchedule · <a href="privacy.html">Политика конфиденциальности</a> · <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a>
+</footer>
+</body>
+</html>

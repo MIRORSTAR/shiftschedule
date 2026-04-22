@@ -38,6 +38,19 @@
     .tip { background: var(--surface2); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; padding: 14px 18px; margin-top: 20px; color: var(--text2); font-size: 14px; line-height: 1.65; }
     .tip strong { color: var(--accent); }
 
+    .pkg-block { margin-top: 32px; }
+    .pkg-block h3 { font-size: 17px; font-weight: 700; margin-bottom: 12px; color: var(--text); }
+    .pkg-block h4 { font-size: 14px; font-weight: 600; color: var(--text2); margin: 20px 0 8px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .code-wrap { position: relative; }
+    .code-wrap pre { background: #0a0c12; border: 1px solid var(--border); border-radius: 12px; padding: 20px; overflow-x: auto; font-size: 12.5px; line-height: 1.6; color: #c9d1e0; font-family: 'Consolas', 'Fira Code', monospace; margin: 0; }
+    .code-wrap pre .cm { color: #4a6178; }
+    .copy-btn { position: absolute; top: 10px; right: 10px; background: var(--surface2); border: 1px solid var(--border); color: var(--text2); font-size: 12px; padding: 5px 12px; border-radius: 7px; cursor: pointer; transition: background 0.15s; }
+    .copy-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .install-steps { list-style: none; counter-reset: install; display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+    .install-steps li { counter-increment: install; display: flex; align-items: flex-start; gap: 10px; color: var(--text2); font-size: 14px; }
+    .install-steps li::before { content: counter(install); min-width: 22px; height: 22px; border-radius: 50%; background: var(--surface2); border: 1px solid var(--border); color: var(--accent); font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .install-steps li code { background: var(--surface2); border-radius: 5px; padding: 1px 6px; font-size: 12px; color: var(--accent); font-family: monospace; }
+
     .path { display: inline-flex; align-items: center; gap: 4px; background: var(--surface2); border-radius: 8px; padding: 4px 10px; font-size: 13px; font-family: monospace; color: var(--accent); margin-bottom: 20px; }
     .path-sep { color: var(--text2); }
 
@@ -165,11 +178,199 @@
     <div class="tip">
       <strong>Пример автоматизации:</strong> триггер — <code>sensor.shift_schedule</code> меняет состояние на <code>work</code>, действие — включить умный будильник. Или наоборот: при <code>day_off</code> — выключить.
     </div>
+
+    <div class="pkg-block">
+      <h3>Готовый пакет для Home Assistant</h3>
+      <p style="color:var(--text2);font-size:14px;margin-bottom:16px;">
+        Ниже — справочный пакет с нужными сущностями, автоматизацией и сенсорами. Скопируйте его себе и настройте под свои нужды.
+      </p>
+
+      <h4>Шаг 1 — разрешите пакеты в configuration.yaml</h4>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
+        <pre><span class="cm"># configuration.yaml</span>
+homeassistant:
+  packages: !include_dir_named packages</pre>
+      </div>
+
+      <h4>Шаг 2 — сохраните файл как packages/shift_schedule.yaml</h4>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
+        <pre><span class="cm"># packages/shift_schedule.yaml
+# Справочный пакет ShiftSchedule для Home Assistant.
+# Создаёт сущности, принимает данные через вебхук и формирует русскоязычные сенсоры.</span>
+
+shift_schedule:
+  input_text:
+    shift_today_status:
+      name: Shift Today Status
+      max: 50
+      icon: mdi:calendar-today
+    shift_tomorrow_status:
+      name: Shift Tomorrow Status
+      max: 50
+      icon: mdi:calendar-arrow-right
+    shift_next_work_date:
+      name: Shift Next Work Date
+      max: 50
+      icon: mdi:calendar-check
+    shift_next_work_status:
+      name: Shift Next Work Status
+      max: 50
+      icon: mdi:briefcase-clock
+    shift_last_update:
+      name: Shift Last Update
+      max: 80
+      icon: mdi:clock-check
+
+  input_boolean:
+    shift_work_today:
+      name: Shift Work Today
+      icon: mdi:briefcase
+    shift_work_tomorrow:
+      name: Shift Work Tomorrow
+      icon: mdi:briefcase-clock
+
+  automation:
+    - alias: Shift Schedule Webhook
+      id: shift_schedule_webhook
+      mode: restart
+      trigger:
+        - platform: webhook
+          webhook_id: shift_schedule  <span class="cm"># можно заменить на любое уникальное название</span>
+          allowed_methods:
+            - POST
+      action:
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.shift_today_status
+          data:
+            value: "{{ trigger.json.today_status | default('unknown') }}"
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.shift_tomorrow_status
+          data:
+            value: "{{ trigger.json.tomorrow_status | default('unknown') }}"
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.shift_next_work_date
+          data:
+            value: "{{ trigger.json.next_work_date | default('') }}"
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.shift_next_work_status
+          data:
+            value: "{{ trigger.json.next_work_status | default('') }}"
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.shift_last_update
+          data:
+            value: "{{ trigger.json.updated_at | default('') }}"
+        - choose:
+            - conditions: "{{ trigger.json.is_work_today | default(false) }}"
+              sequence:
+                - service: input_boolean.turn_on
+                  target:
+                    entity_id: input_boolean.shift_work_today
+          default:
+            - service: input_boolean.turn_off
+              target:
+                entity_id: input_boolean.shift_work_today
+        - choose:
+            - conditions: "{{ trigger.json.is_work_tomorrow | default(false) }}"
+              sequence:
+                - service: input_boolean.turn_on
+                  target:
+                    entity_id: input_boolean.shift_work_tomorrow
+          default:
+            - service: input_boolean.turn_off
+              target:
+                entity_id: input_boolean.shift_work_tomorrow
+
+  template:
+    - sensor:
+        - name: Shift Today Status RU
+          unique_id: shift_today_status_ru
+          state: >
+            {% set map = {'Work':'Работа','Rest':'Выходной','Extra':'Подработка','Vacation':'Отпуск','Sick':'Больничный'} %}
+            {{ map.get(states('input_text.shift_today_status'), states('input_text.shift_today_status')) | trim }}
+          icon: >
+            {% set s = states('input_text.shift_today_status') %}
+            {% if s == 'Work' %}mdi:briefcase
+            {% elif s == 'Extra' %}mdi:briefcase-plus
+            {% elif s == 'Vacation' %}mdi:beach
+            {% elif s == 'Sick' %}mdi:medical-bag
+            {% else %}mdi:sofa{% endif %}
+
+        - name: Shift Tomorrow Status RU
+          unique_id: shift_tomorrow_status_ru
+          state: >
+            {% set map = {'Work':'Работа','Rest':'Выходной','Extra':'Подработка','Vacation':'Отпуск','Sick':'Больничный'} %}
+            {{ map.get(states('input_text.shift_tomorrow_status'), states('input_text.shift_tomorrow_status')) | trim }}
+          icon: >
+            {% set s = states('input_text.shift_tomorrow_status') %}
+            {% if s == 'Work' %}mdi:briefcase
+            {% elif s == 'Extra' %}mdi:briefcase-plus
+            {% elif s == 'Vacation' %}mdi:beach
+            {% elif s == 'Sick' %}mdi:medical-bag
+            {% else %}mdi:sofa{% endif %}
+
+        - name: Shift Next Work Status RU
+          unique_id: shift_next_work_status_ru
+          state: >
+            {% set map = {'Work':'Работа','Rest':'Выходной','Extra':'Подработка','Vacation':'Отпуск','Sick':'Больничный'} %}
+            {{ map.get(states('input_text.shift_next_work_status'), states('input_text.shift_next_work_status')) | trim }}
+          icon: >
+            {% set s = states('input_text.shift_next_work_status') %}
+            {% if s == 'Work' %}mdi:briefcase
+            {% elif s == 'Extra' %}mdi:briefcase-plus
+            {% elif s == 'Vacation' %}mdi:beach
+            {% elif s == 'Sick' %}mdi:medical-bag
+            {% else %}mdi:sofa{% endif %}
+
+        - name: Shift Next Work Date RU
+          unique_id: shift_next_work_date_ru
+          icon: mdi:calendar-arrow-right
+          state: >
+            {% set d = states('input_text.shift_next_work_date') %}
+            {% if d and d | length == 10 %}
+              {% set today = now().strftime('%Y-%m-%d') %}
+              {% set tomorrow = (now() + timedelta(days=1)).strftime('%Y-%m-%d') %}
+              {% set day_after = (now() + timedelta(days=2)).strftime('%Y-%m-%d') %}
+              {% if d == today %}Сегодня
+              {% elif d == tomorrow %}Завтра
+              {% elif d == day_after %}Послезавтра
+              {% else %}
+                {% set parts = d.split('-') %}
+                {% set months = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'] %}
+                {{ parts[2] | int }} {{ months[parts[1] | int - 1] }}
+              {% endif %}
+            {% else %}—{% endif %}</pre>
+      </div>
+
+      <h4>Шаг 3 — перезапустите Home Assistant</h4>
+      <ol class="install-steps">
+        <li>Перезапустите HA: <strong>Настройки → Система → Перезапустить</strong>.</li>
+        <li>Проверьте, что появились сущности <code>input_text.shift_today_status</code> и другие.</li>
+        <li>В приложении укажите URL вашего HA и <code>webhook_id</code> из пакета (<code>shift_schedule</code> по умолчанию).</li>
+        <li>Откройте приложение — данные придут в HA автоматически.</li>
+      </ol>
+    </div>
   </div>
 </div>
 
 <footer>
   © 2026 ShiftSchedule · <a href="privacy.html">Политика конфиденциальности</a> · <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a>
 </footer>
+<script>
+function copyCode(btn) {
+  const pre = btn.nextElementSibling;
+  const text = pre.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Скопировано!';
+    setTimeout(() => btn.textContent = 'Копировать', 2000);
+  });
+}
+</script>
 </body>
 </html>

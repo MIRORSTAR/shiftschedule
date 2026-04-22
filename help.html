@@ -131,7 +131,7 @@
 
     <ol class="steps">
       <li><span>Оба пользователя должны иметь <strong>PRO</strong> и быть <strong>авторизованы</strong> в приложении.</span></li>
-      <li><span>Первый пользователь открывает экран Партнёров и нажимает <strong>Скопировать</strong> под своим кодом — код попадает в буфер обмена.</span></li>
+      <li><span>Первый пользователь открывает экран Партнёров и нажимает <strong>Скопировать</strong> под своим кодом — код попадает в буфер обмена. Отправьте этот код партнёру любым удобным способом: мессенджер, SMS и т.д.</span></li>
       <li><span>Второй пользователь вставляет код в поле <strong>Код партнёра</strong>, при желании вводит никнейм и нажимает <strong>Добавить</strong>.</span></li>
       <li><span>Партнёр появится в списке. Чекбокс слева включает и выключает отображение его расписания на вашем календаре.</span></li>
       <li><span>На календаре дни, когда <em>все активные партнёры</em> тоже отдыхают, получают жёлтый маркер снизу — сразу видно, когда у всех выходной.</span></li>
@@ -169,7 +169,11 @@
     <ol class="steps">
       <li><span>В Home Assistant откройте <strong>Профиль → Долгосрочные токены доступа</strong> и создайте новый токен. Скопируйте его — он отображается один раз.</span></li>
       <li><span>В приложении откройте <strong>Настройки → Синхронизация → Home Assistant</strong>.</span></li>
-      <li><span>Введите <strong>URL вашего HA</strong>, например <code>http://192.168.1.100:8123</code> или <code>https://myhome.duckdns.org</code>.</span></li>
+      <li><span>Введите <strong>URL вебхука</strong> в формате:<br>
+        <code>http://192.168.1.100:8123/api/webhook/shift_schedule</code><br>
+        или для внешнего доступа:<br>
+        <code>https://myhome.duckdns.org/api/webhook/shift_schedule</code><br>
+        Где <code>shift_schedule</code> — это <code>webhook_id</code> из пакета.</span></li>
       <li><span>Вставьте скопированный <strong>токен доступа</strong> в соответствующее поле.</span></li>
       <li><span>Задайте <strong>имя сенсора</strong> (например, <code>shift_schedule</code>). В HA он появится как <code>sensor.shift_schedule</code>.</span></li>
       <li><span>Нажмите <strong>Сохранить</strong>. Состояние сенсора будет обновляться при каждом открытии приложения и при смене даты.</span></li>

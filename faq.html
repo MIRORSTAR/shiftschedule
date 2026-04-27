@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Частые вопросы — Shift Schedule</title>
+  <meta name="description" content="Ответы на частые вопросы о приложении Shift Schedule: настройка, PRO версия, синхронизация, покупки.">
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --accent: #4a8fe8;
+      --accent2: #66b8b2;
+      --text: #e8eaf0;
+      --text2: #8b90a0;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 40px;
+      background: rgba(15,17,23,0.92);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo { font-size: 18px; font-weight: 700; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .lang-toggle {
+      display: flex;
+      gap: 4px;
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 4px;
+    }
+    .lang-btn {
+      background: none;
+      border: none;
+      color: var(--text2);
+      cursor: pointer;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .lang-btn.active { background: var(--accent); color: #fff; }
+    .nav-back {
+      font-size: 13px;
+      color: var(--text2);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 60px 20px 40px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(74,143,232,0.15);
+      color: var(--accent);
+      border: 1px solid rgba(74,143,232,0.3);
+      border-radius: 20px;
+      padding: 5px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(26px, 5vw, 40px);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      font-size: 16px;
+      color: var(--text2);
+    }
+
+    /* FAQ */
+    .faq-section {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+    }
+    .faq-category {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 40px 0 12px;
+    }
+    .faq-item {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--text);
+      text-align: left;
+      padding: 20px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      transition: background 0.2s;
+    }
+    .faq-question:hover { background: rgba(255,255,255,0.03); }
+    .faq-arrow {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      transition: transform 0.25s, background 0.2s;
+    }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); background: var(--accent); }
+    .faq-answer {
+      display: none;
+      padding: 0 24px 20px;
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.7;
+    }
+    .faq-item.open .faq-answer { display: block; }
+    .faq-answer a { color: var(--accent); text-decoration: none; }
+    .faq-answer a:hover { text-decoration: underline; }
+    .faq-answer ul { padding-left: 18px; margin-top: 8px; }
+    .faq-answer ul li { margin-bottom: 4px; }
+
+    /* CONTACT */
+    .contact-block {
+      max-width: 720px;
+      margin: 0 auto 80px;
+      padding: 0 20px;
+    }
+    .contact-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 32px;
+      text-align: center;
+    }
+    .contact-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .contact-card p {
+      color: var(--text2);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    .contact-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+    .btn-secondary:hover { background: #2a2f45; }
+
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Shift<span>Schedule</span></a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-back">
+      <span>←</span>
+      <span data-ru>На главную</span>
+      <span data-en style="display:none">Home</span>
+    </a>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge" data-ru>Частые вопросы</div>
+  <div class="hero-badge" data-en style="display:none">FAQ</div>
+  <h1 data-ru>Как мы можем помочь?</h1>
+  <h1 data-en style="display:none">How can we help?</h1>
+  <p data-ru>Ответы на самые популярные вопросы о Shift Schedule</p>
+  <p data-en style="display:none">Answers to the most common questions about Shift Schedule</p>
+</div>
+
+<div class="faq-section">
+
+  <!-- КАТЕГОРИЯ: РАСПИСАНИЕ -->
+  <div class="faq-category" data-ru>Расписание</div>
+  <div class="faq-category" data-en style="display:none">Schedule</div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      <span data-ru>Как настроить своё расписание смен?</span>
+      <span data-en style="display:none">How do I set up my shift schedule?</span>
+      <div class="faq-arrow">▼</div>
+    </button>
+    <div class="faq-answer">
+      <p data-ru>Откройте <strong>Настройки → Расписание</strong>. Укажите дату начала цикла (дата, с которой начинается ваш первый рабочий день), количество рабочих дней и количество выходных. Приложение автоматически посчитает все остальные дни.</p>
+      <p data-en style="display:none">Go to <strong>Settings → Schedule</strong>. Set the cycle start date (the date your first working day begins), the number of work days, and the number of rest days. The app automatically calculates the rest.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      <span data-ru>Могу ли я изменить отдельный день вручную?</span>
+      <span data-en style="display:none">Can I override a specific day manually?</span>
+      <div class="faq-arrow">▼</div>
+    </button>
+    <div class="faq-answer">
+      <p data-ru>Да. Нажмите на любой день в календаре и выберите нужный статус: <strong>Работа, Выходной, Дополнительный, Отпуск, Больничный</strong>. Ручные изменения имеют приоритет над формулой расписания.</p>
+      <p data-en style="display:none">Yes. Tap any day in the calendar and choose a status: <strong>Work, Rest, Extra, Vacation, Sick</strong>. Manual overrides take priority over the schedule formula.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      <span data-ru>Как добавить заметку к дню?</span>
+      <span data-en style="display:none">How do I add a note to a day?</span>
+      <div class="faq-arrow">▼</div>
+    </button>
+    <div class="faq-answer">
+      <p data-ru>Нажмите на день в календаре. В появившемся меню выберите <strong>«Заметка»</strong> и введите текст. Заметка отображается под датой и синхронизируется вместе с расписанием.</p>
+      <p data-en style="display:none">Tap a day in the calendar. In the menu that appears, choose <strong>Note</strong> and type your text. Notes appear below the date and sync with your schedule.</p>
+    </div>
+  </div>
+
+  <!-- КАТЕГОРИЯ: PRO ВЕРСИЯ -->
+  <div class="faq-category" data-ru>PRO версия</div>
+  <div class="faq-category" data-en style="display:none">PRO version</div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      <span data-ru>Что входит в PRO и сколько стоит?</span>
+      <span data-en style="display:none">What's included in PRO and how much does it cost?</span>
+      <div class="faq-arrow">▼</div>
+    </button>
+    <div class="faq-answer">
+      <p data-ru>PRO — это разовая покупка (не подписка). Включает: синхронизацию между устройствами, расписание партнёра, уведомления, экспорт в системный календарь, виджет погоды, все темы оформления. Цена указана в RuStore.</p>
+      <p data-en style="display:none">PRO is a one-time purchase (not a subscription). Includes: multi-device sync, partner schedule, notifications, calendar export, weather widget, all themes. Price is shown in RuStore.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      <span data-ru>Как купить PRO?</span>
+      <span data-en style="display:none">How do I buy PRO?</span>
+      <div class="faq-arrow">▼</div>
+    </button>
+    <div class="faq-answer">
+      <p data-ru>В приложении нажмите <strong>«Купить PRO»</strong> — откроется окно оплаты RuStore. Оплата проходит через RuStore, банковской картой или другим способом из тех, что привязаны к вашему аккаунту RuStore.</p>
+      <p data-en style="display:none">In the app tap <strong>Buy PRO</strong> — the RuStore payment screen will open. Payment goes through RuStore using your linked card or other payment method.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      <span data-ru>Я купил PRO, но после переустановки он пропал</span>
+      <span data-en style="display:none">I bought PRO but after reinstalling it's gone</span>
+      <div class="faq-arrow">▼</div>
+    </button>
+    <div class="faq-answer">
+      <p data-ru>Откройте <strong>Настройки → PRO → Восстановить покупку</strong>. Убедитесь, что вы вошли в тот же аккаунт RuStore, через который оплачивали. Восстановление бесплатно и работает без интернета не получится — нужно соединение.</p>
+      <p data-en style="display:none">Go to <strong>Settings → PRO → Restore purchase</strong>. Make sure you're signed into the same RuStore account used for the purchase. Restoration is free but requires an internet connection.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      <span data-ru>У меня есть пробный период?</span>
+      <span data-en style="display:none">Is there a trial period?</span>
+      <div class="faq-arrow">▼</div>
+    </button>
+    <div class="faq-answer">
+      <p data-ru>Да. После первой установки доступно <strong>14 дней PRO бесплатно</strong>. Все функции работают в полном объёме. По истечении пробного периода базовые функции (календарь, ручные отметки) остаются доступны без ограничений.</p>
+      <p data-en style="display:none">Yes. After first install you get <strong>14 days of PRO free</strong>. All features work in full. After the trial, basic features (calendar, manual overrides) remain available without limits.</p>
+    </div>
+  </div>
+
+  <!-- КАТЕГОРИЯ: СИНХРОНИЗАЦИЯ -->
+  <div class="faq-category" data-ru>Синхронизация</div>
+  <div class="faq-category" data-en style="display:none">Sync</div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      <span data-ru>Как синхронизировать расписание между двумя телефонами?</span>
+      <span data-en style="display:none">How do I sync my schedule between two phones?</span>
+      <div class="faq-arrow">▼</div>
+    </button>
+    <div class="faq-answer">
+      <p data-ru>Нужна PRO версия. Создайте аккаунт в <strong>Настройки → Синхронизация</strong>, войдите на обоих устройствах с одними данными. Расписание синхронизируется автоматически каждые 3 минуты после изменений.</p>
+      <p data-en style="display:none">PRO is required. Create an account in <strong>Settings → Sync</strong>, then sign in on both devices with the same credentials. The schedule syncs automatically every 3 minutes after changes.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      <span data-ru>Как посмотреть расписание коллеги или партнёра?</span>
+      <span data-en style="display:none">How do I view a colleague's or partner's schedule?</span>
+      <div class="faq-arrow">▼</div>
+    </button>
+    <div class="faq-answer">
+      <p data-ru>Нужна PRO версия. Попросите коллегу открыть <strong>Настройки → Синхронизация → Код партнёра</strong> и продиктовать вам 6-значный код. Введите этот код у себя в том же разделе — расписание партнёра появится в вашем календаре отдельным цветом.</p>
+      <p data-en style="display:none">PRO required. Ask your colleague to share their 6-character code from <strong>Settings → Sync → Partner code</strong>. Enter it on your device in the same section — their schedule will appear on your calendar in a different color.</p>
+    </div>
+  </div>
+
+  <!-- КАТЕГОРИЯ: ДРУГОЕ -->
+  <div class="faq-category" data-ru>Другое</div>
+  <div class="faq-category" data-en style="display:none">Other</div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      <span data-ru>Приложение работает без интернета?</span>
+      <span data-en style="display:none">Does the app work offline?</span>
+      <div class="faq-arrow">▼</div>
+    </button>
+    <div class="faq-answer">
+      <p data-ru>Да. Календарь, ручные отметки и заметки работают полностью офлайн. Интернет нужен только для облачной синхронизации, прогноза погоды и покупки/восстановления PRO.</p>
+      <p data-en style="display:none">Yes. The calendar, manual overrides, and notes work fully offline. Internet is only needed for cloud sync, weather forecast, and PRO purchase/restore.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      <span data-ru>Приложение запрашивает много разрешений — зачем?</span>
+      <span data-en style="display:none">The app asks for many permissions — why?</span>
+      <div class="faq-arrow">▼</div>
+    </button>
+    <div class="faq-answer">
+      <ul data-ru>
+        <li><strong>Календарь</strong> — для экспорта смен в системный календарь (по запросу)</li>
+        <li><strong>Уведомления</strong> — для напоминаний о начале смены (по запросу)</li>
+        <li><strong>Геолокация</strong> — только для прогноза погоды (по запросу, можно отказать)</li>
+      </ul>
+      <ul data-en style="display:none">
+        <li><strong>Calendar</strong> — to export shifts to the system calendar (on request)</li>
+        <li><strong>Notifications</strong> — for shift start reminders (on request)</li>
+        <li><strong>Location</strong> — only for the weather forecast (on request, can be denied)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      <span data-ru>Поддерживается ли iPhone / iOS?</span>
+      <span data-en style="display:none">Is iPhone / iOS supported?</span>
+      <div class="faq-arrow">▼</div>
+    </button>
+    <div class="faq-answer">
+      <p data-ru>Пока нет — приложение доступно только для Android через RuStore. iOS-версия рассматривается, но конкретных сроков нет.</p>
+      <p data-en style="display:none">Not yet — the app is currently Android-only via RuStore. An iOS version is being considered but there's no timeline yet.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- CONTACT -->
+<div class="contact-block">
+  <div class="contact-card">
+    <h3 data-ru>Не нашли ответ?</h3>
+    <h3 data-en style="display:none">Didn't find your answer?</h3>
+    <p data-ru>Напишите нам — ответим в течение 24 часов</p>
+    <p data-en style="display:none">Write to us — we reply within 24 hours</p>
+    <div class="contact-buttons">
+      <a href="https://max.ru/id611120366153_bot" class="btn-primary" target="_blank">
+        💬 <span data-ru>Написать боту</span><span data-en style="display:none">Message bot</span>
+      </a>
+      <a href="mailto:ruslanmirorstar@yandex.ru" class="btn-secondary">
+        ✉️ <span data-ru>Написать на почту</span><span data-en style="display:none">Send email</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggle(btn) {
+    const item = btn.closest('.faq-item');
+    item.classList.toggle('open');
+  }
+
+  let lang = localStorage.getItem('lang') || 'ru';
+  function setLang(l) {
+    lang = l;
+    localStorage.setItem('lang', l);
+    document.querySelectorAll('[data-ru]').forEach(el => el.style.display = l === 'ru' ? '' : 'none');
+    document.querySelectorAll('[data-en]').forEach(el => el.style.display = l === 'en' ? '' : 'none');
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.textContent === l.toUpperCase()));
+    document.documentElement.lang = l;
+  }
+  setLang(lang);
+</script>
+</body>
+</html>

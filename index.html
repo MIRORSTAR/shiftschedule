@@ -281,9 +281,14 @@
 
 <nav>
   <div class="nav-logo">Shift<span>Schedule</span></div>
-  <div class="lang-toggle">
-    <button class="lang-btn active" onclick="setLang('ru')">RU</button>
-    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <a href="faq.html" style="font-size:13px;color:var(--text2);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">
+      <span data-ru>FAQ</span><span data-en style="display:none">FAQ</span>
+    </a>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
   </div>
 </nav>
 

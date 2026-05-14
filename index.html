@@ -272,10 +272,13 @@
     .footer-links { display: flex; gap: 20px; justify-content: center; margin-bottom: 12px; flex-wrap: wrap; }
 
     /* CHANGELOG */
-    .changelog { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
-    .cl-item { background: var(--surface); border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.06); padding: 20px 24px; }
+    .changelog-wrap { max-width: 640px; margin: 0 auto; max-height: 420px; overflow-y: auto; border-radius: var(--radius); scrollbar-width: thin; scrollbar-color: var(--surface2) transparent; }
+    .changelog-wrap::-webkit-scrollbar { width: 4px; }
+    .changelog-wrap::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 2px; }
+    .changelog { display: flex; flex-direction: column; gap: 10px; padding: 2px 2px 2px 2px; }
+    .cl-item { background: var(--surface); border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.06); padding: 18px 22px; }
     .cl-item.cl-latest { border-color: rgba(74,143,232,0.25); }
-    .cl-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .cl-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
     .cl-version { background: var(--accent); color: #fff; border-radius: 6px; padding: 3px 10px; font-size: 13px; font-weight: 700; }
     .cl-version.cl-old { background: var(--surface2); color: var(--text2); }
     .cl-date { font-size: 13px; color: var(--text2); }
@@ -487,46 +490,96 @@
   <h2 class="section-title" data-en>What's new</h2>
   <p class="section-sub" data-ru>Что изменилось в каждой версии</p>
   <p class="section-sub" data-en>Changes in each version</p>
-  <div class="changelog">
+  <div class="changelog-wrap">
+    <div class="changelog">
 
-    <div class="cl-item cl-latest">
-      <div class="cl-header">
-        <span class="cl-version">1.6.0</span>
-        <span class="cl-date" data-ru>май 2026</span>
-        <span class="cl-date" data-en>May 2026</span>
+      <div class="cl-item cl-latest">
+        <div class="cl-header">
+          <span class="cl-version">1.6.0</span>
+          <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+        </div>
+        <ul class="cl-list">
+          <li><span data-ru>Ручная настройка города для прогноза погоды — вместо GPS можно ввести любой город</span><span data-en>Manual city input for weather — enter any city instead of GPS</span></li>
+          <li><span data-ru>Настройки погоды теперь сохраняются в резервную копию и восстанавливаются на всех устройствах</span><span data-en>Weather settings are now saved in backup and restored across devices</span></li>
+          <li><span data-ru>Синхронизация с календарём Android стала значительно быстрее — обновляется только изменённый день</span><span data-en>Android calendar sync is now much faster — only changed days are updated</span></li>
+          <li><span data-ru>Исправление: редактор День/Ночь корректно обновляет календарь при нажатии «Применить»</span><span data-en>Fix: Day/Night editor correctly syncs calendar on Apply</span></li>
+        </ul>
       </div>
-      <ul class="cl-list">
-        <li data-ru>Ручная настройка города для погоды — вместо GPS можно ввести любой город. Кнопка быстрого обновления погоды.</li>
-        <li data-en>Manual city input for weather — enter any city instead of GPS. Quick weather refresh button.</li>
-        <li data-ru>Погодные настройки теперь сохраняются в резервную копию и восстанавливаются вместе с расписанием.</li>
-        <li data-en>Weather settings are now included in backup and restored together with the schedule.</li>
-        <li data-ru>Улучшена отзывчивость приложения — изменение дней в графике стало заметно быстрее.</li>
-        <li data-en>Improved app responsiveness — changing days in the schedule is noticeably faster.</li>
-        <li data-ru>Исправление: кнопки режима погоды больше не закрывали окно настроек.</li>
-        <li data-en>Fix: weather mode buttons no longer closed the settings screen.</li>
-        <li data-ru>Исправление: редактор День/Ночь теперь корректно обновляет календарь Android.</li>
-        <li data-en>Fix: Day/Night editor now correctly updates the Android calendar.</li>
-      </ul>
-    </div>
 
-    <div class="cl-item cl-old">
-      <div class="cl-header">
-        <span class="cl-version cl-old">1.5.0</span>
-        <span class="cl-date" data-ru>май 2026</span>
-        <span class="cl-date" data-en>May 2026</span>
+      <div class="cl-item cl-old">
+        <div class="cl-header">
+          <span class="cl-version cl-old">1.5.0</span>
+          <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+        </div>
+        <ul class="cl-list">
+          <li><span data-ru>Настройки (тема, язык, будильники) теперь сохраняются в резервную копию и восстанавливаются при переустановке</span><span data-en>Settings (theme, language, alarms) are now backed up and restored on reinstall</span></li>
+          <li><span data-ru>Новые иконки погоды Meteocons — лучше читаются в любой теме</span><span data-en>New Meteocons weather icons — easier to read in any theme</span></li>
+          <li><span data-ru>Добавлены переводы интерфейса на английский и испанский</span><span data-en>Added English and Spanish translations</span></li>
+          <li><span data-ru>Выбор диапазона дней теперь работает через несколько месяцев</span><span data-en>Multi-day range selection now works across months</span></li>
+        </ul>
       </div>
-      <ul class="cl-list">
-        <li data-ru>Настройки синхронизируются с резервной копией — восстанавливаются при переустановке.</li>
-        <li data-en>Settings are now synced to backup — restored on reinstall.</li>
-        <li data-ru>Добавлены переводы на английский и испанский языки.</li>
-        <li data-en>Added English and Spanish translations.</li>
-        <li data-ru>Новые иконки погоды — Meteocons, улучшено выравнивание.</li>
-        <li data-en>New weather icons — Meteocons, improved alignment.</li>
-        <li data-ru>Различные исправления стабильности.</li>
-        <li data-en>Various stability fixes.</li>
-      </ul>
-    </div>
 
+      <div class="cl-item cl-old">
+        <div class="cl-header">
+          <span class="cl-version cl-old">1.4.0</span>
+          <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+        </div>
+        <ul class="cl-list">
+          <li><span data-ru>Напоминания из заметок — укажи время в заметке, и придёт уведомление в нужный день</span><span data-en>Note reminders — set a time in a note and get notified on the right day</span></li>
+          <li><span data-ru>Раздельное упреждение будильника для дневной и ночной смены</span><span data-en>Separate alarm lead time for day and night shifts</span></li>
+          <li><span data-ru>Время напоминания отображается прямо в списке дней</span><span data-en>Reminder time shown directly in the day list</span></li>
+        </ul>
+      </div>
+
+      <div class="cl-item cl-old">
+        <div class="cl-header">
+          <span class="cl-version cl-old">1.3.3</span>
+          <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+        </div>
+        <ul class="cl-list">
+          <li><span data-ru>Выделение диапазона дней — долгое нажатие включает режим, тап задаёт конец диапазона</span><span data-en>Range selection — long press to start, tap to set end of range</span></li>
+          <li><span data-ru>Применение статуса (работа/отпуск/больничный) сразу ко всем выделенным дням</span><span data-en>Apply status (work/vacation/sick) to all selected days at once</span></li>
+          <li><span data-ru>Улучшение производительности и стабильности</span><span data-en>Performance and stability improvements</span></li>
+        </ul>
+      </div>
+
+      <div class="cl-item cl-old">
+        <div class="cl-header">
+          <span class="cl-version cl-old">1.3.2</span>
+          <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+        </div>
+        <ul class="cl-list">
+          <li><span data-ru>Исправления партнёрского режима — корректное переключение между партнёрами</span><span data-en>Partner mode fixes — correct switching between partners</span></li>
+          <li><span data-ru>Кнопка выхода переименована в «Выйти из аккаунта» для большей ясности</span><span data-en>Sign out button renamed for clarity</span></li>
+          <li><span data-ru>Исправлен цвет партнёра в стиле Aurora</span><span data-en>Fixed partner color in Aurora style</span></li>
+        </ul>
+      </div>
+
+      <div class="cl-item cl-old">
+        <div class="cl-header">
+          <span class="cl-version cl-old">1.3.1</span>
+          <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+        </div>
+        <ul class="cl-list">
+          <li><span data-ru>Исправлено отображение иконок на устройствах Samsung и некоторых других моделях</span><span data-en>Fixed icon display on Samsung and some other devices</span></li>
+          <li><span data-ru>Добавлены иконки погоды в список смен</span><span data-en>Added weather icons to the shift list</span></li>
+          <li><span data-ru>Исправлена кнопка «Применить» в редакторе График День/Ночь</span><span data-en>Fixed the Apply button in the Day/Night schedule editor</span></li>
+        </ul>
+      </div>
+
+      <div class="cl-item cl-old">
+        <div class="cl-header">
+          <span class="cl-version cl-old">1.3.0</span>
+          <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+        </div>
+        <ul class="cl-list">
+          <li><span data-ru>Степпер минут для будильника: тап — ввод вручную, долгое нажатие ± — быстрое изменение</span><span data-en>Alarm minute stepper: tap to type, long-press ± for quick change</span></li>
+          <li><span data-ru>Смена статуса дня (выходной/больничный/отпуск) автоматически отменяет будильник</span><span data-en>Changing day status (day off/sick/vacation) automatically cancels the alarm</span></li>
+          <li><span data-ru>Кнопка «Закрыть» прямо в уведомлении о смене</span><span data-en>Dismiss button directly in the shift notification</span></li>
+        </ul>
+      </div>
+
+    </div>
   </div>
 </section>
 

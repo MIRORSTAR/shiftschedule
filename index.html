@@ -271,6 +271,19 @@
     footer a:hover { text-decoration: underline; }
     .footer-links { display: flex; gap: 20px; justify-content: center; margin-bottom: 12px; flex-wrap: wrap; }
 
+    /* CHANGELOG */
+    .changelog { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+    .cl-item { background: var(--surface); border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.06); padding: 20px 24px; }
+    .cl-item.cl-latest { border-color: rgba(74,143,232,0.25); }
+    .cl-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .cl-version { background: var(--accent); color: #fff; border-radius: 6px; padding: 3px 10px; font-size: 13px; font-weight: 700; }
+    .cl-version.cl-old { background: var(--surface2); color: var(--text2); }
+    .cl-date { font-size: 13px; color: var(--text2); }
+    .cl-list { list-style: none; }
+    .cl-list li { font-size: 14px; color: var(--text2); padding: 3px 0; display: flex; align-items: flex-start; gap: 8px; line-height: 1.5; }
+    .cl-list li::before { content: "—"; color: var(--accent); flex-shrink: 0; }
+    .cl-item.cl-old .cl-list li::before { color: var(--text2); }
+
     /* LANG */
     [data-en] { display: none; }
     body.lang-en [data-ru] { display: none; }
@@ -461,10 +474,59 @@
       <li data-en>New Aurora, Nordic, Forest styles</li>
     </ul>
     <div class="price">199 ₽ <span data-ru>/ навсегда</span><span data-en>/ one-time</span></div>
-    <a href="#download" class="btn-primary" data-ru>Попробовать бесплатно 14 дней</a>
-    <a href="#download" class="btn-primary" data-en>Try free for 14 days</a>
+    <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule?utm_source=website&utm_medium=button&utm_campaign=pro_trial" class="btn-primary" data-ru onclick="ym(109065744,'reachGoal','download_rustore')">Попробовать бесплатно 14 дней</a>
+    <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule?utm_source=website&utm_medium=button&utm_campaign=pro_trial" class="btn-primary" data-en onclick="ym(109065744,'reachGoal','download_rustore')">Try free for 14 days</a>
     <div class="trial-note" data-ru>После пробного периода — 199 ₽ один раз</div>
     <div class="trial-note" data-en>After the trial — one-time payment</div>
+  </div>
+</section>
+
+<!-- CHANGELOG -->
+<section class="section" id="changelog" style="padding-top: 0;">
+  <h2 class="section-title" data-ru>История обновлений</h2>
+  <h2 class="section-title" data-en>What's new</h2>
+  <p class="section-sub" data-ru>Что изменилось в каждой версии</p>
+  <p class="section-sub" data-en>Changes in each version</p>
+  <div class="changelog">
+
+    <div class="cl-item cl-latest">
+      <div class="cl-header">
+        <span class="cl-version">1.6.0</span>
+        <span class="cl-date" data-ru>май 2026</span>
+        <span class="cl-date" data-en>May 2026</span>
+      </div>
+      <ul class="cl-list">
+        <li data-ru>Ручная настройка города для погоды — вместо GPS можно ввести любой город. Кнопка быстрого обновления погоды.</li>
+        <li data-en>Manual city input for weather — enter any city instead of GPS. Quick weather refresh button.</li>
+        <li data-ru>Погодные настройки теперь сохраняются в резервную копию и восстанавливаются вместе с расписанием.</li>
+        <li data-en>Weather settings are now included in backup and restored together with the schedule.</li>
+        <li data-ru>Улучшена отзывчивость приложения — изменение дней в графике стало заметно быстрее.</li>
+        <li data-en>Improved app responsiveness — changing days in the schedule is noticeably faster.</li>
+        <li data-ru>Исправление: кнопки режима погоды больше не закрывали окно настроек.</li>
+        <li data-en>Fix: weather mode buttons no longer closed the settings screen.</li>
+        <li data-ru>Исправление: редактор День/Ночь теперь корректно обновляет календарь Android.</li>
+        <li data-en>Fix: Day/Night editor now correctly updates the Android calendar.</li>
+      </ul>
+    </div>
+
+    <div class="cl-item cl-old">
+      <div class="cl-header">
+        <span class="cl-version cl-old">1.5.0</span>
+        <span class="cl-date" data-ru>май 2026</span>
+        <span class="cl-date" data-en>May 2026</span>
+      </div>
+      <ul class="cl-list">
+        <li data-ru>Настройки синхронизируются с резервной копией — восстанавливаются при переустановке.</li>
+        <li data-en>Settings are now synced to backup — restored on reinstall.</li>
+        <li data-ru>Добавлены переводы на английский и испанский языки.</li>
+        <li data-en>Added English and Spanish translations.</li>
+        <li data-ru>Новые иконки погоды — Meteocons, улучшено выравнивание.</li>
+        <li data-en>New weather icons — Meteocons, improved alignment.</li>
+        <li data-ru>Различные исправления стабильности.</li>
+        <li data-en>Various stability fixes.</li>
+      </ul>
+    </div>
+
   </div>
 </section>
 

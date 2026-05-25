@@ -316,6 +316,26 @@
     </div>
   </div>
 
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      <span data-ru>Что такое второй график и зачем он нужен?</span>
+      <span data-en style="display:none">What is the second schedule and what is it for?</span>
+      <div class="faq-arrow">▼</div>
+    </button>
+    <div class="faq-answer">
+      <p data-ru>Второй график — это отдельное расписание второй работы поверх основного. Удобно, если вы иногда работаете на второй работе по собственному циклу смен.</p>
+      <br>
+      <p data-ru>Как включить: нажмите на любой выходной день → <strong>Второй график → настроить</strong>. Задайте дату начала цикла и количество рабочих/выходных дней. В дни, когда активен второй график, в ячейке календаря появится значок портфеля.</p>
+      <br>
+      <p data-ru>Важно: второй график не заменяет основной, а дополняет. Если в один день активны оба — в ячейке отображается основной статус, а портфель сигнализирует о второй работе. Ваш партнёр увидит, что у вас работа, — общий выходной в этот день не засчитывается.</p>
+      <p data-en style="display:none">The second schedule is a separate work schedule layered on top of your main one. Useful if you sometimes work a second job on its own shift cycle.</p>
+      <br>
+      <p data-en style="display:none">How to enable: tap any rest day → <strong>Second schedule → configure</strong>. Set the cycle start date and the number of work/rest days. On days when the second schedule is active, a briefcase icon appears in the calendar cell.</p>
+      <br>
+      <p data-en style="display:none">Note: the second schedule supplements the main one, it doesn't replace it. If both are active on the same day, the main status is shown in the cell while the briefcase icon signals the second job. Your partner will see that you're working — the shared day off won't be counted for that day.</p>
+    </div>
+  </div>
+
   <!-- КАТЕГОРИЯ: БУДИЛЬНИКИ -->
   <div class="faq-category" data-ru>Будильники</div>
   <div class="faq-category" data-en style="display:none">Alarms</div>
@@ -341,6 +361,26 @@
       <br>
       <p data-ru>Если всё сделано и будильник всё равно не срабатывает — напишите нам на <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a>, укажите модель телефона и версию Android.</p>
       <p data-en style="display:none">If you've done all this and alarms still don't fire — email us at <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a> with your phone model and Android version.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      <span data-ru>После перезагрузки телефона будильники пропали</span>
+      <span data-en style="display:none">Alarms disappeared after phone reboot</span>
+      <div class="faq-arrow">▼</div>
+    </button>
+    <div class="faq-answer">
+      <p data-ru>Это стандартное поведение Android: при перезагрузке все запланированные будильники удаляются системой. Shift Schedule умеет их восстанавливать — но для этого нужно открыть приложение после включения телефона.</p>
+      <br>
+      <p data-ru>Чтобы не забыть: после перезагрузки в шторке уведомлений появится тихое напоминание от приложения. Нажмите на него — откроется Shift Schedule и будильники автоматически пересчитаются на ближайшие дни.</p>
+      <br>
+      <p data-ru>На устройствах Xiaomi/MIUI: включите <strong>Автозапуск</strong> для Shift Schedule в настройках телефона (Настройки → Приложения → ShiftSchedule → Автозапуск). Тогда приложение сможет восстановить будильники сразу после перезагрузки без вашего участия.</p>
+      <p data-en style="display:none">This is standard Android behavior: all scheduled alarms are deleted by the system on reboot. Shift Schedule can restore them — but it needs to be opened after the phone boots.</p>
+      <br>
+      <p data-en style="display:none">So you don't forget: after a reboot, a quiet reminder notification from the app will appear in your notification shade. Tap it — Shift Schedule will open and automatically reschedule alarms for upcoming days.</p>
+      <br>
+      <p data-en style="display:none">On Xiaomi/MIUI devices: enable <strong>Autostart</strong> for Shift Schedule in phone settings (Settings → Apps → ShiftSchedule → Autostart). This allows the app to restore alarms right after reboot without any action from you.</p>
     </div>
   </div>
 
@@ -433,6 +473,59 @@
     <div class="faq-answer">
       <p data-ru>Нужна PRO версия. Попросите коллегу открыть <strong>Настройки → Синхронизация → Код партнёра</strong> и продиктовать вам 6-значный код. Введите этот код у себя в том же разделе — расписание партнёра появится в вашем календаре отдельным цветом.</p>
       <p data-en style="display:none">PRO required. Ask your colleague to share their 6-character code from <strong>Settings → Sync → Partner code</strong>. Enter it on your device in the same section — their schedule will appear on your calendar in a different color.</p>
+    </div>
+  </div>
+
+  <!-- КАТЕГОРИЯ: ПОГОДА -->
+  <div class="faq-category" data-ru>Погода</div>
+  <div class="faq-category" data-en style="display:none">Weather</div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      <span data-ru>Погода не показывается в списке смен</span>
+      <span data-en style="display:none">Weather isn't showing in the shift list</span>
+      <div class="faq-arrow">▼</div>
+    </button>
+    <div class="faq-answer">
+      <p data-ru>Два условия для работы погоды:</p>
+      <p data-en style="display:none">Two conditions for weather to work:</p>
+      <br>
+      <p data-ru><strong>1. Разрешение на геолокацию.</strong> Настройки телефона → Приложения → Shift Schedule → Разрешения → Местоположение → разрешить. Без этого приложение не знает, для какого города загружать прогноз.</p>
+      <p data-en style="display:none"><strong>1. Location permission.</strong> Phone Settings → Apps → Shift Schedule → Permissions → Location → allow. Without this the app doesn't know which city to load the forecast for.</p>
+      <br>
+      <p data-ru><strong>2. Доступ в интернет.</strong> Прогноз загружается из сети — без интернета погода не появится. Если соединение было отключено, попробуйте обновить страницу или перезапустить приложение при наличии сети.</p>
+      <p data-en style="display:none"><strong>2. Internet access.</strong> The forecast is loaded from the network — without internet the weather won't appear. If your connection was off, try refreshing or restarting the app when connected.</p>
+      <br>
+      <p data-ru>Если оба пункта выполнены — укажите версию приложения и напишите нам.</p>
+      <p data-en style="display:none">If both conditions are met — include your app version and write to us.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      <span data-ru>Зачем создавать аккаунт, если я пользуюсь один?</span>
+      <span data-en style="display:none">Why create an account if I use the app alone?</span>
+      <div class="faq-arrow">▼</div>
+    </button>
+    <div class="faq-answer">
+      <p data-ru>Без аккаунта расписание хранится только на вашем телефоне. Если телефон сломается, потеряется или вы переустановите приложение — все данные пропадут без возможности восстановления.</p>
+      <p data-en style="display:none">Without an account your schedule is stored only on your phone. If your phone breaks, gets lost, or you reinstall the app — all data will be lost with no way to recover it.</p>
+      <br>
+      <p data-ru>Аккаунт (бесплатно, нужна PRO версия) даёт:</p>
+      <p data-en style="display:none">An account (free with PRO) gives you:</p>
+      <ul data-ru>
+        <li>Резервную копию расписания в облаке</li>
+        <li>Восстановление при смене телефона</li>
+        <li>Синхронизацию между устройствами</li>
+      </ul>
+      <ul data-en style="display:none">
+        <li>Cloud backup of your schedule</li>
+        <li>Restore when switching phones</li>
+        <li>Sync between devices</li>
+      </ul>
+      <br>
+      <p data-ru>Создать аккаунт: <strong>Настройки → Синхронизация → Создать аккаунт</strong>.</p>
+      <p data-en style="display:none">To create an account: <strong>Settings → Sync → Create account</strong>.</p>
     </div>
   </div>
 

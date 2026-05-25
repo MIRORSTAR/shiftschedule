@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mirorstar.github.io/shiftschedule/sitemap.xml

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="yandex-verification" content="7abe6d0b3a4f8029" />
+  <meta name="google-site-verification" content="zC341Z0k-D3wu8oVYMRgyzbLlpQUxbtYQMgWmEf64UY" />
+  <title>Как не потерять сменный график при смене телефона — ShiftSchedule</title>
+  <meta name="description" content="Как сохранить сменный график при смене телефона, переустановке приложения или сбросе устройства. Облачная синхронизация в ShiftSchedule защищает ваши данные.">
+  <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/articles/kak-ne-poteryat-smennyj-grafik.html">
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --accent: #4a8fe8;
+      --accent2: #66b8b2;
+      --text: #e8eaf0;
+      --text2: #8b90a0;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 40px;
+      background: rgba(15,17,23,0.92);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo { font-size: 18px; font-weight: 700; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .lang-toggle { display: flex; gap: 4px; background: var(--surface2); border-radius: 8px; padding: 4px; }
+    .lang-btn { background: none; border: none; color: var(--text2); cursor: pointer; padding: 4px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; transition: all 0.2s; }
+    .lang-btn.active { background: var(--accent); color: #fff; }
+    .breadcrumb {
+      max-width: 760px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .breadcrumb a { color: var(--text2); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+    .article-header { margin-bottom: 40px; }
+    .article-header h1 {
+      font-size: clamp(26px, 5vw, 38px);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .article-meta {
+      font-size: 13px;
+      color: var(--text2);
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .article-body h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 40px 0 16px;
+      color: var(--text);
+    }
+    .article-body h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin: 28px 0 10px;
+      color: var(--text);
+    }
+    .article-body p { margin-bottom: 16px; font-size: 16px; color: var(--text); }
+    .article-body ul, .article-body ol {
+      margin: 0 0 16px 24px;
+      font-size: 16px;
+    }
+    .article-body li { margin-bottom: 8px; }
+    .article-body strong { color: var(--text); }
+    .info-box {
+      background: var(--surface);
+      border: 1px solid rgba(74,143,232,0.25);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+    .info-box p { margin: 0; font-size: 15px; }
+    .steps-list { list-style: none; margin: 0 0 24px 0; padding: 0; }
+    .steps-list li {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .step-num {
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .step-text { padding-top: 4px; font-size: 16px; }
+    .cta-box {
+      background: linear-gradient(135deg, var(--surface), rgba(74,143,232,0.08));
+      border: 1px solid rgba(74,143,232,0.2);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 48px 0 32px;
+      text-align: center;
+    }
+    .cta-box h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .cta-box p { color: var(--text2); margin-bottom: 24px; font-size: 15px; }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+      margin: 4px;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+      margin: 4px;
+    }
+    .btn-secondary:hover { background: #2a2f45; }
+    .related {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .related h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .related-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s;
+    }
+    .related-card:hover { border-color: rgba(74,143,232,0.4); }
+    .related-card p { font-size: 14px; font-weight: 600; margin: 0; line-height: 1.4; }
+    .related-card span { font-size: 12px; color: var(--text2); }
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 32px 20px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px; }
+    .footer-links a { color: var(--text2); text-decoration: none; }
+    .footer-links a:hover { color: var(--accent); }
+    [data-ru], [data-en] { display: none; }
+    .lang-ru [data-ru] { display: inline; }
+    .lang-ru p[data-ru], .lang-ru li[data-ru], .lang-ru div[data-ru] { display: block; }
+    .lang-en [data-en] { display: inline; }
+    .lang-en p[data-en], .lang-en li[data-en], .lang-en div[data-en] { display: block; }
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+      .article-wrap { padding: 24px 16px 60px; }
+    }
+  </style>
+  <!-- Yandex.Metrika -->
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    ym(109065744,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/109065744" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
+</head>
+<body class="lang-ru">
+
+<nav>
+  <a href="../index.html" class="nav-logo">Shift<span>Schedule</span></a>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<div class="article-wrap">
+
+  <div class="breadcrumb">
+    <a href="../index.html" data-ru>Главная</a><a href="../index.html" data-en>Home</a>
+    <span data-ru> / Статья</span><span data-en> / Article</span>
+  </div>
+
+  <article>
+    <div class="article-header">
+      <h1>
+        <span data-ru>Как не потерять сменный график при смене телефона</span>
+        <span data-en>How to keep your shift schedule when changing phones</span>
+      </h1>
+      <div class="article-meta">
+        <span data-ru>Обновлено: май 2026</span>
+        <span data-en>Updated: May 2026</span>
+        <span>ShiftSchedule 1.9.0</span>
+      </div>
+    </div>
+
+    <div class="article-body">
+
+      <p data-ru>Сменщики часто настраивают график на месяцы вперёд: якорная дата, цикл смен, ручные правки, заметки к каждому дню. Всё это время — потраченное. И всё это можно потерять за секунду — при смене телефона, переустановке приложения или случайном сбросе устройства.</p>
+      <p data-en>Shift workers often set up their schedule months in advance: anchor date, shift cycle, manual adjustments, notes for each day. That's a lot of time invested — and it can all be lost in an instant when you change phones, reinstall the app, or accidentally reset your device.</p>
+
+      <h2 data-ru>Почему это происходит</h2>
+      <h2 data-en>Why this happens</h2>
+
+      <p data-ru>По умолчанию ShiftSchedule (как и большинство приложений) хранит данные <strong>локально на устройстве</strong>. Это значит:</p>
+      <p data-en>By default, ShiftSchedule (like most apps) stores data <strong>locally on your device</strong>. This means:</p>
+
+      <ul>
+        <li data-ru>При смене телефона данные не переносятся автоматически</li>
+        <li data-en>Data doesn't transfer automatically when you switch phones</li>
+        <li data-ru>После переустановки приложения всё начинается с нуля</li>
+        <li data-en>After reinstalling the app, everything starts from scratch</li>
+        <li data-ru>Сброс к заводским настройкам удаляет все данные без возможности восстановления</li>
+        <li data-en>A factory reset deletes all data with no way to recover it</li>
+      </ul>
+
+      <div class="info-box">
+        <p data-ru>Мы регулярно получаем сообщения от пользователей: «Поменял телефон — потерял весь график». Чтобы этого не случилось с вами — достаточно создать аккаунт.</p>
+        <p data-en>We regularly hear from users: "Switched phones and lost my whole schedule." To prevent this from happening to you — all you need is to create an account.</p>
+      </div>
+
+      <h2 data-ru>Как защитить свой график</h2>
+      <h2 data-en>How to protect your schedule</h2>
+
+      <p data-ru>В версии 1.9.0 мы добавили быструю авторизацию через Яндекс ID и Google — войти в аккаунт теперь можно в одно нажатие. После входа ваш график автоматически сохраняется в облаке и восстанавливается на любом устройстве.</p>
+      <p data-en>In version 1.9.0 we added quick sign-in via Yandex ID and Google — you can log into your account with one tap. Once signed in, your schedule is automatically saved to the cloud and restored on any device.</p>
+
+      <h3 data-ru>Как зарегистрироваться</h3>
+      <h3 data-en>How to register</h3>
+
+      <ol class="steps-list">
+        <li>
+          <div class="step-num">1</div>
+          <div class="step-text">
+            <span data-ru>Откройте приложение → нажмите кнопку синхронизации (нижняя панель, центр)</span>
+            <span data-en>Open the app → tap the sync button (bottom bar, center)</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">2</div>
+          <div class="step-text">
+            <span data-ru>Выберите способ входа: <strong>Яндекс ID</strong>, <strong>Google</strong> или <strong>email + пароль</strong></span>
+            <span data-en>Choose how to sign in: <strong>Yandex ID</strong>, <strong>Google</strong>, or <strong>email + password</strong></span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">3</div>
+          <div class="step-text">
+            <span data-ru>Подтвердите вход — приложение автоматически загрузит ваш график в облако</span>
+            <span data-en>Confirm sign-in — the app will automatically upload your schedule to the cloud</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">4</div>
+          <div class="step-text">
+            <span data-ru>На новом устройстве войдите тем же способом — график восстановится автоматически</span>
+            <span data-en>On your new device, sign in the same way — your schedule will restore automatically</span>
+          </div>
+        </li>
+      </ol>
+
+      <h2 data-ru>Что ещё даёт аккаунт</h2>
+      <h2 data-en>What else the account gives you</h2>
+
+      <ul>
+        <li data-ru><strong>Синхронизация с партнёром</strong> — покажите коллеге или супругу свой график, видите общие выходные прямо в календаре</li>
+        <li data-en><strong>Partner sync</strong> — share your schedule with a colleague or spouse, see shared days off right in the calendar</li>
+        <li data-ru><strong>14 дней PRO бесплатно</strong> — при регистрации открываются все PRO-функции на две недели</li>
+        <li data-en><strong>14 days PRO free</strong> — registration unlocks all PRO features for two weeks</li>
+        <li data-ru><strong>Автоматические резервные копии</strong> — график сохраняется в облако при каждом изменении</li>
+        <li data-en><strong>Automatic backups</strong> — your schedule saves to the cloud with every change</li>
+      </ul>
+
+      <div class="cta-box">
+        <h3 data-ru>ShiftSchedule — бесплатно для Android</h3>
+        <h3 data-en>ShiftSchedule — free for Android</h3>
+        <p data-ru>Настройте любой сменный график: 2/2, 3/3, сутки через трое, день/ночь. Синхронизация с партнёром, будильники, заметки.</p>
+        <p data-en>Set up any shift schedule: 2/2, 3/3, every other day, day/night. Partner sync, alarms, notes.</p>
+        <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule" class="btn-primary" onclick="ym(109065744,'reachGoal','download_rustore')">
+          <span data-ru>Скачать в RuStore</span>
+          <span data-en>Get on RuStore</span>
+        </a>
+        <a href="https://github.com/MIRORSTAR/shiftschedule/releases/download/v1.9.0/ShiftSchedule-rustore-v1.9.0-18.apk" class="btn-secondary" onclick="ym(109065744,'reachGoal','download_apk')">
+          <span data-ru>APK напрямую</span>
+          <span data-en>Direct APK</span>
+        </a>
+      </div>
+
+      <div class="related">
+        <h3 data-ru>Читайте также</h3>
+        <h3 data-en>Related articles</h3>
+        <div class="related-grid">
+          <a href="grafik-2-2.html" class="related-card">
+            <p data-ru>График 2/2: как рассчитать смены и не сбиться</p>
+            <p data-en>2/2 shift schedule: how to calculate and stay on track</p>
+            <span>ShiftSchedule</span>
+          </a>
+          <a href="sutki-troe.html" class="related-card">
+            <p data-ru>График сутки через трое: как вести смены в календаре</p>
+            <p data-en>24-hour shift every 3 days: tracking your schedule</p>
+            <span>ShiftSchedule</span>
+          </a>
+          <a href="obshchie-vykhodnye-s-partnerom.html" class="related-card">
+            <p data-ru>Как найти общие выходные с партнёром при сменном графике</p>
+            <p data-en>How to find shared days off with your partner</p>
+            <span>ShiftSchedule</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </article>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="../index.html" data-ru>Главная</a><a href="../index.html" data-en>Home</a>
+    <a href="../privacy.html" data-ru>Политика конфиденциальности</a><a href="../privacy.html" data-en>Privacy Policy</a>
+    <a href="../faq.html">FAQ</a>
+    <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a>
+  </div>
+  <div>© 2026 ShiftSchedule · <span data-ru>Все права защищены</span><span data-en>All rights reserved</span></div>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector('.lang-btn[onclick="setLang(\'' + lang + '\')"]').classList.add('active');
+    localStorage.setItem('ss_lang', lang);
+    if (lang === 'ru') {
+      document.documentElement.lang = 'ru';
+    } else {
+      document.documentElement.lang = 'en';
+    }
+  }
+  const saved = localStorage.getItem('ss_lang');
+  if (saved) setLang(saved);
+</script>
+
+</body>
+</html>

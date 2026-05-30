@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="yandex-verification" content="7abe6d0b3a4f8029" />
+  <meta name="google-site-verification" content="zC341Z0k-D3wu8oVYMRgyzbLlpQUxbtYQMgWmEf64UY" />
+  <title>График 2/2: как рассчитать смены и не сбиться — ShiftSchedule</title>
+  <meta name="description" content="Как правильно рассчитать сменный график 2 через 2: якорная дата, цикл, ручные правки. Почему легко ошибиться и как приложение ShiftSchedule решает эту задачу автоматически.">
+  <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/articles/grafik-2-2.html">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="apple-touch-icon" href="../favicon.png">
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --accent: #4a8fe8;
+      --accent2: #66b8b2;
+      --text: #e8eaf0;
+      --text2: #8b90a0;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 40px;
+      background: rgba(15,17,23,0.92);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo { font-size: 18px; font-weight: 700; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .lang-toggle { display: flex; gap: 4px; background: var(--surface2); border-radius: 8px; padding: 4px; }
+    .lang-btn { background: none; border: none; color: var(--text2); cursor: pointer; padding: 4px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; transition: all 0.2s; }
+    .lang-btn.active { background: var(--accent); color: #fff; }
+    .breadcrumb {
+      max-width: 760px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .breadcrumb a { color: var(--text2); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+    .article-header { margin-bottom: 40px; }
+    .article-header h1 {
+      font-size: clamp(26px, 5vw, 38px);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .article-meta {
+      font-size: 13px;
+      color: var(--text2);
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .article-body h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 40px 0 16px;
+      color: var(--text);
+    }
+    .article-body h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin: 28px 0 10px;
+      color: var(--text);
+    }
+    .article-body p { margin-bottom: 16px; font-size: 16px; color: var(--text); }
+    .article-body ul, .article-body ol {
+      margin: 0 0 16px 24px;
+      font-size: 16px;
+    }
+    .article-body li { margin-bottom: 8px; }
+    .article-body strong { color: var(--text); }
+    .info-box {
+      background: var(--surface);
+      border: 1px solid rgba(74,143,232,0.25);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+    .info-box p { margin: 0; font-size: 15px; }
+    .warn-box {
+      background: var(--surface);
+      border: 1px solid rgba(232,143,74,0.25);
+      border-left: 3px solid #e88f4a;
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+    .warn-box p { margin: 0; font-size: 15px; }
+    .cycle-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 15px;
+    }
+    .cycle-table th {
+      background: var(--surface2);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--text2);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .cycle-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: var(--text);
+    }
+    .cycle-table tr:last-child td { border-bottom: none; }
+    .work { color: #4a8fe8; font-weight: 700; }
+    .rest { color: var(--text2); }
+    .steps-list { list-style: none; margin: 0 0 24px 0; padding: 0; }
+    .steps-list li {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .step-num {
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .step-text { padding-top: 4px; font-size: 16px; }
+    .cta-box {
+      background: linear-gradient(135deg, var(--surface), rgba(74,143,232,0.08));
+      border: 1px solid rgba(74,143,232,0.2);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 48px 0 32px;
+      text-align: center;
+    }
+    .cta-box h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .cta-box p { color: var(--text2); margin-bottom: 24px; font-size: 15px; }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+      margin: 4px;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+      margin: 4px;
+    }
+    .btn-secondary:hover { background: #2a2f45; }
+    .related {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .related h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .related-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s;
+    }
+    .related-card:hover { border-color: rgba(74,143,232,0.4); }
+    .related-card p { font-size: 14px; font-weight: 600; margin: 0; line-height: 1.4; }
+    .related-card span { font-size: 12px; color: var(--text2); }
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 32px 20px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px; }
+    .footer-links a { color: var(--text2); text-decoration: none; }
+    .footer-links a:hover { color: var(--accent); }
+    [data-ru], [data-en] { display: none; }
+    .lang-ru [data-ru] { display: inline; }
+    .lang-ru p[data-ru], .lang-ru li[data-ru], .lang-ru div[data-ru],
+    .lang-ru h2[data-ru], .lang-ru h3[data-ru] { display: block; }
+    .lang-en [data-en] { display: inline; }
+    .lang-en p[data-en], .lang-en li[data-en], .lang-en div[data-en],
+    .lang-en h2[data-en], .lang-en h3[data-en] { display: block; }
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+      .article-wrap { padding: 24px 16px 60px; }
+      .cycle-table { font-size: 13px; }
+    }
+  </style>
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    ym(109065744,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/109065744" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
+</head>
+<body class="lang-ru">
+
+<nav>
+  <a href="../index.html" class="nav-logo">Shift<span>Schedule</span></a>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<div class="article-wrap">
+
+  <div class="breadcrumb">
+    <a href="../index.html" data-ru>Главная</a><a href="../index.html" data-en>Home</a>
+    <span data-ru> / Статья</span><span data-en> / Article</span>
+  </div>
+
+  <article>
+    <div class="article-header">
+      <h1>
+        <span data-ru>График 2/2: как рассчитать смены и не сбиться</span>
+        <span data-en>2/2 shift schedule: how to calculate and stay on track</span>
+      </h1>
+      <div class="article-meta">
+        <span data-ru>Обновлено: май 2026</span>
+        <span data-en>Updated: May 2026</span>
+        <span>ShiftSchedule 1.9.0</span>
+      </div>
+    </div>
+
+    <div class="article-body">
+
+      <p data-ru>График 2 через 2 — один из самых распространённых в России: охрана, торговля, медицина, производство. Два дня работаешь, два отдыхаешь — звучит просто. Но уже через месяц без чёткой системы легко запутаться: когда у тебя смена, а когда у коллеги? Совпадают ли выходные с партнёром? В этой статье разберём, как работает расчёт, где чаще всего ошибаются и как это автоматизировать.</p>
+      <p data-en>The 2/2 schedule is one of the most common in Russia — used in security, retail, healthcare, and manufacturing. Two days on, two days off. Sounds simple. But after a month without a clear system, it's easy to lose track: when is your shift, when is your colleague's? Do your days off align with your partner's? This article explains how the calculation works, where people most often go wrong, and how to automate it.</p>
+
+      <h2 data-ru>Как устроен цикл 2/2</h2>
+      <h2 data-en>How the 2/2 cycle works</h2>
+
+      <p data-ru>График 2 через 2 — это повторяющийся <strong>4-дневный цикл</strong>: два рабочих дня, потом два выходных. Цикл не привязан к неделе — он идёт непрерывно.</p>
+      <p data-en>The 2/2 schedule is a repeating <strong>4-day cycle</strong>: two working days, then two days off. The cycle isn't tied to the week — it runs continuously.</p>
+
+      <table class="cycle-table">
+        <thead>
+          <tr>
+            <th data-ru>День цикла</th><th data-en>Cycle day</th>
+            <th data-ru>Статус</th><th data-en>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td class="work" data-ru>Работа</td><td class="work" data-en>Work</td></tr>
+          <tr><td>2</td><td class="work" data-ru>Работа</td><td class="work" data-en>Work</td></tr>
+          <tr><td>3</td><td class="rest" data-ru>Выходной</td><td class="rest" data-en>Day off</td></tr>
+          <tr><td>4</td><td class="rest" data-ru>Выходной</td><td class="rest" data-en>Day off</td></tr>
+          <tr><td>5</td><td class="work" data-ru>Работа (цикл повторяется)</td><td class="work" data-en>Work (cycle repeats)</td></tr>
+        </tbody>
+      </table>
+
+      <p data-ru>Чтобы узнать статус любого дня, нужны две вещи: <strong>якорная дата</strong> (любой известный рабочий день, с которого начинается отсчёт) и сама формула расчёта.</p>
+      <p data-en>To find the status of any day, you need two things: an <strong>anchor date</strong> (any known working day to start counting from) and the calculation formula itself.</p>
+
+      <h2 data-ru>Формула расчёта</h2>
+      <h2 data-en>How to calculate</h2>
+
+      <p data-ru>Вручную это считается так:</p>
+      <p data-en>The manual calculation works like this:</p>
+
+      <ol>
+        <li data-ru>Возьмите якорную дату — например, <strong>1 января вы работали</strong></li>
+        <li data-en>Take an anchor date — for example, <strong>January 1 you were working</strong></li>
+        <li data-ru>Посчитайте разницу в днях между якорной датой и нужным днём</li>
+        <li data-en>Count the number of days between the anchor date and the target day</li>
+        <li data-ru>Разделите на 4 и возьмите остаток: 0 или 1 — работа, 2 или 3 — выходной</li>
+        <li data-en>Divide by 4 and take the remainder: 0 or 1 — work, 2 or 3 — day off</li>
+      </ol>
+
+      <div class="info-box">
+        <p data-ru><strong>Пример:</strong> якорная дата 1 января (рабочий). Хотим узнать 25 марта. Разница — 83 дня. 83 ÷ 4 = 20 остаток 3. Остаток 3 — это выходной. Значит 25 марта — выходной.</p>
+        <p data-en><strong>Example:</strong> anchor date January 1 (work day). We want to check March 25. Difference — 83 days. 83 ÷ 4 = 20 remainder 3. Remainder 3 — day off. So March 25 is a day off.</p>
+      </div>
+
+      <p data-ru>Для одной даты — посчитать реально. Но что если нужно быстро глянуть на месяц вперёд? Или проверить, когда совпадают выходные с женой, которая работает по другому графику? Вот тут начинаются трудности.</p>
+      <p data-en>For a single date — it's doable. But what if you need a quick overview of the next month? Or check when your days off align with your spouse who works a different schedule? That's where the difficulties begin.</p>
+
+      <h2 data-ru>Где чаще всего ошибаются</h2>
+      <h2 data-en>Where people go wrong</h2>
+
+      <h3 data-ru>1. Потеря точки отсчёта</h3>
+      <h3 data-en>1. Losing the starting point</h3>
+
+      <p data-ru>Самая частая ошибка — перепутать якорную дату. Коллега сказал, что 1-го у него работа, вы взяли это за ориентир — но у него другой вариант смен внутри того же предприятия. В итоге весь ваш расчёт сдвигается на день, и вы приходите на работу в выходной.</p>
+      <p data-en>The most common mistake is mixing up the anchor date. Your colleague said he works on the 1st, you used that as a reference — but he's on a different rotation at the same company. The result: your entire calculation is off by a day, and you show up on your day off.</p>
+
+      <h3 data-ru>2. Больничные и отпуск ломают счёт</h3>
+      <h3 data-en>2. Sick days and vacation break the count</h3>
+
+      <p data-ru>Это ключевое заблуждение: <strong>больничный и отпуск не сдвигают цикл</strong>. График продолжается по формуле независимо от того, болели вы или отдыхали. Сотрудники нередко думают, что пропуск дня означает сдвиг — и начинают считать заново с неправильной точки.</p>
+      <p data-en>This is a key misconception: <strong>sick days and vacation don't shift the cycle</strong>. The schedule continues by formula regardless of whether you were sick or on leave. Employees often think that missing a day means a shift — and start recalculating from the wrong point.</p>
+
+      <div class="warn-box">
+        <p data-ru>Если вы ушли на больничный на 5 дней — цикл продолжается без вас. Когда вернётесь, статус дня считается по той же якорной дате, как будто перерыва не было.</p>
+        <p data-en>If you take 5 sick days — the cycle continues without you. When you return, the day's status is calculated from the same anchor date, as if there was no break.</p>
+      </div>
+
+      <h3 data-ru>3. Праздники и переносы</h3>
+      <h3 data-en>3. Public holidays and swapped shifts</h3>
+
+      <p data-ru>Работодатель переносит смену из-за праздника или производственной необходимости — это разовое отклонение, которое не меняет основную формулу. Но если не зафиксировать это отдельно, через месяц уже не вспомнишь, почему один день «выбился» из расчёта.</p>
+      <p data-en>Your employer moves a shift due to a holiday or operational need — that's a one-off deviation that doesn't change the base formula. But if you don't record it separately, a month later you won't remember why one day didn't match the calculation.</p>
+
+      <h2 data-ru>Как это решается в приложении</h2>
+      <h2 data-en>How the app solves this</h2>
+
+      <p data-ru>ShiftSchedule делает ровно то, что описано выше — только автоматически. Вы один раз вводите якорную дату и параметры цикла, дальше приложение считает за вас.</p>
+      <p data-en>ShiftSchedule does exactly what's described above — automatically. You enter the anchor date and cycle parameters once, and the app handles all the calculations.</p>
+
+      <h3 data-ru>Как настроить график 2/2</h3>
+      <h3 data-en>How to set up a 2/2 schedule</h3>
+
+      <ol class="steps-list">
+        <li>
+          <div class="step-num">1</div>
+          <div class="step-text">
+            <span data-ru>Откройте приложение → нажмите <strong>Настройки</strong> → раздел <strong>График</strong></span>
+            <span data-en>Open the app → tap <strong>Settings</strong> → <strong>Schedule</strong> section</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">2</div>
+          <div class="step-text">
+            <span data-ru>Укажите <strong>рабочих дней: 2</strong> и <strong>выходных: 2</strong></span>
+            <span data-en>Set <strong>work days: 2</strong> and <strong>days off: 2</strong></span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">3</div>
+          <div class="step-text">
+            <span data-ru>Выберите <strong>якорную дату</strong> — любой день, когда вы точно работали</span>
+            <span data-en>Choose an <strong>anchor date</strong> — any day when you know you were working</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">4</div>
+          <div class="step-text">
+            <span data-ru>Готово. Приложение автоматически раскрасит весь календарь: синие ячейки — работа, серые — выходные</span>
+            <span data-en>Done. The app automatically colors the entire calendar: blue cells for work days, grey for days off</span>
+          </div>
+        </li>
+      </ol>
+
+      <h3 data-ru>Ручные правки без потери ритма</h3>
+      <h3 data-en>Manual adjustments without losing the rhythm</h3>
+
+      <p data-ru>Если в конкретный день что-то изменилось — нажмите на ячейку и поставьте нужный статус: больничный, отпуск, внеплановая смена. Это <strong>не сдвигает цикл</strong> — только помечает отклонение в этот день. Основная формула продолжает работать правильно для всех остальных дней.</p>
+      <p data-en>If something changes on a specific day — tap the cell and set the appropriate status: sick leave, vacation, or an extra shift. This <strong>doesn't shift the cycle</strong> — it only marks the deviation for that day. The base formula continues to work correctly for all other days.</p>
+
+      <h2 data-ru>Дополнительные возможности</h2>
+      <h2 data-en>Additional features</h2>
+
+      <ul>
+        <li data-ru><strong>График партнёра</strong> — добавьте расписание супруга или коллеги и сразу видите общие выходные прямо в календаре</li>
+        <li data-en><strong>Partner schedule</strong> — add your spouse's or colleague's schedule and instantly see shared days off right in the calendar</li>
+        <li data-ru><strong>Будильники по графику</strong> — приложение само выставляет будильник перед каждой сменой с нужным опережением</li>
+        <li data-en><strong>Schedule alarms</strong> — the app automatically sets an alarm before each shift with the lead time you choose</li>
+        <li data-ru><strong>Заметки к дням</strong> — прикрепляйте напоминания к конкретным датам: "взять документы", "вечерний обход"</li>
+        <li data-en><strong>Day notes</strong> — attach reminders to specific dates: "bring documents", "evening round"</li>
+        <li data-ru><strong>Алиса</strong> — спрашивайте голосом: "я сегодня работаю?", "когда следующий выходной?"</li>
+        <li data-en><strong>Alice</strong> — ask by voice: "do I work today?", "when is my next day off?"</li>
+      </ul>
+
+      <div class="info-box">
+        <p data-ru>График 2/2 — не единственный вариант. ShiftSchedule поддерживает любой цикл: 3/3, сутки через трое (1/3), 5/2, день/ночь и любую другую комбинацию рабочих и выходных дней.</p>
+        <p data-en>2/2 isn't the only option. ShiftSchedule supports any cycle: 3/3, every third day (1/3), 5/2, day/night, or any other combination of work and rest days.</p>
+      </div>
+
+      <div class="cta-box">
+        <h3 data-ru>ShiftSchedule — бесплатно для Android</h3>
+        <h3 data-en>ShiftSchedule — free for Android</h3>
+        <p data-ru>Настройте любой сменный график за минуту. Синхронизация с партнёром, будильники, заметки, голосовое управление через Алису.</p>
+        <p data-en>Set up any shift schedule in minutes. Partner sync, alarms, notes, voice control via Alice.</p>
+        <a href="https://www.rustore.ru/catalog/app/com.antigravity.shiftschedule" class="btn-primary" target="_blank" rel="noopener" onclick="ym(109065744,'reachGoal','download_rustore')">
+          <span data-ru>Скачать в RuStore</span>
+          <span data-en>Get on RuStore</span>
+        </a>
+        <a href="https://github.com/MIRORSTAR/shiftschedule/releases/latest" class="btn-secondary" target="_blank" rel="noopener" onclick="ym(109065744,'reachGoal','download_apk')">
+          <span data-ru>APK напрямую</span>
+          <span data-en>Direct APK</span>
+        </a>
+      </div>
+
+      <div class="related">
+        <h3 data-ru>Читайте также</h3>
+        <h3 data-en>Read also</h3>
+        <div class="related-grid">
+          <a href="kak-ne-poteryat-smennyj-grafik.html" class="related-card">
+            <p data-ru>Как не потерять сменный график при смене телефона</p>
+            <p data-en>How to keep your shift schedule when changing phones</p>
+            <span data-ru>Синхронизация и облако</span><span data-en>Sync and cloud</span>
+          </a>
+          <a href="sutki-troe.html" class="related-card">
+            <p data-ru>График сутки через трое: как вести смены в календаре</p>
+            <p data-en>24-hour shifts every 3 days: tracking in a calendar</p>
+            <span data-ru>Для охраны, медицины, дежурств</span><span data-en>Security, medical, on-call</span>
+          </a>
+          <a href="alice-navyk.html" class="related-card">
+            <p data-ru>Голосовые команды Алисы: полный список</p>
+            <p data-en>Alice voice commands: full list</p>
+            <span data-ru>Яндекс Алиса</span><span data-en>Yandex Alice</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </article>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="../index.html" data-ru>Главная</a><a href="../index.html" data-en>Home</a>
+    <a href="../privacy.html" data-ru>Политика конфиденциальности</a><a href="../privacy.html" data-en>Privacy Policy</a>
+    <a href="../faq.html">FAQ</a>
+    <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a>
+  </div>
+  <div>&copy; 2026 ShiftSchedule &middot; <span data-ru>Все права защищены</span><span data-en>All rights reserved</span></div>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector('.lang-btn[onclick="setLang(\'' + lang + '\')"]').classList.add('active');
+    localStorage.setItem('ss_lang', lang);
+    document.documentElement.lang = lang === 'ru' ? 'ru' : 'en';
+  }
+  const saved = localStorage.getItem('ss_lang');
+  if (saved) setLang(saved);
+</script>
+
+</body>
+</html>

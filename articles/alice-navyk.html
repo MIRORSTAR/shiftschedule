@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="yandex-verification" content="7abe6d0b3a4f8029" />
+  <meta name="google-site-verification" content="zC341Z0k-D3wu8oVYMRgyzbLlpQUxbtYQMgWmEf64UY" />
+  <title>Голосовые команды Алисы — навык «Мой график смен» — ShiftSchedule</title>
+  <meta name="description" content="Полный список голосовых команд для навыка Яндекс Алисы «Мой график смен». Узнайте, когда следующий выходной, сколько смен в месяце и многое другое — голосом.">
+  <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/articles/alice-navyk.html">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="apple-touch-icon" href="../favicon.png">
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --accent: #4a8fe8;
+      --accent2: #66b8b2;
+      --alice: #7c3aed;
+      --alice-light: rgba(124,58,237,0.12);
+      --text: #e8eaf0;
+      --text2: #8b90a0;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 40px;
+      background: rgba(15,17,23,0.92);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo { font-size: 18px; font-weight: 700; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .lang-toggle { display: flex; gap: 4px; background: var(--surface2); border-radius: 8px; padding: 4px; }
+    .lang-btn { background: none; border: none; color: var(--text2); cursor: pointer; padding: 4px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; transition: all 0.2s; }
+    .lang-btn.active { background: var(--accent); color: #fff; }
+    .breadcrumb {
+      max-width: 760px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .breadcrumb a { color: var(--text2); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+    .article-header { margin-bottom: 40px; }
+    .article-header h1 {
+      font-size: clamp(26px, 5vw, 38px);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .article-meta {
+      font-size: 13px;
+      color: var(--text2);
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--alice-light);
+      color: #a78bfa;
+      border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .article-body h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 40px 0 16px;
+      color: var(--text);
+    }
+    .article-body h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin: 28px 0 10px;
+      color: var(--text);
+    }
+    .article-body p { margin-bottom: 16px; font-size: 16px; }
+    .article-body ul, .article-body ol { margin: 0 0 16px 24px; font-size: 16px; }
+    .article-body li { margin-bottom: 8px; }
+    .article-body strong { color: var(--text); }
+    .info-box {
+      background: var(--surface);
+      border: 1px solid rgba(74,143,232,0.25);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+    .info-box p { margin: 0; font-size: 15px; }
+    .alice-box {
+      background: var(--alice-light);
+      border: 1px solid rgba(124,58,237,0.3);
+      border-left: 3px solid var(--alice);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+    .alice-box p { margin: 0; font-size: 15px; }
+    /* Таблица команд */
+    .cmd-group { margin-bottom: 32px; }
+    .cmd-group-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text2);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .cmd-list { display: flex; flex-direction: column; gap: 8px; }
+    .cmd-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 14px 16px;
+      transition: border-color 0.2s;
+    }
+    .cmd-item:hover { border-color: rgba(124,58,237,0.3); }
+    .cmd-phrase {
+      font-size: 15px;
+      font-weight: 600;
+      color: #a78bfa;
+      min-width: 0;
+      flex-shrink: 0;
+      font-family: 'Segoe UI', monospace;
+    }
+    .cmd-divider {
+      color: var(--text2);
+      font-size: 13px;
+      padding-top: 2px;
+    }
+    .cmd-desc {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+    /* Steps */
+    .steps-list { list-style: none; margin: 0 0 24px 0; padding: 0; }
+    .steps-list li { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px; }
+    .step-num {
+      background: var(--alice);
+      color: #fff;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .step-text { padding-top: 4px; font-size: 16px; }
+    /* CTA */
+    .cta-box {
+      background: linear-gradient(135deg, var(--surface), rgba(74,143,232,0.08));
+      border: 1px solid rgba(74,143,232,0.2);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 48px 0 32px;
+      text-align: center;
+    }
+    .cta-box h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .cta-box p { color: var(--text2); margin-bottom: 24px; font-size: 15px; }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+      margin: 4px;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+      margin: 4px;
+    }
+    .btn-secondary:hover { background: #2a2f45; }
+    /* Related */
+    .related { margin-top: 48px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.07); }
+    .related h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .related-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s;
+    }
+    .related-card:hover { border-color: rgba(74,143,232,0.4); }
+    .related-card p { font-size: 14px; font-weight: 600; margin: 0; line-height: 1.4; }
+    .related-card span { font-size: 12px; color: var(--text2); }
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 32px 20px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px; }
+    .footer-links a { color: var(--text2); text-decoration: none; }
+    .footer-links a:hover { color: var(--accent); }
+    [data-ru], [data-en] { display: none; }
+    .lang-ru [data-ru] { display: inline; }
+    .lang-ru p[data-ru], .lang-ru li[data-ru], .lang-ru div[data-ru],
+    .lang-ru .cmd-group[data-ru], .lang-ru .alice-box[data-ru], .lang-ru .info-box[data-ru] { display: block; }
+    .lang-en [data-en] { display: inline; }
+    .lang-en p[data-en], .lang-en li[data-en], .lang-en div[data-en],
+    .lang-en .cmd-group[data-en], .lang-en .alice-box[data-en], .lang-en .info-box[data-en] { display: block; }
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+      .article-wrap { padding: 24px 16px 60px; }
+      .cmd-item { flex-direction: column; gap: 4px; }
+      .cmd-divider { display: none; }
+    }
+  </style>
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    ym(109065744,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/109065744" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
+</head>
+<body class="lang-ru">
+
+<nav>
+  <a href="../index.html" class="nav-logo">Shift<span>Schedule</span></a>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<div class="article-wrap">
+
+  <div class="breadcrumb">
+    <a href="../index.html" data-ru>Главная</a><a href="../index.html" data-en>Home</a>
+    <span data-ru> / Статья</span><span data-en> / Article</span>
+  </div>
+
+  <article>
+    <div class="article-header">
+      <div class="badge">&#x1F399; <span data-ru>Яндекс Алиса</span><span data-en>Yandex Alice</span></div>
+      <h1>
+        <span data-ru>Голосовые команды для навыка «Мой график смен»</span>
+        <span data-en>Voice commands for "My Shift Schedule" skill</span>
+      </h1>
+      <div class="article-meta">
+        <span data-ru>Обновлено: май 2026</span><span data-en>Updated: May 2026</span>
+        <span data-ru>&#183; Версия приложения: 1.9.0+</span><span data-en>&#183; App version: 1.9.0+</span>
+      </div>
+    </div>
+
+    <div class="article-body">
+
+      <div class="alice-box" data-ru>
+        <p>Навык «Мой график смен» доступен в Яндекс Алисе — спрашивайте о своём расписании голосом на колонках, в телефоне и на умных экранах.</p>
+      </div>
+      <div class="alice-box" data-en>
+        <p>The "My Shift Schedule" skill is available in Yandex Alice — ask about your schedule by voice on smart speakers, phones, and smart displays.</p>
+      </div>
+
+      <h2><span data-ru>Как подключить навык</span><span data-en>How to set up the skill</span></h2>
+
+      <ul class="steps-list">
+        <li>
+          <div class="step-num">1</div>
+          <div class="step-text">
+            <span data-ru>Скажите Алисе: <strong>«Алиса, запусти навык Мой график смен»</strong></span>
+            <span data-en>Say to Alice: <strong>"Alice, launch My Shift Schedule skill"</strong></span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">2</div>
+          <div class="step-text">
+            <span data-ru>Откройте приложение ShiftSchedule → нажмите кнопку синхронизации → раздел <strong>«Партнёры»</strong> → скопируйте шестизначный код</span>
+            <span data-en>Open ShiftSchedule app → tap the sync button → <strong>"Partners"</strong> section → copy your 6-character code</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">3</div>
+          <div class="step-text">
+            <span data-ru>Произнесите код вслух Алисе. После этого навык знает ваш график и сразу отвечает на вопросы</span>
+            <span data-en>Say the code aloud to Alice. After that the skill knows your schedule and answers questions instantly</span>
+          </div>
+        </li>
+      </ul>
+
+      <div class="info-box" data-ru>
+        <p><strong>Если поменяли код в приложении</strong> — скажите Алисе <strong>«сброс»</strong>, а затем произнесите новый код.</p>
+      </div>
+      <div class="info-box" data-en>
+        <p><strong>If you changed the code in the app</strong> — say <strong>"reset"</strong> to Alice, then say the new code.</p>
+      </div>
+
+      <h2><span data-ru>Все поддерживаемые команды</span><span data-en>All supported commands</span></h2>
+
+      <!-- РАБОЧИЕ ДНИ -->
+      <div class="cmd-group" data-ru>
+        <div class="cmd-group-title">Рабочие дни</div>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Я сегодня работаю?»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Рабочий или выходной сегодня, включая статус партнёра</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Завтра работаю?»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Статус завтрашнего дня</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Послезавтра?»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Статус через два дня</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Следующий выходной»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Дата и количество дней до ближайшего выходного</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Следующая смена»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Дата и количество дней до ближайшей рабочей смены</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Через сколько дней выходной?»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Сколько дней осталось до отдыха (если сегодня выходной — до следующего)</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Через сколько дней смена?»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Сколько дней до следующей работы</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cmd-group" data-en>
+        <div class="cmd-group-title">Work days</div>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <span class="cmd-phrase">"Do I work today?"</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Work or day off today, including partner status</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">"Do I work tomorrow?"</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Tomorrow's status</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">"Next day off"</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Date and days until the next day off</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">"Next shift"</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Date and days until the next work shift</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- СТАТИСТИКА -->
+      <div class="cmd-group" data-ru>
+        <div class="cmd-group-title">Статистика</div>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Сколько смен в этом месяце?»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Всего смен в текущем месяце и сколько осталось</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Сколько смен на этой неделе?»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Всего смен на неделе и сколько осталось</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Какие выходные на этой неделе?»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Предстоящие дни отдыха до конца недели</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Подработки в этом месяце»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Количество внеплановых смен за текущий месяц</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Подработки на этой неделе»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Количество внеплановых смен за текущую неделю</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cmd-group" data-en>
+        <div class="cmd-group-title">Statistics</div>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <span class="cmd-phrase">"How many shifts this month?"</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Total shifts this month and how many remain</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">"How many shifts this week?"</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Total shifts this week and how many remain</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">"Which days off this week?"</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Upcoming days off until end of week</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ОСОБЫЕ СТАТУСЫ -->
+      <div class="cmd-group" data-ru>
+        <div class="cmd-group-title">Особые статусы</div>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Когда отпуск?»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Даты ближайшего отпуска — с какого по какое число и длительность</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Через сколько дней отпуск?»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Количество дней до начала отпуска</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Больничный в этом месяце»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Были ли больничные в текущем месяце, даты периодов и общее количество дней</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Ближайший общий выходной с партнёром»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Когда у вас и партнёра одновременно выходной</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cmd-group" data-en>
+        <div class="cmd-group-title">Special statuses</div>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <span class="cmd-phrase">"When is vacation?"</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Upcoming vacation dates — start, end date and duration</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">"Sick days this month"</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Sick leave periods in the current month with dates</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ЗАМЕТКИ -->
+      <div class="cmd-group" data-ru>
+        <div class="cmd-group-title">Заметки</div>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Заметки на сегодня»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Напоминания, отмеченные на сегодняшний день в приложении</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Заметки на завтра»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Напоминания на завтра</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Заметки на неделю»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Все напоминания на ближайшие 7 дней</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Заметки на месяц»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Все напоминания на ближайшие 30 дней</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cmd-group" data-en>
+        <div class="cmd-group-title">Notes</div>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <span class="cmd-phrase">"Notes for today"</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Reminders marked for today in the app</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">"Notes for the week"</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">All reminders for the next 7 days</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">"Notes for the month"</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">All reminders for the next 30 days</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- БУДИЛЬНИКИ -->
+      <div class="cmd-group" data-ru>
+        <div class="cmd-group-title">Будильники</div>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Включены ли будильники?»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Статус будильников, время до смены, ближайшая рабочая дата и количество смен за период</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- УПРАВЛЕНИЕ -->
+      <div class="cmd-group" data-ru>
+        <div class="cmd-group-title">Управление навыком</div>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Помощь»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Краткая инструкция по навыку</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Что ты умеешь?»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Полный список команд (на устройствах с экраном — в виде кнопок)</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">«Сброс»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Отвязать текущий код и привязать новый — если поменяли код в приложении</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cmd-group" data-en>
+        <div class="cmd-group-title">Skill management</div>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <span class="cmd-phrase">"Help"</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Brief skill instructions</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">"What can you do?"</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Full list of commands (as buttons on screen devices)</span>
+          </div>
+          <div class="cmd-item">
+            <span class="cmd-phrase">"Reset"</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Unlink current code and link a new one</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box" data-ru>
+        <p><strong>Список команд обновляется</strong> вместе с приложением. Следите за обновлениями в разделе «Что нового» на главной странице.</p>
+      </div>
+      <div class="info-box" data-en>
+        <p><strong>The command list is updated</strong> with each app update. Check the "What's New" section on the main page.</p>
+      </div>
+
+      <div class="cta-box">
+        <h3><span data-ru>Ещё не установили приложение?</span><span data-en>Don't have the app yet?</span></h3>
+        <p><span data-ru>Скачайте ShiftSchedule — настройте график, и Алиса всегда будет знать ваш режим работы</span><span data-en>Download ShiftSchedule — set up your schedule and Alice will always know your work routine</span></p>
+        <a href="https://www.rustore.ru/catalog/app/com.antigravity.shiftschedule" class="btn-primary" target="_blank" rel="noopener">
+          <span data-ru>Скачать в RuStore</span><span data-en>Download from RuStore</span>
+        </a>
+        <a href="../index.html" class="btn-secondary">
+          <span data-ru>На главную</span><span data-en>Back to home</span>
+        </a>
+      </div>
+
+      <div class="related">
+        <h3><span data-ru>Читайте также</span><span data-en>Read also</span></h3>
+        <div class="related-grid">
+          <a href="kak-ne-poteryat-smennyj-grafik.html" class="related-card">
+            <p><span data-ru>Как не потерять сменный график при смене телефона</span><span data-en>How not to lose your shift schedule when changing phones</span></p>
+            <span><span data-ru>Синхронизация и облако</span><span data-en>Sync and cloud</span></span>
+          </a>
+          <a href="../faq.html" class="related-card">
+            <p><span data-ru>Часто задаваемые вопросы</span><span data-en>Frequently asked questions</span></p>
+            <span>FAQ</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </article>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="../privacy.html" data-ru>Политика конфиденциальности</a><a href="../privacy.html" data-en>Privacy Policy</a>
+    <a href="../guide.html" data-ru>Руководство</a><a href="../guide.html" data-en>Guide</a>
+    <a href="../help.html" data-ru>Инструкции PRO</a><a href="../help.html" data-en>PRO Instructions</a>
+    <a href="../faq.html">FAQ</a>
+  </div>
+  <div>&#169; 2026 ShiftSchedule &mdash; <span data-ru>Все права защищены</span><span data-en>All rights reserved</span></div>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+    localStorage.setItem('lang', lang);
+  }
+  const saved = localStorage.getItem('lang') || 'ru';
+  setLang(saved);
+</script>
+</body>
+</html>

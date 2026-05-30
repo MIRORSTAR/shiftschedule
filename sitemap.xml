@@ -3,21 +3,36 @@
   <url>
     <loc>https://mirorstar.github.io/shiftschedule/</loc>
     <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://mirorstar.github.io/shiftschedule/faq.html</loc>
     <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://mirorstar.github.io/shiftschedule/guide.html</loc>
     <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://mirorstar.github.io/shiftschedule/help.html</loc>
     <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://mirorstar.github.io/shiftschedule/privacy.html</loc>
     <priority>0.5</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://mirorstar.github.io/shiftschedule/articles/kak-ne-poteryat-smennyj-grafik.html</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://mirorstar.github.io/shiftschedule/articles/alice-navyk.html</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
   </url>
 </urlset>

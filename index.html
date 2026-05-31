@@ -295,6 +295,124 @@
     [data-en] { display: none; }
     body.lang-en [data-ru] { display: none; }
     body.lang-en [data-en] { display: revert; }
+
+    /* ── Dark 2.0 Upgrade ─────────────────────────────────── */
+
+    /* Глубже фон */
+    :root {
+      --bg: #07070f;
+      --surface: #101016;
+      --surface2: #1a1d2e;
+    }
+
+    /* Фоновые градиентные пятна */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::before {
+      width: 700px; height: 700px;
+      top: -250px; left: 50%;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(74,143,232,0.07) 0%, transparent 70%);
+    }
+    body::after {
+      width: 500px; height: 500px;
+      bottom: 30%; right: -100px;
+      background: radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 70%);
+    }
+
+    /* Градиент на акцентном слове в герое */
+    .hero h1 span span {
+      background: linear-gradient(135deg, #4a8fe8 20%, #9b74e0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Nav-лого акцент */
+    .nav-logo span {
+      background: linear-gradient(135deg, #4a8fe8, #9b74e0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* Кнопка с глоу */
+    .btn-primary {
+      transition: opacity 0.2s, box-shadow 0.25s, transform 0.15s !important;
+    }
+    .btn-primary:hover {
+      opacity: 1 !important;
+      box-shadow: 0 8px 28px rgba(74,143,232,0.4);
+      transform: translateY(-2px);
+    }
+
+    /* Feature-карточки — стекло + ховер */
+    .feature-card {
+      backdrop-filter: blur(8px);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      cursor: default;
+    }
+    .feature-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(74,143,232,0.28);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(74,143,232,0.1);
+    }
+
+    /* Shot-карточки — ховер-зум */
+    .shot-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .shot-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 28px 64px rgba(0,0,0,0.7);
+    }
+    .shot-card img {
+      transition: transform 0.45s ease;
+    }
+    .shot-card:hover img {
+      transform: scale(1.05);
+    }
+
+    /* Главный скриншот — ховер */
+    .hero-shot {
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .hero-shot:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 48px 100px rgba(0,0,0,0.75), 0 0 60px rgba(74,143,232,0.08);
+    }
+
+    /* PRO-секция — премиум-граница */
+    .pro-section {
+      background:
+        linear-gradient(var(--surface), var(--surface)) padding-box,
+        linear-gradient(135deg, rgba(74,143,232,0.35), rgba(102,184,178,0.35)) border-box;
+      border: 1px solid transparent;
+    }
+
+    /* Плавное появление при скролле */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Секции заголовки чуть ярче */
+    .section-title {
+      background: linear-gradient(135deg, #e8eaf0 50%, rgba(232,234,240,0.6) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
   </style>
   <!-- Yandex.Metrika -->
   <script type="text/javascript">
@@ -741,6 +859,38 @@
   }
   const saved = localStorage.getItem('lang');
   if (saved) setLang(saved);
+</script>
+
+<script>
+  // Scroll-reveal: плавное появление секций и карточек
+  document.addEventListener('DOMContentLoaded', () => {
+    // Секции и крупные блоки
+    document.querySelectorAll('.section, .hero-shot, .shot-row, .pro-section, .statuses').forEach(el => {
+      el.classList.add('reveal');
+    });
+
+    // Feature-карточки с нарастающей задержкой
+    document.querySelectorAll('.features-grid .feature-card').forEach((el, i) => {
+      el.classList.add('reveal');
+      el.style.transitionDelay = (i * 0.07) + 's';
+    });
+
+    // Shot-карточки в галерее
+    document.querySelectorAll('.shot-card').forEach((el, i) => {
+      el.classList.add('reveal');
+      el.style.transitionDelay = (i * 0.06) + 's';
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  });
 </script>
 </body>
 </html>

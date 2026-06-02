@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="yandex-verification" content="7abe6d0b3a4f8029" />
+  <meta name="google-site-verification" content="zC341Z0k-D3wu8oVYMRgyzbLlpQUxbtYQMgWmEf64UY" />
+  <title>Общие выходные с партнёром — календарь смен ShiftSchedule</title>
+  <meta name="description" content="ShiftSchedule помогает находить общие выходные с партнёром при сменном графике 2/2, 3/3, день/ночь и сутки через трое. Синхронизация расписаний, общий календарь смен, отпуска, больничные, подработки и облачное сохранение данных.">
+  <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/articles/obshchie-vyhodnye.html">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="apple-touch-icon" href="../favicon.png">
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --accent: #4a8fe8;
+      --accent2: #66b8b2;
+      --text: #e8eaf0;
+      --text2: #8b90a0;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 40px;
+      background: rgba(15,17,23,0.92);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo { font-size: 18px; font-weight: 700; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .lang-toggle { display: flex; gap: 4px; background: var(--surface2); border-radius: 8px; padding: 4px; }
+    .lang-btn { background: none; border: none; color: var(--text2); cursor: pointer; padding: 4px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; transition: all 0.2s; }
+    .lang-btn.active { background: var(--accent); color: #fff; }
+    .breadcrumb {
+      max-width: 760px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .breadcrumb a { color: var(--text2); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+    .article-header { margin-bottom: 40px; }
+    .article-header h1 {
+      font-size: clamp(26px, 5vw, 38px);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .article-meta {
+      font-size: 13px;
+      color: var(--text2);
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .article-body h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 40px 0 16px;
+      color: var(--text);
+    }
+    .article-body h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin: 28px 0 10px;
+      color: var(--text);
+    }
+    .article-body p { margin-bottom: 16px; font-size: 16px; color: var(--text); }
+    .article-body ul, .article-body ol {
+      margin: 0 0 16px 24px;
+      font-size: 16px;
+    }
+    .article-body li { margin-bottom: 8px; }
+    .article-body strong { color: var(--text); }
+    .article-img {
+      margin: 28px 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    .article-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .article-img figcaption {
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--text2);
+      background: var(--surface);
+      line-height: 1.5;
+    }
+    .info-box {
+      background: var(--surface);
+      border: 1px solid rgba(74,143,232,0.25);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+    .info-box p { margin: 0; font-size: 15px; }
+    .code-block {
+      background: var(--surface2);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 15px;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+    }
+    .steps-list { list-style: none; margin: 0 0 24px 0; padding: 0; }
+    .steps-list li {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .step-num {
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .step-text { padding-top: 4px; font-size: 16px; }
+    .path-block {
+      background: var(--surface);
+      border-radius: 10px;
+      padding: 14px 20px;
+      margin: 16px 0;
+      font-size: 15px;
+      color: var(--accent2);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    .cta-box {
+      background: linear-gradient(135deg, var(--surface), rgba(74,143,232,0.08));
+      border: 1px solid rgba(74,143,232,0.2);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 48px 0 32px;
+      text-align: center;
+    }
+    .cta-box h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .cta-box p { color: var(--text2); margin-bottom: 24px; font-size: 15px; }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+      margin: 4px;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+      margin: 4px;
+    }
+    .btn-secondary:hover { background: #2a2f45; }
+    .related {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .related h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .related-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s;
+    }
+    .related-card:hover { border-color: rgba(74,143,232,0.4); }
+    .related-card p { font-size: 14px; font-weight: 600; margin: 0; line-height: 1.4; }
+    .related-card span { font-size: 12px; color: var(--text2); }
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 32px 20px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px; }
+    .footer-links a { color: var(--text2); text-decoration: none; }
+    .footer-links a:hover { color: var(--accent); }
+    [data-ru], [data-en] { display: none; }
+    .lang-ru [data-ru] { display: inline; }
+    .lang-ru p[data-ru], .lang-ru li[data-ru], .lang-ru div[data-ru],
+    .lang-ru h2[data-ru], .lang-ru h3[data-ru] { display: block; }
+    .lang-en [data-en] { display: inline; }
+    .lang-en p[data-en], .lang-en li[data-en], .lang-en div[data-en],
+    .lang-en h2[data-en], .lang-en h3[data-en] { display: block; }
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+      .article-wrap { padding: 24px 16px 60px; }
+    }
+  </style>
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    ym(109065744,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/109065744" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
+</head>
+<body class="lang-ru">
+
+<nav>
+  <a href="../index.html" class="nav-logo">Shift<span>Schedule</span></a>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<div class="breadcrumb">
+  <a href="../index.html" data-ru>Главная</a><a href="../index.html" data-en>Home</a>
+  <span> / </span>
+  <span data-ru>Общие выходные с партнёром</span>
+  <span data-en>Shared days off with partner</span>
+</div>
+
+<div class="article-wrap">
+  <article>
+    <div class="article-header">
+      <h1 data-ru>Общие выходные с партнёром в ShiftSchedule</h1>
+      <h1 data-en>Shared days off with your partner in ShiftSchedule</h1>
+      <div class="article-meta">
+        <span data-ru>ShiftSchedule</span>
+        <span data-ru>Синхронизация</span>
+        <span data-en>ShiftSchedule</span>
+        <span data-en>Sync</span>
+      </div>
+    </div>
+
+    <div class="article-body">
+
+      <p data-ru>Когда оба человека работают посменно, планировать совместное время становится сложнее. У одного график 2/2, у другого 3/3. Один работает днём, другой выходит в ночь. У кого-то отпуск, больничный или подработка. В итоге даже простой вопрос «когда мы оба свободны?» приходится считать вручную по календарю.</p>
+      <p data-ru>ShiftSchedule помогает решить эту проблему: приложение показывает не только ваш график смен, но и помогает синхронизировать расписание с партнёром. Так проще заранее увидеть общие выходные, выбрать день для поездки, встречи, семейных дел или просто отдыха вместе.</p>
+
+      <figure class="article-img">
+        <img src="../images/partners-calendar.jpg" alt="Главный экран календаря ShiftSchedule в тёмной теме">
+        <figcaption>Так выглядит календарь смен в ShiftSchedule: рабочие дни, выходные, подработки, заметки и дополнительная информация по дням.</figcaption>
+      </figure>
+
+      <h2 data-ru>Зачем нужен общий календарь смен</h2>
+
+      <p data-ru>Обычный календарь показывает даты, но не учитывает особенности сменной работы. Если у пары разные графики, приходится постоянно сверяться:</p>
+      <ul data-ru>
+        <li>кто работает завтра;</li>
+        <li>когда совпадают выходные;</li>
+        <li>не попадает ли поездка на рабочую смену;</li>
+        <li>есть ли общий свободный день на неделе;</li>
+        <li>не изменилось ли расписание после отпуска, больничного или подработки.</li>
+      </ul>
+      <p data-ru>В ShiftSchedule это можно смотреть прямо в приложении. Не нужно держать всё в голове, пересылать друг другу скриншоты и вручную сравнивать два календаря.</p>
+      <p data-ru>Дополнительно в приложении есть синхронизация с календарём устройства. Если вам привычнее видеть смены в обычном календаре телефона, можно включить синхронизацию и использовать удобный для себя формат. Поддерживается как передача смен из приложения в календарь, так и расширенный режим обмена данными. При отключении функции данные убираются аккуратно, без лишнего засорения календаря.</p>
+
+      <h2 data-ru>Как работает синхронизация с партнёром</h2>
+
+      <p data-ru>Чтобы подключить партнёра, нужен аккаунт. Войти можно через:</p>
+      <ul data-ru>
+        <li>почту;</li>
+        <li>Яндекс;</li>
+        <li>Google.</li>
+      </ul>
+      <p data-ru>Аккаунт нужен не только для партнёрского режима, но и для надёжного хранения данных. Это удобно, если вы меняете телефон, переустанавливаете приложение или просто хотите быть уверены, что расписание, настройки и другие данные можно безопасно восстановить из облака.</p>
+
+      <div class="info-box">
+        <p data-ru>После регистрации новым пользователям доступно <strong>14 дней PRO бесплатно</strong>, чтобы спокойно попробовать синхронизацию с партнёром и другие расширенные возможности приложения.</p>
+      </div>
+
+      <p data-ru>У каждого пользователя есть свой уникальный код. Его можно найти в приложении:</p>
+      <div class="path-block" data-ru>Настройки → Синхронизация → Партнёры → Мой код</div>
+      <p data-ru>Код состоит из 6 символов, например:</p>
+      <div class="code-block">7HTZCA</div>
+
+      <h3 data-ru>Как подключить партнёра</h3>
+      <p data-ru>Подключение сделано максимально просто.</p>
+      <p data-ru>Партнёр открывает приложение, переходит в раздел «Партнёры», нажимает кнопку «Добавить» и вводит ваш код. После этого связь устанавливается.</p>
+      <p data-ru>Для двусторонней синхронизации каждый пользователь добавляет код второго. То есть вы добавляете код партнёра, а партнёр добавляет ваш код. После этого оба могут видеть данные друг друга в рамках партнёрского режима.</p>
+      <p data-ru>При добавлении партнёра можно по желанию указать никнейм или имя — это не обязательно, но так удобнее, если вы хотите сразу понимать, кто именно подключён. Также при добавлении можно выбрать один из трёх цветов подсветки, чтобы общие выходные было проще различать визуально.</p>
+
+      <figure class="article-img">
+        <img src="../images/partners-screen.jpg" alt="Экран раздела Партнёры в ShiftSchedule">
+        <figcaption>В разделе «Партнёры» можно скопировать свой код, добавить партнёра, указать никнейм и выбрать цвет подсветки общих выходных.</figcaption>
+      </figure>
+
+      <h2 data-ru>Какие данные синхронизируются</h2>
+
+      <p data-ru>Через облако синхронизируются данные, связанные с вашим расписанием: рабочие и выходные дни, изменения в графике, отпуска, больничные, подработки, заметки и другие данные, которые важны для актуального отображения календаря.</p>
+      <p data-ru>Это удобно, потому что партнёр видит не только базовый шаблон графика, а именно ваши актуальные изменения. Если вы что-то поправили в расписании, отметили отпуск, больничный или другой особый день, после синхронизации это может отобразиться и у партнёра.</p>
+
+      <h2 data-ru>Что видно в календаре</h2>
+
+      <p data-ru>В ShiftSchedule общие выходные отмечаются цветной полоской в нижней части дня. Цвет зависит от того, какой вариант вы выбрали для конкретного партнёра при подключении.</p>
+      <p data-ru>Это помогает быстро увидеть, где у вас совпадают свободные дни, не сравнивая графики вручную. Такой формат особенно удобен, если у вас разные режимы работы:</p>
+      <ul data-ru>
+        <li>2/2 и 5/2;</li>
+        <li>3/3 и день/ночь;</li>
+        <li>сутки через трое;</li>
+        <li>вторая работа;</li>
+        <li>подработки;</li>
+        <li>плавающие выходные.</li>
+      </ul>
+      <p data-ru>Вместо постоянных переписок и сравнения календарей вы просто открываете приложение и сразу видите, где есть общие свободные дни.</p>
+
+      <figure class="article-img">
+        <img src="../images/partners-joint-days.jpg" alt="Календарь ShiftSchedule с цветными полосками общих выходных">
+        <figcaption>Общие выходные отмечаются цветной полоской в нижней части дня. Цвет можно выбрать при добавлении партнёра.</figcaption>
+      </figure>
+
+      <h2 data-ru>Вкладка «Вместе»</h2>
+
+      <p data-ru>Сейчас партнёрский режим уже помогает видеть общие дни и ориентироваться в расписании. Также ведётся разработка отдельной вкладки «Вместе».</p>
+      <p data-ru>В будущем это будет отдельный удобный раздел, где можно будет смотреть именно совместные выходные, не отвлекаясь на лишние данные. Такая вкладка должна сделать планирование ещё проще: открыл — и сразу видно, когда вы оба свободны.</p>
+
+      <h2 data-ru>Как обновляется расписание</h2>
+
+      <p data-ru>Когда приложение открыто, данные партнёра обновляются автоматически, поэтому изменения со временем подтягиваются без лишних действий.</p>
+      <p data-ru>Если нужно отправить свои изменения сразу, можно сделать это вручную:</p>
+      <div class="path-block" data-ru>Настройки → Синхронизация → Аккаунт → Синхронизировать сейчас</div>
+      <p data-ru>Это полезно, если вы только что внесли изменения и хотите, чтобы они быстрее ушли в облако.</p>
+
+      <h2 data-ru>Как обновить код</h2>
+
+      <p data-ru>Если ваш код случайно попал к посторонним или вы просто хотите его заменить, в разделе партнёров есть кнопка «Обновить». Она используется именно для обновления кода.</p>
+      <p data-ru>Чтобы код не сменился случайно, действие подтверждается в два шага: сначала приложение уточняет действие, затем нужно повторно нажать кнопку «Обновить».</p>
+      <p data-ru>После этого старый код перестаёт работать, и партнёрам нужно будет ввести новый код заново.</p>
+
+      <h2 data-ru>Кому подойдёт эта функция</h2>
+
+      <p data-ru>Партнёрская синхронизация особенно полезна, если:</p>
+      <ul data-ru>
+        <li>вы с партнёром работаете по разным сменным графикам;</li>
+        <li>у одного график 2/2, 3/3, день/ночь или сутки через трое;</li>
+        <li>нужно быстро находить общие выходные;</li>
+        <li>вы хотите планировать поездки, встречи и семейные дела заранее;</li>
+        <li>в расписании есть отпуска, больничные, подработки и другие изменения;</li>
+        <li>важно не потерять данные и иметь возможность восстановить их из облака.</li>
+      </ul>
+
+      <h2 data-ru>Почему это удобнее обычного календаря</h2>
+
+      <p data-ru>Обычный календарь не всегда подходит для сменной работы. Он не понимает циклы 2/2, 3/3, день/ночь или сутки через трое. А если графиков два, задача становится ещё сложнее.</p>
+      <p data-ru>ShiftSchedule создан именно для сменных расписаний. Приложение помогает вести свой график, учитывать изменения, использовать заметки, смотреть дополнительные данные по дням и синхронизировать расписание с партнёром.</p>
+      <p data-ru>Главный плюс простой: приложение помогает быстро ответить на практический вопрос:</p>
+
+      <div class="info-box">
+        <p data-ru><strong>«Когда мы оба отдыхаем?»</strong></p>
+      </div>
+
+      <div class="cta-box">
+        <h3 data-ru>ShiftSchedule — бесплатно для Android</h3>
+        <h3 data-en>ShiftSchedule — free for Android</h3>
+        <p data-ru>Настройте любой сменный график за минуту. Синхронизация с партнёром, будильники, заметки, голосовое управление через Алису.</p>
+        <p data-en>Set up any shift schedule in minutes. Partner sync, alarms, notes, voice control via Alice.</p>
+        <a href="https://www.rustore.ru/catalog/app/com.antigravity.shiftschedule" class="btn-primary" target="_blank" rel="noopener" onclick="ym(109065744,'reachGoal','download_rustore')">
+          <span data-ru>Скачать в RuStore</span>
+          <span data-en>Get on RuStore</span>
+        </a>
+        <a href="https://github.com/MIRORSTAR/shiftschedule/releases/latest" class="btn-secondary" target="_blank" rel="noopener" onclick="ym(109065744,'reachGoal','download_apk')">
+          <span data-ru>APK напрямую</span>
+          <span data-en>Direct APK</span>
+        </a>
+      </div>
+
+      <div class="related">
+        <h3 data-ru>Читайте также</h3>
+        <h3 data-en>Read also</h3>
+        <div class="related-grid">
+          <a href="kak-ne-poteryat-smennyj-grafik.html" class="related-card">
+            <p data-ru>Как не потерять сменный график при смене телефона</p>
+            <p data-en>How to keep your schedule when changing phones</p>
+            <span data-ru>Синхронизация и облако</span><span data-en>Sync and cloud</span>
+          </a>
+          <a href="grafik-2-2.html" class="related-card">
+            <p data-ru>График 2/2: как рассчитать смены и не сбиться</p>
+            <p data-en>2/2 schedule: how to calculate and stay on track</p>
+            <span>ShiftSchedule</span>
+          </a>
+          <a href="alice-navyk.html" class="related-card">
+            <p data-ru>Голосовые команды Алисы: полный список</p>
+            <p data-en>Alice voice commands: full list</p>
+            <span data-ru>Яндекс Алиса</span><span data-en>Yandex Alice</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </article>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="../index.html" data-ru>Главная</a><a href="../index.html" data-en>Home</a>
+    <a href="../privacy.html" data-ru>Политика конфиденциальности</a><a href="../privacy.html" data-en>Privacy Policy</a>
+    <a href="../faq.html">FAQ</a>
+    <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a>
+  </div>
+  <div>&copy; 2026 ShiftSchedule &middot; <span data-ru>Все права защищены</span><span data-en>All rights reserved</span></div>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector('.lang-btn[onclick="setLang(\'' + lang + '\')"]').classList.add('active');
+    localStorage.setItem('ss_lang', lang);
+  }
+  (function(){
+    const saved = localStorage.getItem('ss_lang') || 'ru';
+    setLang(saved);
+  })();
+</script>
+</body>
+</html>

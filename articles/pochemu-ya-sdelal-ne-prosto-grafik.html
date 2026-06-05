@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="yandex-verification" content="7abe6d0b3a4f8029" />
+  <meta name="google-site-verification" content="zC341Z0k-D3wu8oVYMRgyzbLlpQUxbtYQMgWmEf64UY" />
+  <title>Я думал, что делаю график смен. А оказалось — приложение про семью — ShiftSchedule</title>
+  <meta name="description" content="Как раздражение от рекламы, два угробленных проекта и желание видеть общие выходные превратились в Android-приложение ShiftSchedule для сменного графика.">
+  <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/articles/pochemu-ya-sdelal-ne-prosto-grafik.html">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="apple-touch-icon" href="../favicon.png">
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --accent: #4a8fe8;
+      --accent2: #66b8b2;
+      --text: #e8eaf0;
+      --text2: #8b90a0;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 40px;
+      background: rgba(15,17,23,0.92);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo { font-size: 18px; font-weight: 700; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .breadcrumb {
+      max-width: 760px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .breadcrumb a { color: var(--text2); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+    .article-header { margin-bottom: 40px; }
+    .article-header h1 {
+      font-size: clamp(24px, 5vw, 36px);
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .article-subtitle {
+      font-size: 17px;
+      color: var(--text2);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .article-meta {
+      font-size: 13px;
+      color: var(--text2);
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .cover-img {
+      width: 100%;
+      border-radius: var(--radius);
+      margin: 28px 0 40px;
+      display: block;
+      object-fit: cover;
+      max-height: 420px;
+    }
+    .article-body h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 40px 0 16px;
+      color: var(--text);
+    }
+    .article-body p { margin-bottom: 16px; font-size: 16px; color: var(--text); }
+    .article-body strong { color: var(--text); }
+    .article-body hr {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin: 36px 0;
+    }
+    .article-body blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 4px 0 4px 20px;
+      margin: 20px 0;
+      color: var(--text2);
+      font-style: italic;
+      font-size: 16px;
+    }
+
+    /* Одиночный скрин с подписью */
+    .screen-block {
+      margin: 32px 0;
+      text-align: center;
+    }
+    .screen-block img {
+      max-width: 280px;
+      width: 100%;
+      border-radius: 20px;
+      display: inline-block;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    }
+    .screen-caption {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--text2);
+      max-width: 500px;
+      display: inline-block;
+    }
+
+    /* Сетка скринов */
+    .screens-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 32px 0;
+    }
+    .screens-grid img {
+      height: 300px;
+      width: auto;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 6px 30px rgba(0,0,0,0.45);
+      flex-shrink: 0;
+    }
+    .screens-grid-caption {
+      width: 100%;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text2);
+      margin-top: 4px;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, var(--surface), rgba(74,143,232,0.08));
+      border: 1px solid rgba(74,143,232,0.2);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 48px 0 32px;
+      text-align: center;
+    }
+    .cta-box h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .cta-box p { color: var(--text2); margin-bottom: 24px; font-size: 15px; }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+      margin: 4px;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text2);
+      font-size: 13px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    footer a { color: var(--text2); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+      .screens-grid img { height: 220px; }
+      .screen-block img { max-width: 220px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="../index.html">Shift<span>Schedule</span></a>
+</nav>
+
+<div class="breadcrumb">
+  <a href="../index.html">Главная</a> &rsaquo;
+  <a href="../index.html#articles">Статьи</a> &rsaquo;
+  Я думал, что делаю график смен
+</div>
+
+<div class="article-wrap">
+  <div class="article-header">
+    <h1>Я думал, что делаю график смен. А оказалось — приложение про семью, сон и общие выходные</h1>
+    <p class="article-subtitle">Как раздражение от рекламы, два угробленных проекта и желание видеть общие выходные превратились в Android-приложение ShiftSchedule.</p>
+    <div class="article-meta">
+      <span>6 июня 2026</span>
+      <span>Mirorstar</span>
+      <span>5 мин. чтения</span>
+    </div>
+  </div>
+
+  <img src="img/article1-cover.png" alt="Пара смотрит приложение ShiftSchedule на телефоне" class="cover-img">
+
+  <div class="article-body">
+
+    <p>Я один разрабатываю Android-приложение. Без команды, без инвестора, без маркетолога. Просто я, ноутбук и идея, которая не давала покоя.</p>
+    <p>Началось даже не с идеи. Началось с рекламы.</p>
+
+    <hr>
+
+    <p>У меня было похожее приложение для учёта смен. Обычное, с баннерами. И в какой-то момент я в очередной раз случайно ткнул в рекламу — и на меня вывалилось окно за окном. Закрыл телефон, подумал секунду и поймал себя на мысли: а почему бы не сделать своё?</p>
+    <p>Без рекламы. Без лишнего шума. И не просто "мой график", а чтобы можно было видеть, когда мы со второй половиной оба свободны.</p>
+    <p>Вот с этого всё и началось.</p>
+
+    <hr>
+
+    <p>Март 2026 года. Я установил Unity, начал читать документацию, пробовать. Не знал, как нормально сохранять проекты — о системе контроля версий тогда почти не думал. И я угробил два проекта.</p>
+    <p>Оба раза одинаково: неделя работы после основной работы, ночами, когда все уже спят. Что-то придумал, реализовал, тестируешь — и в какой-то момент проект перестаёт компилироваться. Ошибка за ошибкой, непонятно откуда. Что делать — не знаю.</p>
+    <p>В итоге: удалить всё и начать с чистого листа.</p>
+    <p>Два раза по кругу. Третий проект — тот, что сейчас.</p>
+
+    <hr>
+
+    <p>Когда в семье кто-то работает посменно, жизнь превращается в постоянную арифметику.</p>
+    <blockquote>"Ты в эту субботу работаешь?"<br>"Подожди, дай посчитаю. Сегодня пятница, значит завтра... нет, подожди, мы же поменялись на той неделе..."</blockquote>
+    <p>Особенно это заметно на графиках 2/2, 3/3, день/ночь или сутки через трое. На бумаге всё выглядит просто: рабочие дни, выходные, повторяющийся цикл. Но в реальности начинаются подработки, больничные, отпуска, переносы смен, вторая работа и попытки найти хотя бы один общий выходной.</p>
+    <p>Все существующие приложения обычно думают об одном пользователе: вот твой календарь смен, смотри.</p>
+    <p>Но у сменщика есть ещё и семья. Им тоже нужно планировать жизнь.</p>
+    <p>Мне нужно было знать не только когда я работаю. Мне нужно было знать, <strong>когда мы оба свободны</strong>.</p>
+    <p>Это маленькое, но принципиальное различие. Именно оно в итоге начало определять каждое решение в приложении.</p>
+
+    <div class="screen-block">
+      <img src="img/article1-main-screen.jpg" alt="Главный экран ShiftSchedule — сменный график и список дней с партнёром">
+      <p class="screen-caption">Общие выходные в ShiftSchedule отмечаются прямо в календаре — не нужно вручную сравнивать два графика.</p>
+    </div>
+
+    <hr>
+
+    <p>Первые месяцы я сам себе тестировщик. Обновление выходит — ставлю на свой телефон, хожу и ищу баги. Просил друзей на работе: "Поставь, посмотри, как у тебя выглядит".</p>
+    <p>У меня на экране всё красиво — у кого-то на другом телефоне разъезжается вёрстка. Приходишь домой, правишь, снова смотришь. Пользователей мало, обратной связи почти нет.</p>
+    <p>Это, пожалуй, самое сложное: делаешь в тишине и не всегда понимаешь, правильно ли идёшь.</p>
+    <p>Обновления выходят раз в неделю-две. Каждое — это несколько вечеров, найденные баги, исправленные косяки и один новый кусок того, что хочется в итоге.</p>
+    <p>Так приложение постепенно перестало быть просто календарём смен.</p>
+    <p>Появились заметки к дням, подработки, отпуск, больничный, второй график, будильники перед сменой, облачная синхронизация, вход через Яндекс, Google и почту. Потом добавился партнёрский режим, чтобы можно было видеть общие выходные. А позже — навык Алисы, чтобы можно было спросить голосом: "Работаю ли я завтра?"</p>
+
+    <div class="screens-grid">
+      <img src="img/article1-calendar.jpg" alt="Календарь смен с отпуском">
+      <img src="img/article1-alarms.jpg" alt="Будильники перед сменой">
+      <img src="img/article1-daynight.jpg" alt="Настройка типа смены день/ночь">
+      <img src="img/article1-note.jpg" alt="Заметка к дню">
+      <img src="img/article1-partners.jpg" alt="Экран партнёров с кодом">
+      <img src="img/article1-profile2.jpg" alt="Второй профиль в приложении">
+    </div>
+    <p class="screens-grid-caption" style="text-align:center; font-size:13px; color:var(--text2); margin-top: -20px; margin-bottom: 32px;">Некоторые функции ShiftSchedule: отпуск в сменном графике, будильники, настройка день/ночь, заметки, партнёрский режим.</p>
+
+    <hr>
+
+    <p>И вот тут я окончательно понял: сменный график — это не просто "рабочий день" и "выходной".</p>
+    <p>Это сон. Это семья. Это планы. Это дорога. Это подработки. Это отпуск, который хочется поставить так, чтобы не потерять лишние дни. Это вопрос "когда мы вообще можем куда-то поехать вместе?"</p>
+    <p>Обычный календарь показывает даты. Но он не всегда понимает жизнь человека, который работает по сменам.</p>
+
+    <hr>
+
+    <p>Похожие приложения появляются, но идея у многих одна и та же — просто мой график. Я же продолжаю делать то, что изначально хотел видеть сам.</p>
+    <p>А хотел я с самого начала две вещи: вкладку "Вместе", где видно, когда вы оба свободны, и AI-помощника, который подскажет, когда лучше запланировать отпуск или совместный выходной.</p>
+    <p>Думал, сделаю быстро. Три месяца назад казалось, что это вопрос пары недель.</p>
+    <p>Сейчас вкладка "Вместе" наконец готова — тестирую её на своём телефоне. AI пока пустой экран с надписью "в разработке". До логического конца я всё ещё не дошёл.</p>
+    <p>Но каждый раз, когда кажется, что вот-вот финишная черта, я придумываю что-то новое. Что-то, чего ещё не было. Что-то, что хочется попробовать.</p>
+    <p>Наверное, это и есть главное. Не дойти до конца, а продолжать пилить. И получать от этого удовольствие.</p>
+
+    <hr>
+
+    <p style="font-size: 18px; font-weight: 700; text-align: center; letter-spacing: -0.3px;">Три месяца. Три старта. Один человек.</p>
+    <p style="text-align: center; color: var(--text2);">И одна мысль, которая не даёт остановиться.</p>
+
+    <div class="cta-box">
+      <h3>Попробуйте ShiftSchedule</h3>
+      <p>Бесплатно. Без рекламы. Для тех, кто работает по сменам.</p>
+      <a class="btn-primary" href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule" target="_blank">Скачать в RuStore</a>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 ShiftSchedule &nbsp;&middot;&nbsp;
+    <a href="../privacy.html">Политика конфиденциальности</a> &nbsp;&middot;&nbsp;
+    <a href="../index.html">На главную</a>
+  </p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="yandex-verification" content="7abe6d0b3a4f8029" />
+  <meta name="google-site-verification" content="zC341Z0k-D3wu8oVYMRgyzbLlpQUxbtYQMgWmEf64UY" />
+  <title>Написать код проще, чем найти первых пользователей — ShiftSchedule</title>
+  <meta name="description" content="Как один разработчик продвигает Android-приложение ShiftSchedule без рекламного бюджета: статьи, Дзен, 4PDA, RuStore, Алиса, сайт и много терпения.">
+  <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/articles/solo-razrabotchik-prodvizhenie-bez-byudzheta.html">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="apple-touch-icon" href="../favicon.png">
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --accent: #4a8fe8;
+      --accent2: #66b8b2;
+      --text: #e8eaf0;
+      --text2: #8b90a0;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 40px;
+      background: rgba(15,17,23,0.92);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo { font-size: 18px; font-weight: 700; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .breadcrumb {
+      max-width: 760px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .breadcrumb a { color: var(--text2); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+    .article-header { margin-bottom: 40px; }
+    .article-header h1 {
+      font-size: clamp(24px, 5vw, 36px);
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .article-subtitle {
+      font-size: 17px;
+      color: var(--text2);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .article-meta {
+      font-size: 13px;
+      color: var(--text2);
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .article-body h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 40px 0 16px;
+      color: var(--text);
+    }
+    .article-body p { margin-bottom: 16px; font-size: 16px; color: var(--text); }
+    .article-body strong { color: var(--text); }
+    .article-body hr {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin: 36px 0;
+    }
+    .article-body blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 4px 0 4px 20px;
+      margin: 20px 0;
+      color: var(--text2);
+      font-style: italic;
+      font-size: 16px;
+    }
+    .cta-box {
+      background: linear-gradient(135deg, var(--surface), rgba(74,143,232,0.08));
+      border: 1px solid rgba(74,143,232,0.2);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 48px 0 32px;
+      text-align: center;
+    }
+    .cta-box h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .cta-box p { color: var(--text2); margin-bottom: 24px; font-size: 15px; }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+      margin: 4px;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .cover-img {
+      width: 100%;
+      border-radius: var(--radius);
+      margin: 28px 0 40px;
+      display: block;
+      object-fit: cover;
+      max-height: 420px;
+    }
+    .screen-block {
+      margin: 32px 0;
+      text-align: center;
+    }
+    .screen-block img {
+      max-width: 320px;
+      width: 100%;
+      border-radius: 20px;
+      display: inline-block;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    }
+    .screen-caption {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--text2);
+      max-width: 500px;
+      display: inline-block;
+    }
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text2);
+      font-size: 13px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    footer a { color: var(--text2); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="../index.html">Shift<span>Schedule</span></a>
+</nav>
+
+<div class="breadcrumb">
+  <a href="../index.html">Главная</a> &rsaquo;
+  <a href="../index.html#articles">Статьи</a> &rsaquo;
+  Написать код проще, чем найти пользователей
+</div>
+
+<div class="article-wrap">
+  <div class="article-header">
+    <h1>Я сделал Android-приложение и понял: написать код проще, чем найти первых пользователей</h1>
+    <p class="article-subtitle">Как я один продвигаю ShiftSchedule без рекламного бюджета: статьи, Дзен, 4PDA, RuStore, Алиса, сайт и много терпения.</p>
+    <div class="article-meta">
+      <span>6 июня 2026</span>
+      <span>Mirorstar</span>
+      <span>7 мин. чтения</span>
+    </div>
+  </div>
+
+  <img src="img/article2-cover.jpg" alt="Соло-разработчик за ноутбуком ночью" class="cover-img">
+
+  <div class="article-body">
+
+    <p>Когда приложение готово, начинается другая работа. Та, к которой разработчик обычно не готов.</p>
+    <p>Я не маркетолог. У меня нет рекламного бюджета, команды продвижения и человека, который будет красиво упаковывать каждый релиз.</p>
+    <p>Зато есть приложение ShiftSchedule — календарь смен для Android — и несколько месяцев проб, ошибок и неожиданных открытий.</p>
+    <p>Писать код оказалось проще, чем найти первых пользователей.</p>
+
+    <hr>
+
+    <h2>Начал с того, что умею: с текста</h2>
+
+    <p>Первое, что я сделал — начал писать статьи.</p>
+    <p>Не рекламные посты в стиле "скачайте моё приложение", а обычные полезные материалы. О том, как считать сменный график, чем отличается график 2/2 от графика 3/3, как устроена работа день/ночь, что делать с графиком сутки через трое и почему людям со сменной работой так сложно планировать обычную жизнь.</p>
+    <p>Люди каждый день вбивают такие запросы в поиск. Если статья отвечает на реальный вопрос, она может жить долго. Не день, не два, а месяцами. Ты уже забыл, что писал её, а она всё ещё приводит кого-то на сайт или в приложение.</p>
+    <p>Это не быстрый способ продвижения. Первое время — почти тишина. Но статья про календарь смен, будильники перед сменой или общие выходные с партнёром работает как тихий менеджер: без криков, без рекламы, но постоянно.</p>
+    <p>Сейчас я всё больше понимаю, что для маленького приложения это один из самых честных способов продвижения. Не пытаться орать громче всех, а отвечать на конкретные вопросы конкретных людей.</p>
+
+    <hr>
+
+    <h2>Большие площадки и реальность маленького проекта</h2>
+
+    <p>Я пробовал публиковаться на крупных площадках — DTF и Пикабу.</p>
+    <p>Написал несколько статей. Где-то они получили просмотры, где-то комментарии, где-то люди действительно переходили и интересовались приложением. Для начинающего проекта это очень ценно: наконец-то появляется ощущение, что ты не просто выкладываешь обновления в пустоту.</p>
+    <p>Но довольно быстро стало понятно, что у больших площадок свои правила. Если материал связан с твоим продуктом, его легко могут посчитать рекламой. А дальше выбор простой: либо ограничения, либо платное продвижение.</p>
+    <p>Для большого бизнеса это нормальная механика. Компания платит за охваты, получает показы, считает эффективность. Всё понятно.</p>
+    <p>Но для одиночного разработчика на старте сумма в десятки тысяч рублей в месяц выглядит иначе. Особенно когда приложение только начинает продаваться, пользователей мало, а каждая покупка — это скорее подтверждение, что ты движешься в правильную сторону, чем реальная окупаемость.</p>
+    <p>Я не спорю с площадками. У них свои правила, у меня свои возможности. Просто пришлось принять: строить продвижение только на чужих алгоритмах нельзя.</p>
+
+    <hr>
+
+    <h2>Где пишу сейчас</h2>
+
+    <p>Сейчас пробую несколько направлений.</p>
+    <p>В Дзене веду канал и постепенно переоформляю его под ShiftSchedule, сменные графики и разработку приложения. Там пока тихо, но я не жду мгновенного результата. Старый канал раньше был на другую тему, поэтому алгоритмам нужно время, чтобы понять новую аудиторию.</p>
+    <p>На VC.ru пробую формат личного опыта: как один человек делает Android-приложение, продвигает его, сталкивается с RuStore, Алисой, пользователями, SEO и всем остальным, что обычно не видно за кнопкой "скачать".</p>
+    <p>В VK, Telegram и MAX публикую короткие новости: обновления, новые функции, заметки по разработке. Это больше связь с теми, кто уже интересуется проектом.</p>
+    <p>На 4PDA есть страница приложения. Это отдельный мир со своими правилами, но для Android-приложения такая площадка важна. Там люди умеют задавать конкретные вопросы, проверять APK, замечать мелочи и говорить прямо.</p>
+    <p>И главное — собственный сайт.</p>
+
+    <hr>
+
+    <h2>Сайт оказался самым важным</h2>
+
+    <p>Со временем я понял: сайт — это единственное место, где никто не может обрезать охваты, скрыть пост, поменять правила или решить, что сегодня твоя публикация "слишком рекламная".</p>
+    <p>На сайте можно нормально объяснить, что такое ShiftSchedule, для кого оно, какие графики поддерживает, как работает партнёрский режим, как включить синхронизацию, где скачать приложение и что нового появилось.</p>
+    <p>Сейчас я постепенно собираю всё вокруг сайта: статьи, инструкции, FAQ, описание функций, ссылки на RuStore и APK.</p>
+    <p>Это медленнее, чем купить рекламу. Зато каждый материал остаётся работать дальше.</p>
+
+    <div class="screen-block">
+      <img src="img/article2-website.jpg" alt="Главная страница сайта ShiftSchedule">
+      <p class="screen-caption">Сайт стал центром проекта: там собраны описание приложения, инструкции, FAQ и ссылки для скачивания.</p>
+    </div>
+
+    <hr>
+
+    <h2>Разобрался, как показаться поисковикам</h2>
+
+    <p>Есть отдельный этап, о котором я раньше почти не думал: нужно объяснить Яндексу и Google, что твой сайт существует и ты за него отвечаешь.</p>
+    <p>Звучит странно, но без этого сайт как будто стоит в лесу. Он есть, ты его видишь, ссылку можешь отправить. Но поисковики могут долго не понимать, что с ним делать.</p>
+    <p>Я подключил Яндекс.Вебмастер, Google Search Console, Метрику, проверил sitemap и robots.txt. Потом подключал Дзен к сайту.</p>
+    <p>Последнее особенно запомнилось: нужно было загрузить специальный файл на сайт, чтобы Яндекс убедился, что сайт действительно мой. Загрузил — ошибка. Проверил — опечатка в одном символе. Исправил, подождал пару минут. Сработало.</p>
+    <p>Полчаса на то, что могло занять две минуты. Классика.</p>
+
+    <hr>
+
+    <h2>Алиса — неожиданный канал</h2>
+
+    <p>Одна из самых странных и одновременно приятных идей — сделать навык для Яндекс Алисы.</p>
+    <p>Сценарий простой: человек спрашивает колонку или телефон "когда я работаю?" — и получает ответ из ShiftSchedule.</p>
+    <p>Я думал, это займёт день. В худшем случае пару вечеров.</p>
+    <p>Заняло недели.</p>
+    <p>Модерация Яндекса отклонила навык два раза подряд. Первый раз я честно злился. Второй раз уже смеялся сквозь зубы: ну как, второй раз подряд, серьёзно?</p>
+    <p>К третьей попытке просто методично исправлял каждый пункт из письма. Команды, подсказки, помощь, сценарии, формулировки. В итоге навык одобрили.</p>
+    <p>Теперь ShiftSchedule можно использовать не только как приложение, но и через голосовой помощник. Можно спросить: "Алиса, спроси у навыка Мой график смен, работаю ли я завтра?"</p>
+    <p>Для маленького приложения это необычный канал. Не массовый, не волшебный, но живой. И точно выделяет проект среди обычных календарей смен.</p>
+
+    <div class="screen-block">
+      <img src="img/article2-alice.jpg" alt="Навык ShiftSchedule в Яндекс Алисе">
+      <p class="screen-caption">Навык Алисы стал отдельным экспериментом: простая идея неожиданно превратилась в недели правок и модераций.</p>
+    </div>
+
+    <hr>
+
+    <h2>RuStore — магазин со своими правилами</h2>
+
+    <p>Отдельная часть продвижения — RuStore.</p>
+    <p>Мало просто загрузить APK и ждать. Нужно следить за описанием, скриншотами, разделом "Что нового", ключевыми словами, отзывами, обновлениями и тем, как выглядит карточка приложения.</p>
+    <p>Каждая мелочь влияет на то, пройдёт ли пользователь мимо или хотя бы откроет страницу.</p>
+    <p>Я постепенно понял, что карточка приложения — это почти отдельный лендинг. Первые скриншоты, описание, название функций, упоминание графиков 2/2, 3/3, день/ночь, суток через трое, партнёрского режима, будильников, облака и Алисы — всё это важно.</p>
+    <p>Здесь нет волшебной кнопки. Просто аккуратность и регулярность.</p>
+
+    <div class="screen-block">
+      <img src="img/article2-rustore.jpg" alt="Карточка ShiftSchedule в RuStore">
+      <p class="screen-caption">Карточка приложения в магазине — это тоже часть продвижения: описание, скриншоты и каждое обновление влияют на первое впечатление.</p>
+    </div>
+
+    <hr>
+
+    <h2>Что реально сработало</h2>
+
+    <p>Пока рано делать большие выводы, но уже видно несколько вещей.</p>
+    <p>Людям интереснее не функция сама по себе, а проблема, которую она решает.</p>
+
+    <hr>
+
+    <h2>Что впереди</h2>
+
+    <p>Хочу писать крупным компаниям — Яндексу, Сберу, возможно, другим сервисам. Не уверен, что ответят, но не попробуешь — не узнаешь.</p>
+    <p>Планировал подать заявку на грант, но не успел до дедлайна. Значит, попробую позже, когда проект станет сильнее и понятнее.</p>
+    <p>Ещё хочу развивать сайт: отдельные страницы под график 2/2, сутки через трое, день/ночь, общие выходные с партнёром, будильники, Алису и синхронизацию. Это не самый быстрый путь, но он кажется самым устойчивым.</p>
+
+    <hr>
+
+    <h2>Продвижение без бюджета — это медленно</h2>
+
+    <p>Честно: продвигать приложение без бюджета — медленно. Очень медленно.</p>
+    <p>Иногда обидно. Особенно когда ты тратишь вечера на статью, а площадка даёт ей пару сотен показов. Или когда пост считают рекламой просто потому, что ты честно рассказываешь о своём продукте.</p>
+    <p>Но у этого пути есть одно важное свойство: всё, что ты построил, остаётся с тобой.</p>
+    <p>Статья на сайте. Пост в Дзене. Тема на 4PDA. Страница в RuStore. Ответ пользователю. Инструкция. Обновление. Новый скриншот. Новый релиз.</p>
+    <p>По отдельности это мелочи. Вместе — система.</p>
+    <p>Соло-разработчик не может конкурировать деньгами. Зато может конкурировать конкретностью.</p>
+    <p>Писать не "для всех", а для конкретных людей. В моём случае — для тех, кто работает по сменному графику, считает дни 2/2, 3/3, день/ночь, сутки через трое, пытается не проспать смену, не потерять расписание и найти общий выходной с близким человеком.</p>
+    <p>ShiftSchedule как раз про это.</p>
+    <p>А дальше — терпение, новые статьи, новые обновления и немного чувства юмора. Особенно после второго отказа модерации.</p>
+
+    <div class="cta-box">
+      <h3>Попробуйте ShiftSchedule</h3>
+      <p>Бесплатно. Без рекламы. Для тех, кто работает по сменам.</p>
+      <a class="btn-primary" href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule" target="_blank">Скачать в RuStore</a>
+    </div>
+
+  </div>
+</div>
+
+<div style="max-width:760px; margin:0 auto 60px; padding:0 20px;">
+  <p style="font-size:13px; color:var(--text2); margin-bottom:16px; text-transform:uppercase; letter-spacing:0.06em; font-weight:600;">Читайте также</p>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+    <a href="pochemu-ya-sdelal-ne-prosto-grafik.html" style="background:var(--surface); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:18px; text-decoration:none; color:var(--text); transition:border-color 0.2s; display:block;" onmouseover="this.style.borderColor='rgba(74,143,232,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)'">
+      <div style="font-weight:700; font-size:15px; margin-bottom:6px; line-height:1.4;">Я думал, что делаю график смен. А оказалось — про семью</div>
+      <div style="font-size:13px; color:var(--text2);">История создания ShiftSchedule с нуля</div>
+    </a>
+    <a href="obshchie-vyhodnye.html" style="background:var(--surface); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:18px; text-decoration:none; color:var(--text); transition:border-color 0.2s; display:block;" onmouseover="this.style.borderColor='rgba(74,143,232,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)'">
+      <div style="font-weight:700; font-size:15px; margin-bottom:6px; line-height:1.4;">Общие выходные с партнёром при сменном графике</div>
+      <div style="font-size:13px; color:var(--text2);">Как синхронизировать расписания двух человек</div>
+    </a>
+    <a href="../index.html" style="background:var(--surface); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:18px; text-decoration:none; color:var(--text); transition:border-color 0.2s; display:block;" onmouseover="this.style.borderColor='rgba(74,143,232,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)'">
+      <div style="font-weight:700; font-size:15px; margin-bottom:6px; line-height:1.4;">Главная страница ShiftSchedule</div>
+      <div style="font-size:13px; color:var(--text2);">Всё о приложении, скачать для Android</div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 ShiftSchedule &nbsp;&middot;&nbsp;
+    <a href="../privacy.html">Политика конфиденциальности</a> &nbsp;&middot;&nbsp;
+    <a href="../index.html">На главную</a>
+  </p>
+</footer>
+
+</body>
+</html>

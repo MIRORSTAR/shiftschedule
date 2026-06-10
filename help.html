@@ -31,6 +31,7 @@
 
     .screenshots { display: flex; gap: 16px; margin-bottom: 32px; overflow-x: auto; padding-bottom: 4px; }
     .screenshots img { width: 200px; border-radius: 18px; flex-shrink: 0; border: 1px solid var(--border); }
+    .screenshots.portrait img { width: 180px; aspect-ratio: 9/16; object-fit: cover; object-position: top; }
 
     .steps { list-style: none; counter-reset: steps; display: flex; flex-direction: column; gap: 14px; }
     .steps li { counter-increment: steps; display: flex; align-items: flex-start; gap: 14px; background: var(--surface); border-radius: 14px; padding: 16px 20px; }
@@ -185,6 +186,51 @@
 
     <div class="tip">
       <strong>Пример для графика 2/2 с чередованием:</strong> слот 1 — День, слот 2 — Ночь, слот 3 — Выходной, слот 4 — Выходной. Каждая четвёртая смена ночная автоматически.
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── СЛОЖНЫЙ ЦИКЛ ──────────────────────────────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">📋</div>
+      <h2>Сложный цикл: неравномерные смены</h2>
+    </div>
+
+    <div class="path">
+      <span>Настройки</span><span class="path-sep"> › </span>
+      <span>График</span><span class="path-sep"> › </span>
+      <span>Тип смены: День / Ночь</span>
+    </div>
+
+    <p class="section-desc">
+      Если ваш цикл содержит и дневные, и ночные смены, а между ними — выходные дни внутри рабочего периода, используйте редактор слотов. Каждому слоту цикла можно задать тип: <strong>День</strong>, <strong>Ночь</strong> или <strong>Выходной</strong>.
+      <br><br>
+      Пример: 5 дневных + 2 выходных + 4 ночных + 10 выходных = цикл из 21 слота.
+    </p>
+
+    <div class="screenshots portrait">
+      <img src="screenshots/complex_1_calendar.jpg" alt="Календарь с разными типами смен">
+      <img src="screenshots/complex_2_settings.jpg" alt="Настройки — График">
+      <img src="screenshots/complex_3_type.jpg" alt="Выбор типа смены">
+      <img src="screenshots/complex_4_editor.jpg" alt="Редактор слотов">
+      <img src="screenshots/complex_5_times.jpg" alt="Настройка времени и Применить">
+    </div>
+
+    <ol class="steps">
+      <li><span>Откройте <strong>Настройки → График</strong>.</span></li>
+      <li><span>Нажмите <strong>«Тип смены: День / Ночь»</strong>.</span></li>
+      <li><span>Используйте кнопку <strong>«+ Добавить смену»</strong>, чтобы создать нужное количество слотов. Для примера выше — <strong>21 слот</strong>.</span></li>
+      <li><span>Назначьте тип каждому слоту, нажимая кнопки <strong>День / Ночь / Выходной</strong> напротив каждой строки.<br>
+        Пример: слоты 1–5 → День · слоты 6–7 → Выходной · слоты 8–11 → Ночь · слоты 12–21 → Выходной.</span></li>
+      <li><span>Внизу экрана настройте время: <strong>Дневная — начало/конец</strong> и <strong>Ночная — начало/конец</strong>.</span></li>
+      <li><span>Нажмите <strong>«Применить»</strong>.</span></li>
+      <li><span>Вернитесь в календарь, нажмите на первый рабочий день вашего текущего цикла и нажмите <strong>«1-й рабочий день»</strong> — это якорная дата, от которой считается весь цикл.</span></li>
+    </ol>
+
+    <div class="tip">
+      <strong>Разовые корректировки:</strong> если в конкретный день цикл нарушается — добавили внеплановую смену или убрали рабочий день — нажмите на этот день в календаре и вручную выберите нужный статус. Ручные правки имеют приоритет над циклом и не сбивают его для остальных дней.
     </div>
   </div>
 

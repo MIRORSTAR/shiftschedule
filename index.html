@@ -6,50 +6,150 @@
   <meta name="yandex-verification" content="7abe6d0b3a4f8029" />
   <meta name="google-site-verification" content="zC341Z0k-D3wu8oVYMRgyzbLlpQUxbtYQMgWmEf64UY" />
   <title>ShiftSchedule — календарь смен для Android</title>
-  <meta name="description" content="ShiftSchedule — Android-приложение для сменного графика. Планируй смены, синхронизируй с партнёром, настраивай будильники. Бесплатно.">
+  <meta name="description" content="ShiftSchedule — Android-приложение для сменного графика. 2/2, день/ночь, сутки через трое. Синхронизация с партнёром, будильники, облако и Яндекс Алиса.">
+  <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mirorstar.github.io/shiftschedule/">
+  <meta property="og:title" content="ShiftSchedule — календарь смен для Android">
+  <meta property="og:description" content="2/2, день/ночь, сутки через трое. Синхронизация с партнёром, будильники, облако и Яндекс Алиса — всё в одном Android-приложении.">
+  <meta property="og:image" content="https://mirorstar.github.io/shiftschedule/screenshots/lifestyle_1.jpeg">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
+
   <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --bg: #0f1117;
-      --surface: #1a1d27;
-      --surface2: #22263a;
-      --accent: #4a8fe8;
-      --accent2: #66b8b2;
-      --text: #e8eaf0;
-      --text2: #8b90a0;
-      --work: #4a8fe8;
-      --extra: #4caf7a;
-      --vacation: #e8a44a;
-      --sick: #e85454;
-      --radius: 16px;
+      --bg:            #07070f;
+      --surface:       #101016;
+      --surface2:      #1a1d2e;
+      --surface3:      #22263a;
+      --accent:        #4a8fe8;
+      --accent2:       #66b8b2;
+      --accent-purple: #9b74e0;
+      --text:          #e8eaf0;
+      --text2:         #8b90a0;
+      --text3:         #4a5060;
+      --radius:        16px;
+      --radius-lg:     24px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
-    /* NAV */
+    /* Ambient blobs */
+    body::before {
+      content: '';
+      position: fixed;
+      width: 900px; height: 900px;
+      top: -350px; left: 50%;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(74,143,232,0.07) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      width: 600px; height: 600px;
+      bottom: 20%; right: -150px;
+      background: radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Container ── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+      position: relative;
+      z-index: 1;
+    }
+    @media (max-width: 768px) { .container { padding: 0 20px; } }
+
+    /* ── NAV ── */
     nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 18px 40px;
-      background: rgba(15,17,23,0.92);
-      backdrop-filter: blur(12px);
       position: sticky;
       top: 0;
       z-index: 100;
+      background: rgba(7,7,15,0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .nav-logo { font-size: 18px; font-weight: 700; color: var(--text); }
-    .nav-logo span { color: var(--accent); }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 15px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    @media (max-width: 768px) { .nav-inner { padding: 13px 20px; } }
+
+    .nav-logo {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      color: var(--text);
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .nav-logo span {
+      background: linear-gradient(135deg, #4a8fe8, #9b74e0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .nav-link {
+      font-size: 13px;
+      color: var(--text2);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #fff;
+      border-radius: 10px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: opacity 0.2s, box-shadow 0.2s;
+    }
+    .nav-cta:hover {
+      opacity: 0.88;
+      box-shadow: 0 4px 16px rgba(74,143,232,0.35);
+    }
+
+    @media (max-width: 600px) {
+      .nav-link { display: none !important; }
+      .nav-cta  { display: none !important; }
+    }
+
     .lang-toggle {
       display: flex;
-      gap: 4px;
+      gap: 2px;
       background: var(--surface2);
       border-radius: 8px;
       padding: 4px;
@@ -59,193 +159,426 @@
       border: none;
       color: var(--text2);
       cursor: pointer;
-      padding: 4px 12px;
-      border-radius: 6px;
-      font-size: 13px;
+      padding: 4px 10px;
+      border-radius: 5px;
+      font-size: 12px;
       font-weight: 600;
-      transition: all 0.2s;
+      transition: background 0.2s, color 0.2s;
     }
     .lang-btn.active { background: var(--accent); color: #fff; }
 
-    /* HERO */
-    .hero {
-      text-align: center;
-      padding: 80px 20px 60px;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    .hero-badge {
-      display: inline-block;
-      background: rgba(74,143,232,0.15);
-      color: var(--accent);
-      border: 1px solid rgba(74,143,232,0.3);
-      border-radius: 20px;
-      padding: 5px 16px;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 24px;
-    }
-    .hero h1 {
-      font-size: clamp(32px, 6vw, 52px);
-      font-weight: 800;
-      letter-spacing: -1px;
-      margin-bottom: 20px;
-      line-height: 1.15;
-    }
-    .hero h1 span { color: var(--accent); }
-    .hero p {
-      font-size: 18px;
-      color: var(--text2);
-      margin-bottom: 36px;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .hero-buttons {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+    /* ── BUTTONS ── */
     .btn-primary {
       background: var(--accent);
-      color: #fff;
+      color: #fff !important;
       border: none;
       border-radius: 12px;
-      padding: 14px 28px;
-      font-size: 16px;
+      padding: 13px 24px;
+      font-size: 15px;
       font-weight: 600;
       cursor: pointer;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      transition: opacity 0.2s;
+      gap: 7px;
+      transition: opacity 0.2s, box-shadow 0.25s, transform 0.15s;
+      white-space: nowrap;
     }
-    .btn-primary:hover { opacity: 0.85; }
+    .btn-primary:hover {
+      opacity: 0.91;
+      box-shadow: 0 8px 28px rgba(74,143,232,0.4);
+      transform: translateY(-2px);
+    }
     .btn-secondary {
       background: var(--surface2);
       color: var(--text);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 12px;
-      padding: 14px 28px;
-      font-size: 16px;
+      padding: 13px 24px;
+      font-size: 15px;
       font-weight: 600;
       cursor: pointer;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      transition: background 0.2s;
+      gap: 7px;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
     }
-    .btn-secondary:hover { background: #2a2f45; }
+    .btn-secondary:hover { background: #252940; transform: translateY(-2px); }
+    .btn-ghost {
+      color: var(--text);
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 13px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.28); transform: translateY(-2px); }
 
-    /* SCREENSHOTS */
-    .screenshots { padding: 40px 20px 20px; }
-    .hero-shot {
-      max-width: 700px;
-      margin: 0 auto 20px;
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+    /* ── HERO ── */
+    .hero-section {
+      padding: 88px 0 56px;
     }
-    .hero-shot img { width: 100%; display: block; }
-    .shot-row {
+    @media (max-width: 768px) { .hero-section { padding: 60px 0 40px; } }
+
+    .hero-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      max-width: 700px;
-      margin: 0 auto 16px;
+      gap: 64px;
+      align-items: center;
     }
-    .shot-row.three { grid-template-columns: 1fr 1fr 1fr; }
-    .shot-card {
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    @media (max-width: 960px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+        text-align: center;
+      }
     }
-    .shot-card img { width: 100%; display: block; }
 
-    /* FEATURES */
-    .section { padding: 60px 20px; max-width: 960px; margin: 0 auto; }
-    .section-title {
+    .hero-badge {
+      display: inline-block;
+      background: rgba(74,143,232,0.12);
+      color: var(--accent);
+      border: 1px solid rgba(74,143,232,0.25);
+      border-radius: 20px;
+      padding: 5px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 22px;
+      letter-spacing: 0.3px;
+    }
+
+    .hero-content h1 {
+      font-size: clamp(32px, 4.2vw, 56px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.08;
+      margin-bottom: 22px;
+    }
+    .hero-content h1 .accent {
+      background: linear-gradient(135deg, #4a8fe8 20%, #9b74e0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      color: var(--text2);
+      line-height: 1.7;
+      margin-bottom: 36px;
+      max-width: 480px;
+    }
+    @media (max-width: 960px) { .hero-sub { margin-left: auto; margin-right: auto; } }
+
+    .hero-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 960px) { .hero-buttons { justify-content: center; } }
+
+    /* ── PHONE MOCKUP ── */
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .phone-wrapper {
+      position: relative;
+      width: fit-content;
+    }
+    .phone-glow {
+      position: absolute;
+      inset: -60px;
+      background: radial-gradient(ellipse at center,
+        rgba(74,143,232,0.18) 0%,
+        rgba(155,116,224,0.1) 45%,
+        transparent 72%);
+      filter: blur(24px);
+      z-index: 0;
+      border-radius: 50%;
+    }
+    .phone-frame {
+      width: 260px;
+      height: 554px;
+      background: #0c0c18;
+      border-radius: 46px;
+      border: 8px solid #252840;
+      box-shadow:
+        0 64px 128px rgba(0,0,0,0.72),
+        0 0 0 1px rgba(255,255,255,0.07),
+        inset 0 0 0 1px rgba(255,255,255,0.03);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .phone-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+    /* Hardware buttons */
+    .phone-btn { position: absolute; background: #252840; border-radius: 2px; }
+    .phone-btn.vol1  { left: -10px; top: 104px;  width: 3px; height: 34px; border-radius: 2px 0 0 2px; }
+    .phone-btn.vol2  { left: -10px; top: 148px;  width: 3px; height: 34px; border-radius: 2px 0 0 2px; }
+    .phone-btn.power { right: -10px; top: 120px; width: 3px; height: 54px; border-radius: 0 2px 2px 0; }
+
+    /* Floating info badges */
+    .phone-badge {
+      position: absolute;
+      background: rgba(22,25,42,0.92);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 9px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      backdrop-filter: blur(12px);
+      z-index: 2;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+    }
+    .badge-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .phone-badge.top-right { top: 56px; right: -90px; }
+    .phone-badge.bottom-left { bottom: 88px; left: -100px; }
+
+    @media (max-width: 960px) {
+      .phone-frame { width: 230px; height: 492px; }
+      .phone-badge.top-right  { right: -70px; }
+      .phone-badge.bottom-left { left: -80px; }
+    }
+    @media (max-width: 640px) {
+      .phone-badge { display: none; }
+      .phone-frame { width: 200px; height: 428px; border-radius: 38px; }
+    }
+
+    /* ── SECTION COMMON ── */
+    .section { padding: 80px 0; }
+
+    .section-header {
       text-align: center;
-      font-size: 28px;
+      margin-bottom: 52px;
+    }
+    .section-tag {
+      display: inline-block;
+      background: rgba(74,143,232,0.1);
+      color: var(--accent);
+      border: 1px solid rgba(74,143,232,0.2);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 11px;
       font-weight: 700;
-      margin-bottom: 8px;
+      margin-bottom: 14px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+    .section-title {
+      font-size: clamp(24px, 3.5vw, 40px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #e8eaf0 55%, rgba(232,234,240,0.55) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     .section-sub {
-      text-align: center;
-      color: var(--text2);
-      margin-bottom: 40px;
       font-size: 16px;
+      color: var(--text2);
+      max-width: 560px;
+      margin: 0 auto;
     }
+
+    /* ── SCHEDULE TYPES ── */
+    .schedule-types-section { padding: 0 0 80px; }
+
+    .schedule-types-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 1100px) { .schedule-types-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 540px)  { .schedule-types-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .st-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius);
+      padding: 24px 16px;
+      text-align: center;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      cursor: default;
+    }
+    .st-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(74,143,232,0.3);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+    }
+    .st-icon { font-size: 26px; margin-bottom: 10px; }
+    .st-label { font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 6px; letter-spacing: -0.5px; }
+    .st-desc  { font-size: 12px; color: var(--text2); line-height: 1.45; }
+
+    /* ── FEATURES ── */
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 16px;
     }
     .feature-card {
       background: var(--surface);
       border-radius: var(--radius);
-      padding: 24px;
+      padding: 28px 24px;
       border: 1px solid rgba(255,255,255,0.06);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      cursor: default;
     }
-    .feature-icon {
-      font-size: 28px;
-      margin-bottom: 12px;
+    .feature-card.featured {
+      border-color: rgba(74,143,232,0.2);
+      background: linear-gradient(135deg, var(--surface), rgba(74,143,232,0.06));
     }
-    .feature-card h3 {
-      font-size: 16px;
+    .feature-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(74,143,232,0.28);
+      box-shadow: 0 20px 44px rgba(0,0,0,0.5), 0 0 0 1px rgba(74,143,232,0.08);
+    }
+    .feature-icon { font-size: 30px; margin-bottom: 14px; display: block; }
+    .feature-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+    .feature-card p  { font-size: 14px; color: var(--text2); line-height: 1.65; }
+    .pro-tag {
+      display: inline-block;
+      background: linear-gradient(135deg, rgba(74,143,232,0.2), rgba(155,116,224,0.2));
+      color: var(--accent);
+      border-radius: 4px;
+      padding: 1px 7px;
+      font-size: 10px;
       font-weight: 700;
-      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+      margin-left: 6px;
+      vertical-align: middle;
     }
-    .feature-card p { font-size: 14px; color: var(--text2); }
 
-    /* STATUS BADGES */
+    /* ── SCREENSHOTS GALLERY ── */
+    .screenshots-section { padding: 0 0 80px; }
+
+    .screenshots-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 768px)  { .screenshots-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+    @media (max-width: 480px)  { .screenshots-grid { grid-template-columns: repeat(1, 1fr); gap: 12px; } }
+
+    .screen-card {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+      aspect-ratio: 16/9;
+      background: var(--surface);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .screen-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.42s ease;
+    }
+    .screen-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 32px 64px rgba(0,0,0,0.65);
+    }
+    .screen-card:hover img { transform: scale(1.04); }
+
+    /* ── LIFESTYLE PHOTOS ── */
+    .lifestyle-section { padding: 0 0 80px; }
+
+    .lifestyle-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 480px) {
+      .lifestyle-grid { grid-template-columns: 1fr; }
+    }
+    .lifestyle-main {
+      grid-column: 1 / -1;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+    }
+    .lifestyle-thumb {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    }
+    .lifestyle-main img,
+    .lifestyle-thumb img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── STATUS BADGES ── */
+    .statuses-section { padding: 0 0 80px; }
     .statuses {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       flex-wrap: wrap;
       justify-content: center;
-      padding: 20px;
     }
     .status-badge {
-      border-radius: 8px;
-      padding: 6px 14px;
+      border-radius: 10px;
+      padding: 7px 18px;
       font-size: 13px;
       font-weight: 600;
       color: #fff;
     }
 
-    /* PRO */
+    /* ── PRO ── */
+    .pro-section-wrap { padding: 80px 0; }
     .pro-section {
-      background: var(--surface);
-      border: 1px solid rgba(74,143,232,0.2);
-      border-radius: 24px;
-      padding: 48px 32px;
+      background:
+        linear-gradient(var(--surface), var(--surface)) padding-box,
+        linear-gradient(135deg, rgba(74,143,232,0.35), rgba(102,184,178,0.35)) border-box;
+      border: 1px solid transparent;
+      border-radius: var(--radius-lg);
+      padding: 64px 48px;
+      max-width: 720px;
+      margin: 0 auto;
       text-align: center;
-      max-width: 600px;
-      margin: 0 auto 60px;
     }
+    @media (max-width: 768px) { .pro-section { padding: 40px 28px; } }
+
     .pro-badge {
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       color: #fff;
       border-radius: 8px;
-      padding: 4px 12px;
-      font-size: 12px;
+      padding: 4px 14px;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       display: inline-block;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
-    .pro-section h2 { font-size: 26px; font-weight: 800; margin-bottom: 12px; }
-    .pro-section p { color: var(--text2); margin-bottom: 24px; }
-    .pro-list {
-      list-style: none;
-      text-align: left;
-      display: inline-block;
-      margin-bottom: 28px;
-    }
+    .pro-section h2 { font-size: 30px; font-weight: 800; margin-bottom: 14px; letter-spacing: -0.5px; }
+    .pro-section > p { color: var(--text2); margin-bottom: 28px; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .pro-list { list-style: none; text-align: left; display: inline-block; margin-bottom: 32px; }
     .pro-list li {
       padding: 6px 0;
       font-size: 15px;
@@ -253,36 +586,32 @@
       align-items: center;
       gap: 10px;
     }
-    .pro-list li::before { content: "✦"; color: var(--accent); font-size: 11px; }
-    .price {
-      font-size: 36px;
-      font-weight: 800;
-      color: var(--accent);
-      margin-bottom: 20px;
-    }
+    .pro-list li::before { content: "✦"; color: var(--accent); font-size: 10px; }
+    .price { font-size: 40px; font-weight: 800; color: var(--accent); margin-bottom: 24px; }
     .price span { font-size: 16px; color: var(--text2); font-weight: 400; }
-    .trial-note { font-size: 13px; color: var(--text2); margin-top: 10px; }
+    .trial-note { font-size: 13px; color: var(--text2); margin-top: 12px; }
 
-    /* FOOTER */
-    footer {
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding: 32px 20px;
-      text-align: center;
-      color: var(--text2);
-      font-size: 13px;
+    /* ── CHANGELOG ── */
+    .changelog-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      max-height: 440px;
+      overflow-y: auto;
+      border-radius: var(--radius);
+      scrollbar-width: thin;
+      scrollbar-color: var(--surface2) transparent;
     }
-    footer a { color: var(--accent); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-    .footer-links { display: flex; gap: 20px; justify-content: center; margin-bottom: 12px; flex-wrap: wrap; }
-
-    /* CHANGELOG */
-    .changelog-wrap { max-width: 640px; margin: 0 auto; max-height: 420px; overflow-y: auto; border-radius: var(--radius); scrollbar-width: thin; scrollbar-color: var(--surface2) transparent; }
     .changelog-wrap::-webkit-scrollbar { width: 4px; }
     .changelog-wrap::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 2px; }
-    .changelog { display: flex; flex-direction: column; gap: 10px; padding: 2px 2px 2px 2px; }
-    .cl-item { background: var(--surface); border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.06); padding: 18px 22px; }
+    .changelog { display: flex; flex-direction: column; gap: 10px; padding: 2px; }
+    .cl-item {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 20px 24px;
+    }
     .cl-item.cl-latest { border-color: rgba(74,143,232,0.25); }
-    .cl-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .cl-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
     .cl-version { background: var(--accent); color: #fff; border-radius: 6px; padding: 3px 10px; font-size: 13px; font-weight: 700; }
     .cl-version.cl-old { background: var(--surface2); color: var(--text2); }
     .cl-date { font-size: 13px; color: var(--text2); }
@@ -291,129 +620,100 @@
     .cl-list li::before { content: "—"; color: var(--accent); flex-shrink: 0; }
     .cl-item.cl-old .cl-list li::before { color: var(--text2); }
 
-    /* LANG */
+    /* ── ARTICLES ── */
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 16px;
+    }
+    .article-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-decoration: none;
+      color: var(--text);
+      display: block;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .article-card:hover {
+      border-color: rgba(74,143,232,0.42);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+    }
+    .article-icon { font-size: 24px; margin-bottom: 12px; }
+    .article-card h3 { font-weight: 700; font-size: 15px; margin-bottom: 8px; line-height: 1.4; }
+    .article-card p  { font-size: 13px; color: var(--text2); }
+
+    /* ── DOWNLOAD CTA ── */
+    .download-section { padding: 80px 0; }
+    .download-cta {
+      background: linear-gradient(135deg, rgba(74,143,232,0.08), rgba(155,116,224,0.06));
+      border: 1px solid rgba(74,143,232,0.16);
+      border-radius: var(--radius-lg);
+      padding: 64px 40px;
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    @media (max-width: 768px) { .download-cta { padding: 40px 24px; } }
+    .download-cta h2 { font-size: 32px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; }
+    .download-cta > p { color: var(--text2); margin-bottom: 32px; }
+    .download-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .download-note { margin-top: 16px; font-size: 12px; color: var(--text3); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 40px 0;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    footer a { color: var(--accent); text-decoration: none; font-size: 13px; }
+    footer a:hover { text-decoration: underline; }
+    .footer-copy { font-size: 13px; color: var(--text2); }
+
+    /* ── LOCALIZATION ── */
     [data-en] { display: none; }
     body.lang-en [data-ru] { display: none; }
     body.lang-en [data-en] { display: revert; }
 
-    /* ── Dark 2.0 Upgrade ─────────────────────────────────── */
-
-    /* Глубже фон */
-    :root {
-      --bg: #07070f;
-      --surface: #101016;
-      --surface2: #1a1d2e;
-    }
-
-    /* Фоновые градиентные пятна */
-    body::before, body::after {
-      content: '';
-      position: fixed;
-      pointer-events: none;
-      z-index: 0;
-    }
-    body::before {
-      width: 700px; height: 700px;
-      top: -250px; left: 50%;
-      transform: translateX(-50%);
-      background: radial-gradient(circle, rgba(74,143,232,0.07) 0%, transparent 70%);
-    }
-    body::after {
-      width: 500px; height: 500px;
-      bottom: 30%; right: -100px;
-      background: radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 70%);
-    }
-
-    /* Градиент на акцентном слове в герое */
-    .hero h1 span span {
-      background: linear-gradient(135deg, #4a8fe8 20%, #9b74e0 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    /* Nav-лого акцент */
-    .nav-logo span {
-      background: linear-gradient(135deg, #4a8fe8, #9b74e0);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: transparent;
-    }
-
-    /* Кнопка с глоу */
-    .btn-primary {
-      transition: opacity 0.2s, box-shadow 0.25s, transform 0.15s !important;
-    }
-    .btn-primary:hover {
-      opacity: 1 !important;
-      box-shadow: 0 8px 28px rgba(74,143,232,0.4);
-      transform: translateY(-2px);
-    }
-
-    /* Feature-карточки — стекло + ховер */
-    .feature-card {
-      backdrop-filter: blur(8px);
-      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-      cursor: default;
-    }
-    .feature-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(74,143,232,0.28);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(74,143,232,0.1);
-    }
-
-    /* Shot-карточки — ховер-зум */
-    .shot-card {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .shot-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 28px 64px rgba(0,0,0,0.7);
-    }
-    .shot-card img {
-      transition: transform 0.45s ease;
-    }
-    .shot-card:hover img {
-      transform: scale(1.05);
-    }
-
-    /* Главный скриншот — ховер */
-    .hero-shot {
-      transition: transform 0.35s ease, box-shadow 0.35s ease;
-    }
-    .hero-shot:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 48px 100px rgba(0,0,0,0.75), 0 0 60px rgba(74,143,232,0.08);
-    }
-
-    /* PRO-секция — премиум-граница */
-    .pro-section {
-      background:
-        linear-gradient(var(--surface), var(--surface)) padding-box,
-        linear-gradient(135deg, rgba(74,143,232,0.35), rgba(102,184,178,0.35)) border-box;
-      border: 1px solid transparent;
-    }
-
-    /* Плавное появление при скролле */
+    /* ── SCROLL REVEAL ── */
     .reveal {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .reveal-scale {
+      opacity: 0;
+      transform: scale(0.94) translateY(18px);
       transition: opacity 0.6s ease, transform 0.6s ease;
     }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .reveal-scale.visible { opacity: 1; transform: scale(1) translateY(0); }
 
-    /* Секции заголовки чуть ярче */
-    .section-title {
-      background: linear-gradient(135deg, #e8eaf0 50%, rgba(232,234,240,0.6) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    /* ── REDUCED MOTION ── */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .reveal-scale { opacity: 1; transform: none; transition: none; }
+      .feature-card, .st-card, .screen-card, .article-card,
+      .btn-primary, .btn-secondary, .btn-ghost { transition: none !important; }
+      .screen-card:hover img { transform: none; }
+      html { scroll-behavior: auto; }
     }
   </style>
+
   <!-- Yandex.Metrika -->
   <script type="text/javascript">
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -428,453 +728,523 @@
 </head>
 <body>
 
+<!-- ═══ NAV ═══ -->
 <nav>
-  <div class="nav-logo">Shift<span>Schedule</span></div>
-  <div style="display:flex;align-items:center;gap:16px;">
-    <a href="faq.html" style="font-size:13px;color:var(--text2);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">
-      <span data-ru>FAQ</span><span data-en style="display:none">FAQ</span>
-    </a>
-    <div class="lang-toggle">
-      <button class="lang-btn active" onclick="setLang('ru')">RU</button>
-      <button class="lang-btn" onclick="setLang('en')">EN</button>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Shift<span>Schedule</span></a>
+    <div class="nav-right">
+      <a href="faq.html" class="nav-link" data-ru>FAQ</a>
+      <a href="faq.html" class="nav-link" data-en>FAQ</a>
+      <a href="help.html" class="nav-link" data-ru>Инструкция</a>
+      <a href="help.html" class="nav-link" data-en>Help</a>
+      <a href="#download" class="nav-cta" data-ru onclick="ym(109065744,'reachGoal','nav_download')">Скачать</a>
+      <a href="#download" class="nav-cta" data-en onclick="ym(109065744,'reachGoal','nav_download')">Download</a>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
     </div>
   </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-badge">
-    <span data-ru>Android приложение</span>
-    <span data-en>Android App</span>
-  </div>
-  <h1>
-    <span data-ru>Твой сменный<br><span>график</span> — всегда под рукой</span>
-    <span data-en>Your shift schedule —<br>always at <span>hand</span></span>
-  </h1>
-  <p>
-    <span data-ru>Простое и удобное приложение для работников со сменным графиком. Отмечай смены, следи за выходными, планируй вместе с партнёром.</span>
-    <span data-en>A simple and convenient app for shift workers. Mark your shifts, track days off, and plan together with a partner.</span>
-  </p>
-  <div class="hero-buttons">
-    <a href="#download" class="btn-primary">
-      ↓ <span data-ru>Скачать</span><span data-en>Download</span>
-    </a>
+<!-- ═══ HERO ═══ -->
+<section class="hero-section">
+  <div class="container">
+    <div class="hero-grid">
+
+      <!-- Left: text + CTA -->
+      <div class="hero-content reveal">
+        <div class="hero-badge">
+          <span data-ru>Android приложение</span>
+          <span data-en>Android App</span>
+        </div>
+        <h1>
+          <span data-ru>Календарь смен,<br>который понимает<br>ваш <span class="accent">график</span></span>
+          <span data-en>Shift calendar that<br>understands your<br><span class="accent">schedule</span></span>
+        </h1>
+        <p class="hero-sub">
+          <span data-ru>2/2, день/ночь, сутки через трое, подработки, общие выходные с партнёром, будильники, облако и Алиса — всё в одном Android-приложении.</span>
+          <span data-en>2/2, day/night, every 3 days, extra shifts, shared days off with your partner, alarms, cloud sync and Alice — all in one Android app.</span>
+        </p>
+        <div class="hero-buttons">
+          <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule?utm_source=website&utm_medium=hero&utm_campaign=main"
+             class="btn-primary" onclick="ym(109065744,'reachGoal','download_rustore')">
+            <span data-ru>Скачать в RuStore</span>
+            <span data-en>Get on RuStore</span>
+          </a>
+          <a href="https://github.com/MIRORSTAR/shiftschedule/releases/download/v1.9.0/ShiftSchedule-rustore-v1.9.0-18.apk"
+             class="btn-secondary" onclick="ym(109065744,'reachGoal','download_apk')">
+            <span data-ru>&#8595; Скачать APK</span>
+            <span data-en>&#8595; Direct APK</span>
+          </a>
+          <a href="help.html" class="btn-ghost">
+            <span data-ru>Инструкция</span>
+            <span data-en>Help</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: phone mockup -->
+      <div class="hero-visual reveal">
+        <div class="phone-wrapper">
+          <div class="phone-glow"></div>
+          <div class="phone-frame">
+            <div class="phone-btn vol1"></div>
+            <div class="phone-btn vol2"></div>
+            <div class="phone-btn power"></div>
+            <img src="screenshots/hero_main.jpg" alt="ShiftSchedule — главный экран">
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
 
-<!-- SCREENSHOTS LIFESTYLE -->
-<section class="screenshots">
-  <div class="hero-shot">
-    <img src="screenshots/lifestyle_1.jpeg" alt="ShiftSchedule — всегда под рукой">
-  </div>
-  <div class="shot-row">
-    <div class="shot-card"><img src="screenshots/lifestyle_2.jpeg" alt="Планирование вместе"></div>
-    <div class="shot-card"><img src="screenshots/lifestyle_3.jpeg" alt="График в телефоне"></div>
-  </div>
-  <div class="shot-row" style="grid-template-columns: 1fr 1fr; max-width: 700px; margin: 0 auto;">
-    <div class="shot-card"><img src="screenshots/lifestyle_4.jpeg" alt="Сменный работник"></div>
-    <div class="shot-card"><img src="screenshots/lifestyle_5.jpeg" alt="Смены всегда рядом"></div>
-  </div>
-</section>
-
-<!-- SCREENSHOTS APP -->
-<section class="section" style="padding-top: 0;">
-  <h2 class="section-title" data-ru>Как выглядит приложение</h2>
-  <h2 class="section-title" data-en>Inside the app</h2>
-  <p class="section-sub" data-ru>Всё продумано для ежедневного использования</p>
-  <p class="section-sub" data-en>Designed for daily use</p>
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; max-width: 960px; margin: 0 auto;">
-    <div class="shot-card"><img src="screenshots/feat_main.png" alt="Календарь смен"></div>
-    <div class="shot-card"><img src="screenshots/feat_schedules.png" alt="Графики работы"></div>
-    <div class="shot-card"><img src="screenshots/feat_vacation.png" alt="Отпуск и статусы"></div>
-    <div class="shot-card"><img src="screenshots/feat_alarm.png" alt="Будильники"></div>
-    <div class="shot-card"><img src="screenshots/feat_notes.png" alt="Заметки с напоминаниями"></div>
-    <div class="shot-card"><img src="screenshots/feat_themes.png" alt="Светлая и тёмная тема"></div>
-    <div class="shot-card"><img src="screenshots/app_04.jpeg" alt="Партнёрский код"></div>
-    <div class="shot-card"><img src="screenshots/app_05.jpeg" alt="Уведомления"></div>
-    <div class="shot-card"><img src="screenshots/app_07.jpeg" alt="PRO доступ"></div>
+<!-- ═══ SCREENSHOTS ═══ -->
+<section class="screenshots-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag" data-ru>Скриншоты</div>
+      <div class="section-tag" data-en>Screenshots</div>
+      <h2 class="section-title" data-ru>Как выглядит приложение</h2>
+      <h2 class="section-title" data-en>Inside the app</h2>
+      <p class="section-sub" data-ru>Всё продумано для ежедневного использования</p>
+      <p class="section-sub" data-en>Designed for daily use</p>
+    </div>
+    <div class="screenshots-grid">
+      <div class="screen-card"><img src="screenshots/feat_main.png"      alt="Календарь смен"       loading="lazy"></div>
+      <div class="screen-card"><img src="screenshots/feat_schedules.png" alt="Настройки графика"    loading="lazy"></div>
+      <div class="screen-card"><img src="screenshots/feat_alarm.png"     alt="Будильники"           loading="lazy"></div>
+      <div class="screen-card"><img src="screenshots/feat_notes.png"     alt="Заметки"              loading="lazy"></div>
+      <div class="screen-card"><img src="screenshots/feat_themes.png"    alt="Темы оформления"      loading="lazy"></div>
+    </div>
   </div>
 </section>
 
-<!-- STATUSES -->
-<div class="statuses">
-  <span class="status-badge" style="background:#4a8fe8" data-ru>Работа</span>
-  <span class="status-badge" style="background:#4a8fe8" data-en>Work</span>
-  <span class="status-badge" style="background:#5a6070" data-ru>Выходной</span>
-  <span class="status-badge" style="background:#5a6070" data-en>Day off</span>
-  <span class="status-badge" style="background:#4caf7a" data-ru>Подработка</span>
-  <span class="status-badge" style="background:#4caf7a" data-en>Extra shift</span>
-  <span class="status-badge" style="background:#e8a44a" data-ru>Отпуск</span>
-  <span class="status-badge" style="background:#e8a44a" data-en>Vacation</span>
-  <span class="status-badge" style="background:#e85454" data-ru>Больничный</span>
-  <span class="status-badge" style="background:#e85454" data-en>Sick leave</span>
-</div>
+<!-- ═══ LIFESTYLE ═══ -->
+<section class="lifestyle-section">
+  <div class="container">
+    <div class="lifestyle-grid">
+      <div class="lifestyle-main reveal">
+        <img src="screenshots/lifestyle_1.jpeg" alt="ShiftSchedule — всегда под рукой" loading="lazy">
+      </div>
+      <div class="lifestyle-thumb reveal"><img src="screenshots/lifestyle_2.jpeg" alt="Планирование вместе"  loading="lazy"></div>
+      <div class="lifestyle-thumb reveal"><img src="screenshots/lifestyle_3.jpeg" alt="График в телефоне"    loading="lazy"></div>
+      <div class="lifestyle-thumb reveal"><img src="screenshots/lifestyle_4.jpeg" alt="Сменный работник"     loading="lazy"></div>
+      <div class="lifestyle-thumb reveal"><img src="screenshots/lifestyle_5.jpeg" alt="Смены всегда рядом"   loading="lazy"></div>
+    </div>
+  </div>
+</section>
 
-<!-- FEATURES -->
+<!-- ═══ SCHEDULE TYPES ═══ -->
+<section class="schedule-types-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title reveal" data-ru>Для каких графиков</h2>
+      <h2 class="section-title reveal" data-en>Which schedules</h2>
+      <p class="section-sub reveal" data-ru>Настрой любой цикл: укажи якорную дату и количество рабочих и выходных дней</p>
+      <p class="section-sub reveal" data-en>Set any cycle: pick an anchor date and the number of work and rest days</p>
+    </div>
+    <div class="schedule-types-grid">
+      <div class="st-card">
+        <div class="st-icon">&#128309;</div>
+        <div class="st-label">2/2</div>
+        <div class="st-desc" data-ru>2 рабочих / 2 выходных</div>
+        <div class="st-desc" data-en>2 work / 2 off</div>
+      </div>
+      <div class="st-card">
+        <div class="st-icon">&#127762;</div>
+        <div class="st-label" data-ru>День/ночь</div>
+        <div class="st-label" data-en>Day/night</div>
+        <div class="st-desc" data-ru>Циклы с дневными и ночными сменами</div>
+        <div class="st-desc" data-en>Day and night shift cycles</div>
+      </div>
+      <div class="st-card">
+        <div class="st-icon">&#128197;</div>
+        <div class="st-label" data-ru>Сутки/3</div>
+        <div class="st-label" data-en>1-in-4</div>
+        <div class="st-desc" data-ru>Сутки через трое</div>
+        <div class="st-desc" data-en>One day on, three off</div>
+      </div>
+      <div class="st-card">
+        <div class="st-icon">&#9889;</div>
+        <div class="st-label">3/3</div>
+        <div class="st-desc" data-ru>3 рабочих / 3 выходных</div>
+        <div class="st-desc" data-en>3 work / 3 off</div>
+      </div>
+      <div class="st-card">
+        <div class="st-icon">&#128188;</div>
+        <div class="st-label">5/2</div>
+        <div class="st-desc" data-ru>Стандартная пятидневка</div>
+        <div class="st-desc" data-en>Standard work week</div>
+      </div>
+      <div class="st-card">
+        <div class="st-icon">&#10024;</div>
+        <div class="st-label" data-ru>Свой цикл</div>
+        <div class="st-label" data-en>Custom</div>
+        <div class="st-desc" data-ru>Любое сочетание дней</div>
+        <div class="st-desc" data-en>Any combination of days</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURES ═══ -->
 <section class="section">
-  <h2 class="section-title" data-ru>Всё что нужно для сменного графика</h2>
-  <h2 class="section-title" data-en>Everything for your shift schedule</h2>
-  <p class="section-sub" data-ru>Бесплатные функции, которые работают без интернета</p>
-  <p class="section-sub" data-en>Free features that work offline</p>
-  <div class="features-grid">
-    <div class="feature-card" style="border-color: rgba(74,143,232,0.25); background: linear-gradient(135deg, var(--surface), rgba(74,143,232,0.06));">
-      <div class="feature-icon">👥</div>
-      <h3 data-ru>Синхронизация с партнёром</h3>
-      <h3 data-en>Partner schedule sync</h3>
-      <p data-ru>Видишь выходные коллеги или члена семьи прямо на своём календаре. Общие выходные выделяются маркером — сразу видно, когда можно отдохнуть вместе. <strong style="color:var(--accent)">PRO</strong></p>
-      <p data-en>See your colleague's or family member's days off right on your calendar. Shared days off are highlighted — instantly see when you can rest together. <strong style="color:var(--accent)">PRO</strong></p>
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag" data-ru>Функции</div>
+      <div class="section-tag" data-en>Features</div>
+      <h2 class="section-title" data-ru>Всё что нужно для сменного графика</h2>
+      <h2 class="section-title" data-en>Everything for your shift schedule</h2>
+      <p class="section-sub" data-ru>Бесплатные функции, которые работают без интернета</p>
+      <p class="section-sub" data-en>Free features that work offline</p>
     </div>
-    <div class="feature-card">
-      <div class="feature-icon">📅</div>
-      <h3 data-ru>Умный календарь</h3>
-      <h3 data-en>Smart calendar</h3>
-      <p data-ru>Автоматический расчёт цикла смен по якорной дате. Поддержка любых графиков: 2/2, 3/3, 5/2 и других.</p>
-      <p data-en>Automatic shift cycle calculation from an anchor date. Supports any schedule: 2/2, 3/3, 5/2 and more.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">✏️</div>
-      <h3 data-ru>5 типов дней</h3>
-      <h3 data-en>5 day types</h3>
-      <p data-ru>Работа, Выходной, Подработка, Отпуск, Больничный. Добавляй заметки к любому дню.</p>
-      <p data-en>Work, Day off, Extra shift, Vacation, Sick leave. Add notes to any day.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🌙</div>
-      <h3 data-ru>Смены день/ночь</h3>
-      <h3 data-en>Day &amp; night shifts</h3>
-      <p data-ru>Настраивай цикл с дневными и ночными сменами. В списке дней сразу видно тип смены — 🌙 ночная или обычная дневная.</p>
-      <p data-en>Set up cycles with day and night shifts. The schedule list shows the shift type — 🌙 night or regular day shift.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">⏰</div>
-      <h3 data-ru>Будильники</h3>
-      <h3 data-en>Alarms</h3>
-      <p data-ru>Будильник за нужное количество минут до начала смены. Установи один раз — приложение само расставит будильники на рабочие дни вперёд.</p>
-      <p data-en>Alarm before your shift starts — set the lead time once and the app schedules alarms for upcoming work days automatically.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📆</div>
-      <h3 data-ru>Синхронизация с календарём</h3>
-      <h3 data-en>Calendar sync</h3>
-      <p data-ru>Экспортируй смены в системный календарь телефона. Работает с Google Calendar и любым другим.</p>
-      <p data-en>Export shifts to your phone's system calendar. Works with Google Calendar and any other.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🎙️</div>
-      <h3 data-ru>Навык Яндекс Алисы</h3>
-      <h3 data-en>Yandex Alice Skill</h3>
-      <p data-ru>Спрашивайте о рабочих сменах голосом — на колонке, в телефоне или на умном экране.</p>
-      <p data-en>Ask about your work shifts by voice — on a smart speaker, phone, or smart display.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🏠</div>
-      <h3 data-ru>Home Assistant</h3>
-      <h3 data-en>Home Assistant</h3>
-      <p data-ru>Автоматически отправляй статус смены в Home Assistant для умного дома.</p>
-      <p data-en>Automatically send your shift status to Home Assistant for smart home automations.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🌍</div>
-      <h3 data-ru>3 языка</h3>
-      <h3 data-en>3 languages</h3>
-      <p data-ru>Русский, English, Español. Язык определяется автоматически или выбирается вручную.</p>
-      <p data-en>Russian, English, Spanish. Language is detected automatically or selected manually.</p>
+    <div class="features-grid">
+      <div class="feature-card featured">
+        <span class="feature-icon">&#128101;</span>
+        <h3 data-ru>Общие выходные с партнёром <span class="pro-tag">PRO</span></h3>
+        <h3 data-en>Shared days off with partner <span class="pro-tag">PRO</span></h3>
+        <p data-ru>Видишь выходные коллеги или члена семьи прямо на своём календаре. Общие выходные выделяются маркером — сразу видно, когда можно отдохнуть вместе.</p>
+        <p data-en>See your colleague's or family member's days off on your calendar. Shared days off are highlighted — instantly see when you can rest together.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#128197;</span>
+        <h3 data-ru>Умный календарь</h3>
+        <h3 data-en>Smart calendar</h3>
+        <p data-ru>Автоматический расчёт цикла смен по якорной дате. Поддержка любых графиков: 2/2, 3/3, 5/2 и других.</p>
+        <p data-en>Automatic shift cycle calculation from an anchor date. Supports any schedule: 2/2, 3/3, 5/2 and more.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#127762;</span>
+        <h3 data-ru>Смены день/ночь</h3>
+        <h3 data-en>Day &amp; night shifts</h3>
+        <p data-ru>Настраивай цикл с дневными и ночными сменами. В списке дней сразу видно тип смены.</p>
+        <p data-en>Set up cycles with day and night shifts. The schedule list shows the shift type clearly.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#9200;</span>
+        <h3 data-ru>Будильники на смены</h3>
+        <h3 data-en>Shift alarms</h3>
+        <p data-ru>Установи один раз — приложение само расставит будильники на рабочие дни вперёд.</p>
+        <p data-en>Set once — the app schedules alarms for all upcoming work days automatically.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#9999;&#65039;</span>
+        <h3 data-ru>Заметки, отпуск, больничный</h3>
+        <h3 data-en>Notes, vacation, sick leave</h3>
+        <p data-ru>5 типов дней: Работа, Выходной, Подработка, Отпуск, Больничный. Добавляй заметки к любому дню.</p>
+        <p data-en>5 day types: Work, Day off, Extra shift, Vacation, Sick leave. Add notes to any day.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#9729;&#65039;</span>
+        <h3 data-ru>Облачная синхронизация <span class="pro-tag">PRO</span></h3>
+        <h3 data-en>Cloud sync <span class="pro-tag">PRO</span></h3>
+        <p data-ru>Сохраняй график в облаке. Восстанавливай на новом устройстве без потерь.</p>
+        <p data-en>Back up your schedule to the cloud. Restore on any new device without data loss.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#127897;&#65039;</span>
+        <h3 data-ru>Навык Яндекс Алисы</h3>
+        <h3 data-en>Yandex Alice Skill</h3>
+        <p data-ru>Спрашивайте о рабочих сменах голосом — на колонке, в телефоне или на умном экране.</p>
+        <p data-en>Ask about your work shifts by voice — on a smart speaker, phone, or smart display.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#127780;&#65039;</span>
+        <h3 data-ru>Погода</h3>
+        <h3 data-en>Weather</h3>
+        <p data-ru>Прогноз погоды в приложении — на рабочие дни, чтобы знать, что надеть.</p>
+        <p data-en>Weather forecast in the app — for work days, so you know what to wear.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#127912;</span>
+        <h3 data-ru>Темы оформления</h3>
+        <h3 data-en>Themes</h3>
+        <p data-ru>Тёмная и светлая тема, стили Glass, Aurora, Nordic, Forest, iOS и другие.</p>
+        <p data-en>Dark and light theme, Glass, Aurora, Nordic, Forest, iOS styles and more.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- PRO -->
-<section class="section">
-  <div class="pro-section">
-    <div class="pro-badge">PRO</div>
-    <h2 data-ru>Больше возможностей</h2>
-    <h2 data-en>More features</h2>
-    <p data-ru>Мы настоятельно рекомендуем привязать почту или аккаунт в приложении — это защитит ваш график от потери и позволит восстановить доступ, если забудете пароль. И как бонус — все PRO-функции на 14 дней бесплатно.</p>
-    <p data-en>We strongly recommend linking your email or account in the app — it protects your schedule from loss and lets you recover access if you forget your password. And as a bonus — all PRO features free for 14 days.</p>
-    <ul class="pro-list">
-      <li data-ru>Облачная синхронизация между устройствами</li>
-      <li data-en>Cloud sync between devices</li>
-      <li data-ru>Совместный просмотр графика с партнёром</li>
-      <li data-en>Shared schedule view with a partner</li>
-      <li data-ru>Стили Glass &amp; Air и iOS</li>
-      <li data-en>Glass &amp; Air and iOS styles</li>
-      <li data-ru>Новые стили Aurora, Nordic, Forest</li>
-      <li data-en>New Aurora, Nordic, Forest styles</li>
-    </ul>
-    <div class="price">199 ₽ <span data-ru>/ навсегда</span><span data-en>/ one-time</span></div>
-    <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule?utm_source=website&utm_medium=button&utm_campaign=pro_trial" class="btn-primary" data-ru onclick="ym(109065744,'reachGoal','download_rustore')">Привязать аккаунт и попробовать PRO</a>
-    <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule?utm_source=website&utm_medium=button&utm_campaign=pro_trial" class="btn-primary" data-en onclick="ym(109065744,'reachGoal','download_rustore')">Link account and try PRO free</a>
-    <div class="trial-note" data-ru>14 дней PRO-функций бесплатно после привязки аккаунта — потом 199 ₽ один раз</div>
-    <div class="trial-note" data-en>14 days of PRO features free after linking your account — then 199 ₽ one-time</div>
+<!-- ═══ STATUS BADGES ═══ -->
+<section class="statuses-section">
+  <div class="container">
+    <div class="statuses">
+      <span class="status-badge" style="background:#4a8fe8"  data-ru>Работа</span>
+      <span class="status-badge" style="background:#4a8fe8"  data-en>Work</span>
+      <span class="status-badge" style="background:#5a6070"  data-ru>Выходной</span>
+      <span class="status-badge" style="background:#5a6070"  data-en>Day off</span>
+      <span class="status-badge" style="background:#4caf7a"  data-ru>Подработка</span>
+      <span class="status-badge" style="background:#4caf7a"  data-en>Extra shift</span>
+      <span class="status-badge" style="background:#e8a44a"  data-ru>Отпуск</span>
+      <span class="status-badge" style="background:#e8a44a"  data-en>Vacation</span>
+      <span class="status-badge" style="background:#e85454"  data-ru>Больничный</span>
+      <span class="status-badge" style="background:#e85454"  data-en>Sick leave</span>
+    </div>
   </div>
 </section>
 
-<!-- CHANGELOG -->
+<!-- ═══ PRO ═══ -->
+<section class="pro-section-wrap">
+  <div class="container">
+    <div class="pro-section reveal">
+      <div class="pro-badge">PRO</div>
+      <h2 data-ru>Больше возможностей</h2>
+      <h2 data-en>More features</h2>
+      <p data-ru>Мы настоятельно рекомендуем привязать почту или аккаунт в приложении — это защитит ваш график от потери. И как бонус — все PRO-функции на 14 дней бесплатно.</p>
+      <p data-en>We strongly recommend linking your email or account in the app — it protects your schedule from loss. And as a bonus — all PRO features free for 14 days.</p>
+      <ul class="pro-list">
+        <li><span data-ru>Облачная синхронизация между устройствами</span><span data-en>Cloud sync between devices</span></li>
+        <li><span data-ru>Совместный просмотр графика с партнёром</span><span data-en>Shared schedule view with a partner</span></li>
+        <li><span data-ru>Стили Glass &amp; Air и iOS</span><span data-en>Glass &amp; Air and iOS styles</span></li>
+        <li><span data-ru>Новые стили Aurora, Nordic, Forest</span><span data-en>New Aurora, Nordic, Forest styles</span></li>
+      </ul>
+      <div class="price">199 ₽ <span data-ru>/ навсегда</span><span data-en>/ one-time</span></div>
+      <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule?utm_source=website&utm_medium=button&utm_campaign=pro_trial"
+         class="btn-primary" data-ru onclick="ym(109065744,'reachGoal','download_rustore')">Привязать аккаунт и попробовать PRO</a>
+      <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule?utm_source=website&utm_medium=button&utm_campaign=pro_trial"
+         class="btn-primary" data-en onclick="ym(109065744,'reachGoal','download_rustore')">Link account and try PRO free</a>
+      <div class="trial-note" data-ru>14 дней PRO-функций бесплатно после привязки аккаунта — потом 199 ₽ один раз</div>
+      <div class="trial-note" data-en>14 days of PRO features free after linking your account — then 199 ₽ one-time</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CHANGELOG ═══ -->
 <section class="section" id="changelog" style="padding-top: 0;">
-  <h2 class="section-title" data-ru>История обновлений</h2>
-  <h2 class="section-title" data-en>What's new</h2>
-  <p class="section-sub" data-ru>Что изменилось в каждой версии</p>
-  <p class="section-sub" data-en>Changes in each version</p>
-  <div class="changelog-wrap">
-    <div class="changelog">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title" data-ru>История обновлений</h2>
+      <h2 class="section-title" data-en>What's new</h2>
+      <p class="section-sub" data-ru>Что изменилось в каждой версии</p>
+      <p class="section-sub" data-en>Changes in each version</p>
+    </div>
+    <div class="changelog-wrap">
+      <div class="changelog">
 
-      <div class="cl-item cl-latest">
-        <div class="cl-header">
-          <span class="cl-version">1.9.0</span>
-          <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+        <div class="cl-item cl-latest">
+          <div class="cl-header">
+            <span class="cl-version">1.9.0</span>
+            <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+          </div>
+          <ul class="cl-list">
+            <li><span data-ru>Навык Яндекс Алисы «Мой график смен» — спрашивайте о рабочих сменах голосом на колонке или в приложении Яндекса</span><span data-en>Yandex Alice skill "My Shift Schedule" — ask about work shifts by voice on smart speakers or the Yandex app</span></li>
+            <li><span data-ru>Вход через Яндекс ID и Google — войти в аккаунт теперь можно одним нажатием</span><span data-en>Sign in with Yandex ID and Google — one-tap account login</span></li>
+            <li><span data-ru>Обновление кода партнёра — новая кнопка «Обновить» со сменой кода и подтверждением двойным нажатием</span><span data-en>Share code refresh — new Update button with double-tap confirmation</span></li>
+            <li><span data-ru>Рекомендуем создать аккаунт: график сохранится в облаке и восстановится на любом устройстве. При регистрации — 14 дней PRO бесплатно</span><span data-en>Create an account to back up your schedule to the cloud — restores on any device. 14 days PRO free on sign-up</span></li>
+            <li><span data-ru>Исправлен чёрный экран при запрете геолокации на некоторых устройствах (Oppo, ColorOS)</span><span data-en>Fixed blank screen when denying location permission on some devices (Oppo, ColorOS)</span></li>
+            <li><span data-ru>Расписание партнёра теперь корректно обновляется после загрузки из облака</span><span data-en>Partner schedule now updates correctly after downloading from cloud</span></li>
+          </ul>
         </div>
-        <ul class="cl-list">
-          <li><span data-ru>Навык Яндекс Алисы «Мой график смен» — спрашивайте о рабочих сменах голосом на колонке или в приложении Яндекса</span><span data-en>Yandex Alice skill "My Shift Schedule" — ask about work shifts by voice on smart speakers or the Yandex app</span></li>
-          <li><span data-ru>Вход через Яндекс ID и Google — войти в аккаунт теперь можно одним нажатием</span><span data-en>Sign in with Yandex ID and Google — one-tap account login</span></li>
-          <li><span data-ru>Обновление кода партнёра — новая кнопка «Обновить» со сменой кода и подтверждением двойным нажатием</span><span data-en>Share code refresh — new Update button with double-tap confirmation</span></li>
-          <li><span data-ru>Рекомендуем создать аккаунт: график сохранится в облаке и восстановится на любом устройстве. При регистрации — 14 дней PRO бесплатно</span><span data-en>Create an account to back up your schedule to the cloud — restores on any device. 14 days PRO free on sign-up</span></li>
-          <li><span data-ru>Исправлен чёрный экран при запрете геолокации на некоторых устройствах (Oppo, ColorOS)</span><span data-en>Fixed blank screen when denying location permission on some devices (Oppo, ColorOS)</span></li>
-          <li><span data-ru>Расписание партнёра теперь корректно обновляется после загрузки из облака</span><span data-en>Partner schedule now updates correctly after downloading from cloud</span></li>
-        </ul>
-      </div>
 
-      <div class="cl-item cl-old">
-        <div class="cl-header">
-          <span class="cl-version cl-old">1.8.0</span>
-          <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+        <div class="cl-item cl-old">
+          <div class="cl-header">
+            <span class="cl-version cl-old">1.8.0</span>
+            <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+          </div>
+          <ul class="cl-list">
+            <li><span data-ru>Второй график — добавьте расписание второй работы поверх основного: свои смены, свои выходные, значок портфеля в ячейке</span><span data-en>Second schedule — add a second job's schedule on top of your main one: its own shifts, days off, and briefcase icon in cells</span></li>
+            <li><span data-ru>Совместные выходные с партнёром учитывают второй график</span><span data-en>Shared days off account for partner's second schedule</span></li>
+            <li><span data-ru>Расписание партнёра обновляется автоматически каждые 30 секунд</span><span data-en>Partner schedule refreshes automatically every 30 seconds</span></li>
+            <li><span data-ru>Будильники восстанавливаются при открытии приложения после перезагрузки телефона</span><span data-en>Alarms are restored when opening the app after a phone reboot</span></li>
+            <li><span data-ru>Исправлен счётчик «Всего» в фильтре</span><span data-en>Fixed "Total" filter count</span></li>
+            <li><span data-ru>Улучшена совместимость с устройствами Xiaomi/MIUI</span><span data-en>Improved compatibility with Xiaomi/MIUI devices</span></li>
+          </ul>
         </div>
-        <ul class="cl-list">
-          <li><span data-ru>Второй график — добавьте расписание второй работы поверх основного: свои смены, свои выходные, значок портфеля в ячейке</span><span data-en>Second schedule — add a second job's schedule on top of your main one: its own shifts, days off, and briefcase icon in cells</span></li>
-          <li><span data-ru>Совместные выходные с партнёром учитывают второй график — если партнёр работает по второму графику, общий выходной не отображается</span><span data-en>Shared days off account for partner's second schedule — if your partner works their second job, the shared day off is hidden</span></li>
-          <li><span data-ru>Расписание партнёра обновляется автоматически каждые 30 секунд — не нужно перезапускать приложение</span><span data-en>Partner schedule refreshes automatically every 30 seconds — no need to restart the app</span></li>
-          <li><span data-ru>Будильники восстанавливаются при открытии приложения после перезагрузки телефона; тихое уведомление напоминает открыть приложение</span><span data-en>Alarms are restored when opening the app after a phone reboot; a quiet notification reminds you to open it</span></li>
-          <li><span data-ru>Исправлен счётчик «Всего» в фильтре — дни с заметками без рабочего статуса больше не попадают в счёт</span><span data-en>Fixed "Total" filter count — days with notes but no work status no longer inflate the count</span></li>
-          <li><span data-ru>Улучшена совместимость с устройствами Xiaomi/MIUI: корректный переход в настройки автозапуска</span><span data-en>Improved compatibility with Xiaomi/MIUI devices: correct navigation to autostart settings</span></li>
-        </ul>
-      </div>
 
-      <div class="cl-item cl-old">
-        <div class="cl-header">
-          <span class="cl-version cl-old">1.7.0</span>
-          <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+        <div class="cl-item cl-old">
+          <div class="cl-header">
+            <span class="cl-version cl-old">1.7.0</span>
+            <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+          </div>
+          <ul class="cl-list">
+            <li><span data-ru>Анимация переключения тёмной и светлой темы</span><span data-en>Animation when switching between light and dark theme</span></li>
+            <li><span data-ru>Плавные анимации при переходе между разделами настроек</span><span data-en>Smooth animations when navigating settings sections</span></li>
+            <li><span data-ru>Будильники пересчитываются сразу при нажатии «Применить»</span><span data-en>Alarms are recalculated immediately when tapping Apply</span></li>
+            <li><span data-ru>В подсказке будильника отображается точное время срабатывания</span><span data-en>Alarm hint now shows the exact time the alarm will fire</span></li>
+            <li><span data-ru>Исправлено: поля времени смены сбрасывались при повторном запуске</span><span data-en>Fixed: shift time fields were reset on app restart</span></li>
+            <li><span data-ru>Мелкие исправления перевода на английский и испанский</span><span data-en>Minor English and Spanish translation fixes</span></li>
+          </ul>
         </div>
-        <ul class="cl-list">
-          <li><span data-ru>Анимация переключения тёмной и светлой темы</span><span data-en>Animation when switching between light and dark theme</span></li>
-          <li><span data-ru>Плавные анимации при переходе между разделами настроек</span><span data-en>Smooth animations when navigating settings sections</span></li>
-          <li><span data-ru>Будильники пересчитываются сразу при нажатии «Применить» в настройках расписания</span><span data-en>Alarms are recalculated immediately when tapping Apply in schedule settings</span></li>
-          <li><span data-ru>В подсказке будильника теперь отображается точное время срабатывания</span><span data-en>Alarm hint now shows the exact time the alarm will fire</span></li>
-          <li><span data-ru>Исправлено: поля времени смены сбрасывались при повторном запуске</span><span data-en>Fixed: shift time fields were reset on app restart</span></li>
-          <li><span data-ru>Исправлено: нижняя навигация и переход через полночь</span><span data-en>Fixed: bottom navigation bar and midnight date rollover</span></li>
-          <li><span data-ru>Мелкие исправления перевода на английский и испанский</span><span data-en>Minor English and Spanish translation fixes</span></li>
-        </ul>
-      </div>
 
-      <div class="cl-item cl-old">
-        <div class="cl-header">
-          <span class="cl-version cl-old">1.6.0</span>
-          <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+        <div class="cl-item cl-old">
+          <div class="cl-header">
+            <span class="cl-version cl-old">1.6.0</span>
+            <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+          </div>
+          <ul class="cl-list">
+            <li><span data-ru>Ручная настройка города для прогноза погоды</span><span data-en>Manual city input for weather forecast</span></li>
+            <li><span data-ru>Кнопка принудительного обновления погоды прямо в настройках</span><span data-en>Force weather refresh button in settings</span></li>
+            <li><span data-ru>Город и настройки погоды сохраняются в резервную копию</span><span data-en>Weather city and settings are backed up and restored across devices</span></li>
+            <li><span data-ru>Синхронизация с Android-календарём значительно быстрее</span><span data-en>Android calendar sync is much faster</span></li>
+          </ul>
         </div>
-        <ul class="cl-list">
-          <li><span data-ru>Ручная настройка города для прогноза погоды — теперь можно ввести любой город вместо GPS</span><span data-en>Manual city input for weather — enter any city instead of GPS</span></li>
-          <li><span data-ru>Кнопка принудительного обновления погоды прямо в настройках</span><span data-en>Force weather refresh button in settings</span></li>
-          <li><span data-ru>Город и настройки погоды сохраняются в резервную копию и восстанавливаются при входе с другого устройства</span><span data-en>Weather city and settings are backed up and restored across devices</span></li>
-          <li><span data-ru>Синхронизация с Android-календарём стала значительно быстрее — при изменении одного дня обновляется только он</span><span data-en>Android calendar sync is much faster — only the changed day is updated</span></li>
-          <li><span data-ru>Исправление: настройки корректно восстанавливаются из резервной копии</span><span data-en>Fix: settings are now correctly restored from backup</span></li>
-        </ul>
-      </div>
 
-      <div class="cl-item cl-old">
-        <div class="cl-header">
-          <span class="cl-version cl-old">1.5.0</span>
-          <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+        <div class="cl-item cl-old">
+          <div class="cl-header">
+            <span class="cl-version cl-old">1.5.0</span>
+            <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+          </div>
+          <ul class="cl-list">
+            <li><span data-ru>Настройки сохраняются в резервную копию и восстанавливаются при переустановке</span><span data-en>Settings are now backed up and restored on reinstall</span></li>
+            <li><span data-ru>Новые иконки погоды Meteocons</span><span data-en>New Meteocons weather icons</span></li>
+            <li><span data-ru>Добавлены переводы интерфейса на английский и испанский</span><span data-en>Added English and Spanish translations</span></li>
+            <li><span data-ru>Выбор диапазона дней работает через несколько месяцев</span><span data-en>Multi-day range selection now works across months</span></li>
+          </ul>
         </div>
-        <ul class="cl-list">
-          <li><span data-ru>Настройки (тема, язык, будильники) теперь сохраняются в резервную копию и восстанавливаются при переустановке</span><span data-en>Settings (theme, language, alarms) are now backed up and restored on reinstall</span></li>
-          <li><span data-ru>Новые иконки погоды Meteocons — лучше читаются в любой теме</span><span data-en>New Meteocons weather icons — easier to read in any theme</span></li>
-          <li><span data-ru>Добавлены переводы интерфейса на английский и испанский</span><span data-en>Added English and Spanish translations</span></li>
-          <li><span data-ru>Выбор диапазона дней теперь работает через несколько месяцев</span><span data-en>Multi-day range selection now works across months</span></li>
-        </ul>
-      </div>
 
-      <div class="cl-item cl-old">
-        <div class="cl-header">
-          <span class="cl-version cl-old">1.4.0</span>
-          <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+        <div class="cl-item cl-old">
+          <div class="cl-header">
+            <span class="cl-version cl-old">1.4.0</span>
+            <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+          </div>
+          <ul class="cl-list">
+            <li><span data-ru>Напоминания из заметок — укажи время в заметке, и придёт уведомление в нужный день</span><span data-en>Note reminders — set a time in a note and get notified on the right day</span></li>
+            <li><span data-ru>Раздельное упреждение будильника для дневной и ночной смены</span><span data-en>Separate alarm lead time for day and night shifts</span></li>
+            <li><span data-ru>Время напоминания отображается прямо в списке дней</span><span data-en>Reminder time shown directly in the day list</span></li>
+          </ul>
         </div>
-        <ul class="cl-list">
-          <li><span data-ru>Напоминания из заметок — укажи время в заметке, и придёт уведомление в нужный день</span><span data-en>Note reminders — set a time in a note and get notified on the right day</span></li>
-          <li><span data-ru>Раздельное упреждение будильника для дневной и ночной смены</span><span data-en>Separate alarm lead time for day and night shifts</span></li>
-          <li><span data-ru>Время напоминания отображается прямо в списке дней</span><span data-en>Reminder time shown directly in the day list</span></li>
-        </ul>
-      </div>
 
-      <div class="cl-item cl-old">
-        <div class="cl-header">
-          <span class="cl-version cl-old">1.3.3</span>
-          <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+        <div class="cl-item cl-old">
+          <div class="cl-header">
+            <span class="cl-version cl-old">1.3.3</span>
+            <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+          </div>
+          <ul class="cl-list">
+            <li><span data-ru>Выделение диапазона дней — долгое нажатие включает режим, тап задаёт конец диапазона</span><span data-en>Range selection — long press to start, tap to set end of range</span></li>
+            <li><span data-ru>Применение статуса сразу ко всем выделенным дням</span><span data-en>Apply status to all selected days at once</span></li>
+          </ul>
         </div>
-        <ul class="cl-list">
-          <li><span data-ru>Выделение диапазона дней — долгое нажатие включает режим, тап задаёт конец диапазона</span><span data-en>Range selection — long press to start, tap to set end of range</span></li>
-          <li><span data-ru>Применение статуса (работа/отпуск/больничный) сразу ко всем выделенным дням</span><span data-en>Apply status (work/vacation/sick) to all selected days at once</span></li>
-          <li><span data-ru>Улучшение производительности и стабильности</span><span data-en>Performance and stability improvements</span></li>
-        </ul>
-      </div>
 
-      <div class="cl-item cl-old">
-        <div class="cl-header">
-          <span class="cl-version cl-old">1.3.2</span>
-          <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+        <div class="cl-item cl-old">
+          <div class="cl-header">
+            <span class="cl-version cl-old">1.3.0</span>
+            <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
+          </div>
+          <ul class="cl-list">
+            <li><span data-ru>Степпер минут для будильника: тап — ввод вручную, долгое нажатие ± — быстрое изменение</span><span data-en>Alarm minute stepper: tap to type, long-press ± for quick change</span></li>
+            <li><span data-ru>Смена статуса дня автоматически отменяет будильник</span><span data-en>Changing day status automatically cancels the alarm</span></li>
+            <li><span data-ru>Кнопка «Закрыть» прямо в уведомлении о смене</span><span data-en>Dismiss button directly in the shift notification</span></li>
+          </ul>
         </div>
-        <ul class="cl-list">
-          <li><span data-ru>Исправления партнёрского режима — корректное переключение между партнёрами</span><span data-en>Partner mode fixes — correct switching between partners</span></li>
-          <li><span data-ru>Кнопка выхода переименована в «Выйти из аккаунта» для большей ясности</span><span data-en>Sign out button renamed for clarity</span></li>
-          <li><span data-ru>Исправлен цвет партнёра в стиле Aurora</span><span data-en>Fixed partner color in Aurora style</span></li>
-        </ul>
-      </div>
 
-      <div class="cl-item cl-old">
-        <div class="cl-header">
-          <span class="cl-version cl-old">1.3.1</span>
-          <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
-        </div>
-        <ul class="cl-list">
-          <li><span data-ru>Исправлено отображение иконок на устройствах Samsung и некоторых других моделях</span><span data-en>Fixed icon display on Samsung and some other devices</span></li>
-          <li><span data-ru>Добавлены иконки погоды в список смен</span><span data-en>Added weather icons to the shift list</span></li>
-          <li><span data-ru>Исправлена кнопка «Применить» в редакторе График День/Ночь</span><span data-en>Fixed the Apply button in the Day/Night schedule editor</span></li>
-        </ul>
       </div>
-
-      <div class="cl-item cl-old">
-        <div class="cl-header">
-          <span class="cl-version cl-old">1.3.0</span>
-          <span class="cl-date"><span data-ru>май 2026</span><span data-en>May 2026</span></span>
-        </div>
-        <ul class="cl-list">
-          <li><span data-ru>Степпер минут для будильника: тап — ввод вручную, долгое нажатие ± — быстрое изменение</span><span data-en>Alarm minute stepper: tap to type, long-press ± for quick change</span></li>
-          <li><span data-ru>Смена статуса дня (выходной/больничный/отпуск) автоматически отменяет будильник</span><span data-en>Changing day status (day off/sick/vacation) automatically cancels the alarm</span></li>
-          <li><span data-ru>Кнопка «Закрыть» прямо в уведомлении о смене</span><span data-en>Dismiss button directly in the shift notification</span></li>
-        </ul>
-      </div>
-
     </div>
   </div>
 </section>
 
-<!-- ARTICLES -->
+<!-- ═══ DOWNLOAD ═══ -->
+<section class="download-section" id="download">
+  <div class="container">
+    <div class="download-cta reveal">
+      <h2 data-ru>Скачать ShiftSchedule</h2>
+      <h2 data-en>Download ShiftSchedule</h2>
+      <p data-ru>Доступно для Android</p>
+      <p data-en>Available for Android</p>
+      <div class="download-buttons">
+        <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule?utm_source=website&utm_medium=button&utm_campaign=main"
+           class="btn-primary" style="font-size:17px;padding:15px 32px;"
+           onclick="ym(109065744,'reachGoal','download_rustore')">
+          <span data-ru>Скачать в RuStore</span>
+          <span data-en>Get on RuStore</span>
+        </a>
+        <a href="https://github.com/MIRORSTAR/shiftschedule/releases/download/v1.9.0/ShiftSchedule-rustore-v1.9.0-18.apk"
+           class="btn-secondary" style="font-size:16px;padding:15px 28px;"
+           onclick="ym(109065744,'reachGoal','download_apk')">
+          <span data-ru>&#8595; Скачать APK напрямую</span>
+          <span data-en>&#8595; Direct APK Download</span>
+        </a>
+      </div>
+      <div class="download-note" data-ru>Прямой APK: перед установкой разрешите «Установку из неизвестных источников» в настройках Android → Безопасность</div>
+      <div class="download-note" data-en>Direct APK: before installing, enable "Install from unknown sources" in Android Settings → Security</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ARTICLES ═══ -->
 <section class="section" style="padding-top: 0;">
-  <h2 class="section-title" data-ru>Полезные статьи</h2>
-  <h2 class="section-title" data-en>Helpful guides</h2>
-  <p class="section-sub" data-ru>Советы для сменных работников</p>
-  <p class="section-sub" data-en>Tips for shift workers</p>
-  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; max-width:960px; margin:0 auto;">
-    <a href="articles/kak-ne-poteryat-smennyj-grafik.html" style="background:var(--surface); border:1px solid rgba(255,255,255,0.06); border-radius:var(--radius); padding:24px; text-decoration:none; color:var(--text); transition:border-color 0.2s; display:block;" onmouseover="this.style.borderColor='rgba(74,143,232,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)'">
-      <div style="font-size:24px; margin-bottom:12px;">💾</div>
-      <div style="font-weight:700; font-size:16px; margin-bottom:8px; line-height:1.4;">
-        <span data-ru>Как не потерять сменный график при смене телефона</span>
-        <span data-en>How to keep your shift schedule when changing phones</span>
-      </div>
-      <div style="font-size:13px; color:var(--text2);">
-        <span data-ru>Облачная синхронизация и регистрация аккаунта</span>
-        <span data-en>Cloud sync and account registration</span>
-      </div>
-    </a>
-    <a href="articles/grafik-2-2.html" style="background:var(--surface); border:1px solid rgba(255,255,255,0.06); border-radius:var(--radius); padding:24px; text-decoration:none; color:var(--text); transition:border-color 0.2s; display:block;" onmouseover="this.style.borderColor='rgba(74,143,232,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)'">
-      <div style="font-size:24px; margin-bottom:12px;">📅</div>
-      <div style="font-weight:700; font-size:16px; margin-bottom:8px; line-height:1.4;">
-        <span data-ru>График 2/2: как рассчитать смены и не сбиться</span>
-        <span data-en>2/2 schedule: how to calculate shifts and stay on track</span>
-      </div>
-      <div style="font-size:13px; color:var(--text2);">
-        <span data-ru>Якорная дата, цикл, ручные правки</span>
-        <span data-en>Anchor date, cycle, manual overrides</span>
-      </div>
-    </a>
-    <a href="articles/obshchie-vyhodnye.html" style="background:var(--surface); border:1px solid rgba(255,255,255,0.06); border-radius:var(--radius); padding:24px; text-decoration:none; color:var(--text); transition:border-color 0.2s; display:block;" onmouseover="this.style.borderColor='rgba(74,143,232,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)'">
-      <div style="font-size:24px; margin-bottom:12px;">👫</div>
-      <div style="font-weight:700; font-size:16px; margin-bottom:8px; line-height:1.4;">
-        <span data-ru>Общие выходные с партнёром при сменном графике</span>
-        <span data-en>Shared days off with your partner</span>
-      </div>
-      <div style="font-size:13px; color:var(--text2);">
-        <span data-ru>Синхронизация расписаний, код партнёра, вкладка «Вместе»</span>
-        <span data-en>Schedule sync, partner code, Together tab</span>
-      </div>
-    </a>
-    <a href="articles/alice-navyk.html" style="background:var(--surface); border:1px solid rgba(124,58,237,0.2); border-radius:var(--radius); padding:24px; text-decoration:none; color:var(--text); transition:border-color 0.2s; display:block;" onmouseover="this.style.borderColor='rgba(124,58,237,0.5)'" onmouseout="this.style.borderColor='rgba(124,58,237,0.2)'">
-      <div style="font-size:24px; margin-bottom:12px;">🎙️</div>
-      <div style="font-weight:700; font-size:16px; margin-bottom:8px; line-height:1.4;">
-        <span data-ru>Голосовые команды Алисы: полный список</span>
-        <span data-en>Alice voice commands: full list</span>
-      </div>
-      <div style="font-size:13px; color:var(--text2);">
-        <span data-ru>Навык Яндекс Алисы «Мой график смен»</span>
-        <span data-en>Yandex Alice skill "My Shift Schedule"</span>
-      </div>
-    </a>
-    <a href="articles/pochemu-ya-sdelal-ne-prosto-grafik.html" style="background:var(--surface); border:1px solid rgba(74,143,232,0.15); border-radius:var(--radius); padding:24px; text-decoration:none; color:var(--text); transition:border-color 0.2s; display:block;" onmouseover="this.style.borderColor='rgba(74,143,232,0.4)'" onmouseout="this.style.borderColor='rgba(74,143,232,0.15)'">
-      <div style="font-size:24px; margin-bottom:12px;">✍️</div>
-      <div style="font-weight:700; font-size:16px; margin-bottom:8px; line-height:1.4;">
-        <span data-ru>Я думал, что делаю график смен. А оказалось — приложение про семью</span>
-        <span data-en>I thought I was making a shift app. Turned out it's about family</span>
-      </div>
-      <div style="font-size:13px; color:var(--text2);">
-        <span data-ru>История создания ShiftSchedule — от рекламы до трёх стартов</span>
-        <span data-en>The story behind ShiftSchedule — from an ad to three fresh starts</span>
-      </div>
-    </a>
-    <a href="articles/solo-razrabotchik-prodvizhenie-bez-byudzheta.html" style="background:var(--surface); border:1px solid rgba(74,143,232,0.15); border-radius:var(--radius); padding:24px; text-decoration:none; color:var(--text); transition:border-color 0.2s; display:block;" onmouseover="this.style.borderColor='rgba(74,143,232,0.4)'" onmouseout="this.style.borderColor='rgba(74,143,232,0.15)'">
-      <div style="font-size:24px; margin-bottom:12px;">&#128640;</div>
-      <div style="font-weight:700; font-size:16px; margin-bottom:8px; line-height:1.4;">
-        <span data-ru>Написать код проще, чем найти первых пользователей</span>
-        <span data-en>Writing code is easier than finding your first users</span>
-      </div>
-      <div style="font-size:13px; color:var(--text2);">
-        <span data-ru>Как один разработчик продвигает приложение без бюджета</span>
-        <span data-en>How a solo developer promotes an app without a budget</span>
-      </div>
-    </a>
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title" data-ru>Полезные статьи</h2>
+      <h2 class="section-title" data-en>Helpful guides</h2>
+      <p class="section-sub" data-ru>Советы для сменных работников</p>
+      <p class="section-sub" data-en>Tips for shift workers</p>
+    </div>
+    <div class="articles-grid">
+      <a href="articles/kak-ne-poteryat-smennyj-grafik.html" class="article-card">
+        <div class="article-icon">&#128190;</div>
+        <h3 data-ru>Как не потерять сменный график при смене телефона</h3>
+        <h3 data-en>How to keep your shift schedule when changing phones</h3>
+        <p data-ru>Облачная синхронизация и регистрация аккаунта</p>
+        <p data-en>Cloud sync and account registration</p>
+      </a>
+      <a href="articles/grafik-2-2.html" class="article-card">
+        <div class="article-icon">&#128197;</div>
+        <h3 data-ru>График 2/2: как рассчитать смены и не сбиться</h3>
+        <h3 data-en>2/2 schedule: how to calculate shifts and stay on track</h3>
+        <p data-ru>Якорная дата, цикл, ручные правки</p>
+        <p data-en>Anchor date, cycle, manual overrides</p>
+      </a>
+      <a href="articles/obshchie-vyhodnye.html" class="article-card">
+        <div class="article-icon">&#128107;</div>
+        <h3 data-ru>Общие выходные с партнёром при сменном графике</h3>
+        <h3 data-en>Shared days off with your partner</h3>
+        <p data-ru>Синхронизация расписаний, код партнёра, вкладка «Вместе»</p>
+        <p data-en>Schedule sync, partner code, Together tab</p>
+      </a>
+      <a href="articles/alice-navyk.html" class="article-card" style="border-color: rgba(124,58,237,0.2);">
+        <div class="article-icon">&#127897;&#65039;</div>
+        <h3 data-ru>Голосовые команды Алисы: полный список</h3>
+        <h3 data-en>Alice voice commands: full list</h3>
+        <p data-ru>Навык Яндекс Алисы «Мой график смен»</p>
+        <p data-en>Yandex Alice skill "My Shift Schedule"</p>
+      </a>
+      <a href="articles/pochemu-ya-sdelal-ne-prosto-grafik.html" class="article-card" style="border-color: rgba(74,143,232,0.15);">
+        <div class="article-icon">&#9997;&#65039;</div>
+        <h3 data-ru>Я думал, что делаю график смен. А оказалось — приложение про семью</h3>
+        <h3 data-en>I thought I was making a shift app. Turned out it's about family</h3>
+        <p data-ru>История создания ShiftSchedule</p>
+        <p data-en>The story behind ShiftSchedule</p>
+      </a>
+      <a href="articles/solo-razrabotchik-prodvizhenie-bez-byudzheta.html" class="article-card" style="border-color: rgba(74,143,232,0.15);">
+        <div class="article-icon">&#128640;</div>
+        <h3 data-ru>Написать код проще, чем найти первых пользователей</h3>
+        <h3 data-en>Writing code is easier than finding your first users</h3>
+        <p data-ru>Как один разработчик продвигает приложение без бюджета</p>
+        <p data-en>How a solo developer promotes an app without a budget</p>
+      </a>
+    </div>
   </div>
 </section>
 
-<!-- DOWNLOAD -->
-<section class="section" id="download" style="text-align:center; padding-top: 0;">
-  <h2 class="section-title" data-ru>Скачать</h2>
-  <h2 class="section-title" data-en>Download</h2>
-  <p class="section-sub" data-ru>Доступно для Android</p>
-  <p class="section-sub" data-en>Available for Android</p>
-  <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:8px;">
-    <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule?utm_source=website&utm_medium=button&utm_campaign=main" class="btn-primary" style="font-size:18px; padding: 16px 36px;" onclick="ym(109065744,'reachGoal','download_rustore')">
-      <span data-ru>Скачать в RuStore</span>
-      <span data-en>Get on RuStore</span>
-    </a>
-    <a href="https://github.com/MIRORSTAR/shiftschedule/releases/download/v1.9.0/ShiftSchedule-rustore-v1.9.0-18.apk" class="btn-secondary" style="font-size:16px; padding: 16px 28px;" onclick="ym(109065744,'reachGoal','download_apk')">
-      <span data-ru>⬇ Скачать APK напрямую</span>
-      <span data-en>⬇ Direct APK Download</span>
-    </a>
-  </div>
-  <p style="margin-top:16px; font-size:13px; color:var(--text2);">
-    <span data-ru>Прямой APK: перед установкой разрешите «Установку из неизвестных источников» в настройках Android → Безопасность</span>
-    <span data-en>Direct APK: before installing, enable "Install from unknown sources" in Android Settings → Security</span>
-  </p>
-</section>
-
-<!-- FOOTER -->
+<!-- ═══ FOOTER ═══ -->
 <footer>
-  <div class="footer-links">
-    <a href="privacy.html" data-ru>Политика конфиденциальности</a>
-    <a href="privacy.html" data-en>Privacy Policy</a>
-    <a href="guide.html" data-ru>Руководство</a>
-    <a href="guide.html" data-en>User Guide</a>
-    <a href="help.html" data-ru>Инструкции PRO</a>
-    <a href="help.html" data-en>PRO Help</a>
-    <a href="https://max.ru/id611120366153_biz" data-ru>Канал в MAX</a>
-    <a href="https://max.ru/id611120366153_biz" data-en>MAX Channel</a>
-    <a href="https://4pda.to/forum/index.php?showtopic=1122144" data-ru>Обсуждение на 4PDA</a>
-    <a href="https://4pda.to/forum/index.php?showtopic=1122144" data-en>4PDA Discussion</a>
-    <a href="https://t.me/ShiftSchedule" data-ru>Telegram-канал</a>
-    <a href="https://t.me/ShiftSchedule" data-en>Telegram Channel</a>
-    <a href="https://vk.com/club238176087" data-ru>Группа ВКонтакте</a>
-    <a href="https://vk.com/club238176087" data-en>VK Community</a>
-    <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a>
+  <div class="container">
+    <div class="footer-links">
+      <a href="privacy.html" data-ru>Политика конфиденциальности</a>
+      <a href="privacy.html" data-en>Privacy Policy</a>
+      <a href="guide.html"   data-ru>Руководство</a>
+      <a href="guide.html"   data-en>User Guide</a>
+      <a href="help.html"    data-ru>Инструкции PRO</a>
+      <a href="help.html"    data-en>PRO Help</a>
+      <a href="https://max.ru/id611120366153_biz"                    data-ru>Канал в MAX</a>
+      <a href="https://max.ru/id611120366153_biz"                    data-en>MAX Channel</a>
+      <a href="https://4pda.to/forum/index.php?showtopic=1122144"    data-ru>Обсуждение на 4PDA</a>
+      <a href="https://4pda.to/forum/index.php?showtopic=1122144"    data-en>4PDA Discussion</a>
+      <a href="https://t.me/ShiftSchedule"                           data-ru>Telegram-канал</a>
+      <a href="https://t.me/ShiftSchedule"                           data-en>Telegram Channel</a>
+      <a href="https://vk.com/club238176087"                         data-ru>Группа ВКонтакте</a>
+      <a href="https://vk.com/club238176087"                         data-en>VK Community</a>
+      <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a>
+    </div>
+    <div class="footer-copy">© 2026 ShiftSchedule · <span data-ru>Все права защищены</span><span data-en>All rights reserved</span></div>
   </div>
-  <div>© 2026 ShiftSchedule · <span data-ru>Все права защищены</span><span data-en>All rights reserved</span></div>
 </footer>
 
+<!-- ═══ SCRIPTS ═══ -->
 <script>
   function setLang(lang) {
     document.body.classList.toggle('lang-en', lang === 'en');
@@ -888,21 +1258,32 @@
 </script>
 
 <script>
-  // Scroll-reveal: плавное появление секций и карточек
   document.addEventListener('DOMContentLoaded', () => {
-    // Секции и крупные блоки
-    document.querySelectorAll('.section, .hero-shot, .shot-row, .pro-section, .statuses').forEach(el => {
-      el.classList.add('reveal');
-    });
-
-    // Feature-карточки с нарастающей задержкой
+    // Staggered reveal for feature cards
     document.querySelectorAll('.features-grid .feature-card').forEach((el, i) => {
       el.classList.add('reveal');
       el.style.transitionDelay = (i * 0.07) + 's';
     });
 
-    // Shot-карточки в галерее
-    document.querySelectorAll('.shot-card').forEach((el, i) => {
+    // Staggered reveal for schedule type cards
+    document.querySelectorAll('.st-card').forEach((el, i) => {
+      el.classList.add('reveal-scale');
+      el.style.transitionDelay = (i * 0.06) + 's';
+    });
+
+    // Staggered reveal for screenshots
+    document.querySelectorAll('.screen-card').forEach((el, i) => {
+      el.classList.add('reveal');
+      el.style.transitionDelay = (i * 0.09) + 's';
+    });
+
+    // Reveal for section headers
+    document.querySelectorAll('.section-header').forEach(el => {
+      if (!el.classList.contains('reveal')) el.classList.add('reveal');
+    });
+
+    // Reveal for article cards
+    document.querySelectorAll('.article-card').forEach((el, i) => {
       el.classList.add('reveal');
       el.style.transitionDelay = (i * 0.06) + 's';
     });
@@ -913,10 +1294,11 @@
           entry.target.classList.add('visible');
         }
       });
-    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+    }, { threshold: 0.07, rootMargin: '0px 0px -24px 0px' });
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal, .reveal-scale').forEach(el => observer.observe(el));
   });
 </script>
+
 </body>
 </html>

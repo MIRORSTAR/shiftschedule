@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="yandex-verification" content="7abe6d0b3a4f8029" />
+  <meta name="google-site-verification" content="zC341Z0k-D3wu8oVYMRgyzbLlpQUxbtYQMgWmEf64UY" />
+  <title>Как найти несколько общих выходных подряд при сменном графике — ShiftSchedule</title>
+  <meta name="description" content="ShiftSchedule помогает найти общие выходные с партнёром, объединяет свободные дни в периоды, показывает погоду, праздники и заметки для совместного отдыха.">
+  <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/articles/common-shift-weekends-periods.html">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="apple-touch-icon" href="../favicon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Как найти несколько общих выходных подряд при сменном графике">
+  <meta property="og:description" content="ShiftSchedule помогает найти общие выходные с партнёром, объединяет свободные дни в периоды, показывает погоду, праздники и заметки для совместного отдыха.">
+  <meta property="og:url" content="https://mirorstar.github.io/shiftschedule/articles/common-shift-weekends-periods.html">
+  <meta property="og:image" content="https://mirorstar.github.io/shiftschedule/articles/img/vmeste-hero.png">
+  <meta property="og:locale" content="ru_RU">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Как найти несколько общих выходных подряд, если вы оба работаете посменно",
+    "description": "ShiftSchedule помогает найти общие выходные с партнёром, объединяет свободные дни в периоды, показывает погоду, праздники и заметки для совместного отдыха.",
+    "image": "https://mirorstar.github.io/shiftschedule/articles/img/vmeste-hero.png",
+    "datePublished": "2026-06-13",
+    "dateModified": "2026-06-13",
+    "author": { "@type": "Person", "name": "Mironov Ruslan" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ShiftSchedule",
+      "logo": { "@type": "ImageObject", "url": "https://mirorstar.github.io/shiftschedule/favicon.png" }
+    },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://mirorstar.github.io/shiftschedule/articles/common-shift-weekends-periods.html" }
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --accent: #4a8fe8;
+      --accent2: #66b8b2;
+      --text: #e8eaf0;
+      --text2: #8b90a0;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 40px;
+      background: rgba(15,17,23,0.92);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo { font-size: 18px; font-weight: 700; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .lang-toggle { display: flex; gap: 4px; background: var(--surface2); border-radius: 8px; padding: 4px; }
+    .lang-btn { background: none; border: none; color: var(--text2); cursor: pointer; padding: 4px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; transition: all 0.2s; }
+    .lang-btn.active { background: var(--accent); color: #fff; }
+    .breadcrumb {
+      max-width: 760px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .breadcrumb a { color: var(--text2); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+    .article-header { margin-bottom: 40px; }
+    .article-header h1 {
+      font-size: clamp(26px, 5vw, 38px);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .article-meta {
+      font-size: 13px;
+      color: var(--text2);
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .article-body h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 40px 0 16px;
+      color: var(--text);
+    }
+    .article-body h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin: 28px 0 10px;
+      color: var(--text);
+    }
+    .article-body p { margin-bottom: 16px; font-size: 16px; color: var(--text); }
+    .article-body ul, .article-body ol {
+      margin: 0 0 16px 24px;
+      font-size: 16px;
+    }
+    .article-body li { margin-bottom: 8px; }
+    .article-body strong { color: var(--text); }
+    .article-img {
+      margin: 28px 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    /* Hero: 16:9, full width */
+    .article-img--hero img {
+      width: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+    }
+    /* Vertical phone screenshots: capped at 16:9 height equivalent */
+    .article-img--screen img {
+      max-height: 420px;
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    .article-img figcaption {
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--text2);
+      background: var(--surface);
+      line-height: 1.5;
+    }
+    .info-box {
+      background: var(--surface);
+      border: 1px solid rgba(74,143,232,0.25);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+    .info-box p { margin: 0; font-size: 15px; }
+    .cta-box {
+      background: linear-gradient(135deg, var(--surface), rgba(74,143,232,0.08));
+      border: 1px solid rgba(74,143,232,0.2);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 48px 0 32px;
+      text-align: center;
+    }
+    .cta-box h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .cta-box p { color: var(--text2); margin-bottom: 24px; font-size: 15px; }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+      margin: 4px;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+      margin: 4px;
+    }
+    .btn-secondary:hover { background: #2a2f45; }
+    .related {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .related h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .related-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s;
+    }
+    .related-card:hover { border-color: rgba(74,143,232,0.4); }
+    .related-card p { font-size: 14px; font-weight: 600; margin: 0; line-height: 1.4; }
+    .related-card span { font-size: 12px; color: var(--text2); }
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 32px 20px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px; }
+    .footer-links a { color: var(--text2); text-decoration: none; }
+    .footer-links a:hover { color: var(--accent); }
+    [data-ru], [data-en] { display: none; }
+    .lang-ru [data-ru] { display: inline; }
+    .lang-ru p[data-ru], .lang-ru li[data-ru], .lang-ru div[data-ru],
+    .lang-ru h2[data-ru], .lang-ru h3[data-ru], .lang-ru ul[data-ru] { display: block; }
+    .lang-en [data-en] { display: inline; }
+    .lang-en p[data-en], .lang-en li[data-en], .lang-en div[data-en],
+    .lang-en h2[data-en], .lang-en h3[data-en], .lang-en ul[data-en] { display: block; }
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+      .article-wrap { padding: 24px 16px 60px; }
+    }
+  </style>
+
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    ym(109065744,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/109065744" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
+  <script src="../theme.js"></script>
+  <link rel="stylesheet" href="../theme.css">
+</head>
+<body class="lang-ru">
+
+<nav>
+  <a href="../index.html" class="nav-logo">Shift<span>Schedule</span></a>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <button class="theme-btn" onclick="toggleTheme()" aria-label="Сменить тему">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <circle cx="12" cy="12" r="4"/>
+        <line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/>
+        <line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/>
+        <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
+        <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
+      </svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+  <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+    <a href="../index.html" itemprop="item" data-ru><span itemprop="name">Главная</span></a>
+    <a href="../index.html" itemprop="item" data-en><span itemprop="name">Home</span></a>
+    <meta itemprop="position" content="1">
+  </span>
+  <span> / </span>
+  <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+    <span itemprop="name" data-ru>Общие выходные при сменном графике</span>
+    <span itemprop="name" data-en>Shared days off with shift schedule</span>
+    <meta itemprop="position" content="2">
+  </span>
+</div>
+
+<div class="article-wrap">
+  <article itemscope itemtype="https://schema.org/Article">
+    <div class="article-header">
+      <h1 itemprop="headline" data-ru>Как найти несколько общих выходных подряд, если вы оба работаете посменно</h1>
+      <h1 itemprop="headline" data-en>How to find several consecutive days off together when you both work shifts</h1>
+      <div class="article-meta">
+        <span data-ru>ShiftSchedule</span><span data-en>ShiftSchedule</span>
+        <span itemprop="datePublished" content="2026-06-13" data-ru>13 июня 2026</span>
+        <span itemprop="datePublished" content="2026-06-13" data-en>June 13, 2026</span>
+      </div>
+
+      <!-- Hero image после заголовка -->
+      <figure class="article-img article-img--hero">
+        <img src="img/vmeste-hero.png" alt="Пара планирует совместные выходные с помощью приложения ShiftSchedule" itemprop="image">
+      </figure>
+    </div>
+
+    <div class="article-body">
+
+      <p data-ru>Со стороны сменный график иногда кажется удобным: работаешь не каждый день, бывают выходные среди недели, можно куда-то сходить, пока остальные на работе.</p>
+
+      <p data-ru>Но если в семье два разных графика, всё становится сложнее. У одного смена, у второго выходной. Потом наоборот. Один после ночной только отсыпается, второй уже планирует дела. И вроде бы выходные есть у обоих, но вместе они почему-то почти не совпадают.</p>
+
+      <p data-ru>Один свободный день ещё можно найти вручную. А вот найти два, три или семь дней подряд — уже отдельная задача.</p>
+
+      <p data-ru>Нужно сравнить два календаря, вспомнить про подработки, отпуск, больничный, ночные смены и праздники. А потом ещё понять, подходит ли этот период для поездки или лучше оставить его для домашних дел.</p>
+
+      <p data-ru>В ShiftSchedule 2.0 для этого появилась отдельная вкладка «Вместе».</p>
+
+      <h2 data-ru>Не просто общий выходной, а период</h2>
+
+      <p data-ru>Раньше главная задача была простой: показать дни, когда у вас и партнёра совпадают выходные.</p>
+
+      <p data-ru>Но в реальной жизни одного дня часто мало. Для поездки, отдыха, семейных дел или нормальной перезагрузки хочется найти несколько свободных дней подряд.</p>
+
+      <p data-ru>Поэтому в новой версии вкладка «Вместе» показывает не только отдельные совпадения, но и объединяет их в периоды.</p>
+
+      <p data-ru>Например:</p>
+
+      <ul data-ru>
+        <li>13–14 июня — 2 дня вместе;</li>
+        <li>17–21 июня — 5 дней вместе;</li>
+        <li>30 июня — 1 июля — ещё один общий период.</li>
+      </ul>
+
+      <p data-ru>Так сразу видно, где просто свободный день, а где уже можно что-то планировать.</p>
+
+      <figure class="article-img article-img--screen">
+        <img src="img/vmeste-tab.jpg" alt="Вкладка Вместе в ShiftSchedule — общие выходные периодами">
+        <figcaption data-ru>Вкладка «Вместе» показывает общие выходные, объединяя их в периоды. Нажмите «Вместе» внизу экрана и потяните вверх.</figcaption>
+      </figure>
+
+      <h2 data-ru>Почему это удобнее обычного календаря</h2>
+
+      <p data-ru>Обычный календарь показывает даты. Но он не понимает, что у одного человека смена день/ночь, у второго другой цикл, а где-то ещё есть подработка или отпуск.</p>
+
+      <p data-ru>ShiftSchedule считает именно сменный график. Поэтому вкладка «Вместе» сравнивает два расписания и показывает только те даты, когда оба действительно свободны.</p>
+
+      <p data-ru>Это особенно полезно, если графики разные: 2/2, 3/3, сутки через трое, день/ночь или свой цикл.</p>
+
+      <div class="info-box">
+        <p data-ru>Больничный и отпуск учитываются правильно: если один из партнёров на больничном, этот день не считается совместным выходным — приложение понимает разницу между свободным днём и отсутствием по болезни.</p>
+      </div>
+
+      <h2 data-ru>Погода и праздники</h2>
+
+      <p data-ru>В новой версии появились праздники разных стран. Их можно включить в настройках, и они будут отображаться в календаре.</p>
+
+      <p data-ru>На главном экране можно увидеть праздничный день, заметки и погоду рядом со сменами.</p>
+
+      <figure class="article-img article-img--screen">
+        <img src="img/vmeste-main-screen.jpg" alt="Главный экран ShiftSchedule с праздниками и погодой">
+        <figcaption data-ru>Праздники выделяются красным числом прямо в ячейке — и в основном календаре, и во вкладке «Вместе».</figcaption>
+      </figure>
+
+      <p data-ru>Для совместных периодов во вкладке «Вместе» показывается погода. Если свободных дней несколько, приложение показывает сводку: температуру и количество дождливых дней.</p>
+
+      <p data-ru>Это помогает заранее понять, подходит ли период для прогулки, поездки или отдыха на природе.</p>
+
+      <figure class="article-img article-img--screen">
+        <img src="img/vmeste-weather.jpg" alt="Вкладка Вместе с прогнозом погоды на общий период">
+        <figcaption data-ru>Для каждого совместного периода приложение показывает погодную сводку: температуру и прогноз по дням.</figcaption>
+      </figure>
+
+      <h2 data-ru>Заметки и планы</h2>
+
+      <p data-ru>Когда общий период найден, на него можно сразу записать планы: прогулка, кино, поездка, море, встреча или семейные дела.</p>
+
+      <p data-ru>В ShiftSchedule 2.0 заметки можно добавлять не только вручную, но и через Алису. Попросили добавить заметку на нужную дату — она появится в календаре.</p>
+
+      <h2 data-ru>Что ещё вошло в обновление 2.0</h2>
+
+      <p data-ru>Кроме вкладки «Вместе», в версии 2.0 появились:</p>
+
+      <ul data-ru>
+        <li>официальные праздники разных стран;</li>
+        <li>новый раздел «Отображение» для погоды и праздников;</li>
+        <li>ручной выбор дневных и ночных смен;</li>
+        <li>дневные и ночные подработки;</li>
+        <li>безопасное изменение графика День/Ночь через черновик;</li>
+        <li>улучшенная партнёрская синхронизация;</li>
+        <li>более стабильная погода;</li>
+        <li>исправления будильников, уведомлений и Android-календаря.</li>
+      </ul>
+
+      <p data-ru>Самое важное — приложение стало удобнее не только для ведения своего графика, но и для планирования времени вместе.</p>
+
+      <!-- CTA -->
+      <div class="cta-box">
+        <h3 data-ru>Попробуйте ShiftSchedule бесплатно</h3>
+        <h3 data-en>Try ShiftSchedule for free</h3>
+        <p data-ru>Если вы работаете посменно и устали вручную искать общие выходные — скачайте приложение.</p>
+        <p data-en>If you work shifts and are tired of manually searching for common days off — download the app.</p>
+        <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule"
+           class="btn-primary" onclick="ym(109065744,'reachGoal','article_vmeste_rustore')">
+          <span data-ru>Скачать в RuStore</span>
+          <span data-en>Get on RuStore</span>
+        </a>
+        <a href="https://github.com/MIRORSTAR/shiftschedule/releases/download/v2.0.0/ShiftSchedule-rustore-v2.0.0-19.apk"
+           class="btn-secondary" onclick="ym(109065744,'reachGoal','article_vmeste_apk')">
+          <span data-ru>&#8595; Скачать APK</span>
+          <span data-en>&#8595; Direct APK</span>
+        </a>
+      </div>
+
+      <!-- Related articles -->
+      <div class="related">
+        <h3 data-ru>Читайте также</h3>
+        <h3 data-en>Also read</h3>
+        <div class="related-grid">
+          <a href="obshchie-vyhodnye.html" class="related-card">
+            <p data-ru>Общие выходные с партнёром в ShiftSchedule</p>
+            <p data-en>Shared days off with partner in ShiftSchedule</p>
+            <span data-ru>Синхронизация графиков</span>
+            <span data-en>Schedule sync</span>
+          </a>
+          <a href="grafik-2-2.html" class="related-card">
+            <p data-ru>График 2/2: как настроить и вести сменный календарь</p>
+            <p data-en>2/2 shift schedule: how to set up and manage</p>
+            <span data-ru>Настройка графика</span>
+            <span data-en>Schedule setup</span>
+          </a>
+          <a href="kak-ne-poteryat-smennyj-grafik.html" class="related-card">
+            <p data-ru>Как не потерять сменный график</p>
+            <p data-en>How not to lose your shift schedule</p>
+            <span data-ru>Советы</span>
+            <span data-en>Tips</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </article>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="../index.html" data-ru>Главная</a>
+    <a href="../index.html" data-en>Home</a>
+    <a href="../privacy.html" data-ru>Конфиденциальность</a>
+    <a href="../privacy.html" data-en>Privacy</a>
+    <a href="../faq.html">FAQ</a>
+    <a href="../guide.html" data-ru>Руководство</a>
+    <a href="../guide.html" data-en>Guide</a>
+  </div>
+  <div data-ru>© 2026 ShiftSchedule — приложение для сменного графика</div>
+  <div data-en>© 2026 ShiftSchedule — shift schedule app</div>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.lang-btn[onclick="setLang(\'' + lang + '\')"]').classList.add('active');
+    localStorage.setItem('ss-lang', lang);
+  }
+  (function() {
+    var saved = localStorage.getItem('ss-lang') || 'ru';
+    setLang(saved);
+  })();
+</script>
+
+</body>
+</html>

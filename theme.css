@@ -1,0 +1,44 @@
+/* ── THEME BUTTON ── */
+.theme-btn {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: var(--text2);
+  cursor: pointer;
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+  padding: 0;
+}
+.theme-btn:hover { background: var(--surface2); color: var(--text); border-color: rgba(255,255,255,0.22); }
+.theme-btn svg { width: 15px; height: 15px; pointer-events: none; }
+.icon-sun  { display: block; }
+.icon-moon { display: none; }
+html.light .icon-sun  { display: none; }
+html.light .icon-moon { display: block; }
+html.light .theme-btn { border-color: rgba(0,0,0,0.12); }
+html.light .theme-btn:hover { border-color: rgba(0,0,0,0.22); background: var(--surface2); }
+
+/* ── LIGHT THEME ── */
+html.light {
+  --bg: #f0f2f8;
+  --surface: #ffffff;
+  --surface2: #e4e8f4;
+  --surface3: #d8dcee;
+  --text: #181a2a;
+  --text2: #404560;
+  --text3: #9aa0b0;
+  --accent: #3a7fd8;
+}
+html.light body { background: var(--bg) !important; color: var(--text) !important; }
+html.light nav { background: rgba(240,242,248,0.92) !important; border-bottom-color: rgba(0,0,0,0.07) !important; }
+html.light h1, html.light h2, html.light h3, html.light h4 { color: var(--text); }
+html.light p { color: var(--text); }
+html.light .section-title {
+  background: linear-gradient(135deg, #181a2a 60%, rgba(24,26,42,0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+html.light .section-sub { color: #404560; }

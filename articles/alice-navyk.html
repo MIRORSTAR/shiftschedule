@@ -592,6 +592,11 @@
       <div class="cmd-group" data-ru>
         <div class="cmd-group-title">Заметки</div>
         <div class="cmd-list">
+          <div class="cmd-item" style="border-color: rgba(124,58,237,0.35); background: rgba(124,58,237,0.06);">
+            <span class="cmd-phrase">«Сделай заметку»</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Создаёт заметку голосом на выбранный день — диалог из двух шагов: день и текст</span>
+          </div>
           <div class="cmd-item">
             <span class="cmd-phrase">«Заметки на сегодня»</span>
             <span class="cmd-divider">—</span>
@@ -615,9 +620,48 @@
         </div>
       </div>
 
+      <div class="alice-box" data-ru>
+        <p style="margin-bottom:12px;"><strong>Как работает запись заметки голосом:</strong></p>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:15px;">
+          <div style="display:flex;gap:10px;align-items:baseline;">
+            <span style="color:var(--text2);min-width:56px;font-size:13px;">Вы</span>
+            <span style="color:#a78bfa;font-weight:600;">«Сделай заметку»</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:baseline;">
+            <span style="color:var(--text2);min-width:56px;font-size:13px;">Алиса</span>
+            <span>«На какой день?»</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:baseline;">
+            <span style="color:var(--text2);min-width:56px;font-size:13px;">Вы</span>
+            <span style="color:#a78bfa;font-weight:600;">«Завтра» <span style="color:var(--text2);font-weight:400;font-size:13px;">(или «в пятницу», «15 июня»)</span></span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:baseline;">
+            <span style="color:var(--text2);min-width:56px;font-size:13px;">Алиса</span>
+            <span>«Что именно записать?»</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:baseline;">
+            <span style="color:var(--text2);min-width:56px;font-size:13px;">Вы</span>
+            <span style="color:#a78bfa;font-weight:600;">«Купить продукты и позвонить врачу»</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:baseline;">
+            <span style="color:var(--text2);min-width:56px;font-size:13px;">Алиса</span>
+            <span>«Готово, заметка сохранена» — и сразу синхронизирует с приложением</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box" data-ru>
+        <p>После сохранения заметка появляется в ShiftSchedule на указанный день. Если телефон рядом — придёт push-уведомление. При следующем открытии приложения заметка будет видна в списке дней.</p>
+      </div>
+
       <div class="cmd-group" data-en>
         <div class="cmd-group-title">Notes</div>
         <div class="cmd-list">
+          <div class="cmd-item" style="border-color: rgba(124,58,237,0.35); background: rgba(124,58,237,0.06);">
+            <span class="cmd-phrase">"Record a note"</span>
+            <span class="cmd-divider">—</span>
+            <span class="cmd-desc">Records a note by voice for a chosen day — two-step dialogue: day and content</span>
+          </div>
           <div class="cmd-item">
             <span class="cmd-phrase">"Notes for today"</span>
             <span class="cmd-divider">—</span>
@@ -634,6 +678,40 @@
             <span class="cmd-desc">All reminders for the next 30 days</span>
           </div>
         </div>
+      </div>
+
+      <div class="alice-box" data-en>
+        <p style="margin-bottom:12px;"><strong>How voice note recording works:</strong></p>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:15px;">
+          <div style="display:flex;gap:10px;align-items:baseline;">
+            <span style="color:var(--text2);min-width:56px;font-size:13px;">You</span>
+            <span style="color:#a78bfa;font-weight:600;">"Record a note"</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:baseline;">
+            <span style="color:var(--text2);min-width:56px;font-size:13px;">Alice</span>
+            <span>"For which day?"</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:baseline;">
+            <span style="color:var(--text2);min-width:56px;font-size:13px;">You</span>
+            <span style="color:#a78bfa;font-weight:600;">"Tomorrow" <span style="color:var(--text2);font-weight:400;font-size:13px;">(or "Friday", "June 15")</span></span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:baseline;">
+            <span style="color:var(--text2);min-width:56px;font-size:13px;">Alice</span>
+            <span>"What should I record?"</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:baseline;">
+            <span style="color:var(--text2);min-width:56px;font-size:13px;">You</span>
+            <span style="color:#a78bfa;font-weight:600;">"Buy groceries and call the doctor"</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:baseline;">
+            <span style="color:var(--text2);min-width:56px;font-size:13px;">Alice</span>
+            <span>"Done, note saved" — syncs to the app immediately</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box" data-en>
+        <p>After saving, the note appears in ShiftSchedule on the specified day. If your phone is nearby, you'll get a push notification. The note will be visible in the day list the next time you open the app.</p>
       </div>
 
       <!-- БУДИЛЬНИКИ -->

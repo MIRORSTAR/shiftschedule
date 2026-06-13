@@ -477,11 +477,24 @@
 
     .screenshots-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(6, 1fr);
       gap: 16px;
     }
-    @media (max-width: 768px)  { .screenshots-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
-    @media (max-width: 480px)  { .screenshots-grid { grid-template-columns: repeat(1, 1fr); gap: 12px; } }
+    .screen-card { grid-column: span 2; }
+    .screen-card:nth-child(4),
+    .screen-card:nth-child(5) { grid-column: span 3; }
+    @media (max-width: 768px) {
+      .screenshots-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .screen-card,
+      .screen-card:nth-child(4),
+      .screen-card:nth-child(5) { grid-column: span 1; }
+    }
+    @media (max-width: 480px) {
+      .screenshots-grid { grid-template-columns: 1fr; gap: 12px; }
+      .screen-card,
+      .screen-card:nth-child(4),
+      .screen-card:nth-child(5) { grid-column: span 1; }
+    }
 
     .screen-card {
       border-radius: var(--radius);
@@ -711,7 +724,6 @@
       .btn-primary, .btn-secondary, .btn-ghost { transition: none !important; }
       .screen-card:hover img { transform: none; }
       html { scroll-behavior: auto; }
-      .stack-card { transform: none !important; filter: none !important; }
     }
 
     /* ── THEME BUTTON ── */
@@ -765,20 +777,15 @@
     html.light body::after {
       background: radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 65%);
     }
-    html.light .stack-card {
-      box-shadow: 0 -1px 0 rgba(0,0,0,0.08), 0 -8px 32px rgba(0,0,0,0.08);
+    html.light .section-title {
+      background: linear-gradient(135deg, #181a2a 60%, rgba(24,26,42,0.7) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-
-    /* ── SCROLL STACK ── */
-    .stack-card {
-      position: sticky;
-      top: 0;
-      background: var(--bg);
-      border-radius: 24px 24px 0 0;
-      box-shadow: 0 -1px 0 rgba(255,255,255,0.07), 0 -16px 48px rgba(0,0,0,0.55);
-      will-change: transform;
-      transform-origin: top center;
-    }
+    html.light .section-sub { color: #404560; }
+    html.light h1, html.light h2, html.light h3 { color: var(--text); }
+    html.light p { color: var(--text); }
   </style>
 
   <script>(function(){var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:light)').matches?'light':'dark');if(t==='light')document.documentElement.classList.add('light');})();</script>
@@ -886,8 +893,6 @@
 <section class="screenshots-section">
   <div class="container">
     <div class="section-header">
-      <div class="section-tag" data-ru>Скриншоты</div>
-      <div class="section-tag" data-en>Screenshots</div>
       <h2 class="section-title" data-ru>Как выглядит приложение</h2>
       <h2 class="section-title" data-en>Inside the app</h2>
       <p class="section-sub" data-ru>Всё продумано для ежедневного использования</p>
@@ -1346,32 +1351,6 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    // ── SCROLL STACK ──
-    const sections = document.querySelectorAll('section:not(.hero-section)');
-    sections.forEach((s, i) => {
-      s.classList.add('stack-card');
-      s.style.zIndex = 10 + i;
-    });
-
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      const cards = Array.from(document.querySelectorAll('.stack-card'));
-      const onScroll = () => {
-        const vh = window.innerHeight;
-        cards.forEach((card, i) => {
-          const next = cards[i + 1];
-          if (!next) return;
-          const nextTop = next.getBoundingClientRect().top;
-          const progress = Math.max(0, Math.min(1, 1 - nextTop / vh));
-          const scale = 1 - progress * 0.04;
-          const bright = 1 - progress * 0.07;
-          card.style.transform = `scale(${scale})`;
-          card.style.filter = `brightness(${bright})`;
-        });
-      };
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
-    }
-
     // Staggered reveal for feature cards
     document.querySelectorAll('.features-grid .feature-card').forEach((el, i) => {
       el.classList.add('reveal');

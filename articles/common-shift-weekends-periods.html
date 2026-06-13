@@ -69,6 +69,32 @@
       z-index: 100;
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
+    /* Ambient blobs — same as main site */
+    body::before {
+      content: '';
+      position: fixed;
+      width: 900px; height: 900px;
+      top: -350px; left: 50%;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(74,143,232,0.07) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      width: 600px; height: 600px;
+      bottom: 20%; right: -150px;
+      background: radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    html.light body::before {
+      background: radial-gradient(circle, rgba(74,143,232,0.1) 0%, transparent 65%);
+    }
+    html.light body::after {
+      background: radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 65%);
+    }
     .nav-logo { font-size: 18px; font-weight: 700; color: var(--text); text-decoration: none; }
     .nav-logo span { color: var(--accent); }
     .lang-toggle { display: flex; gap: 4px; background: var(--surface2); border-radius: 8px; padding: 4px; }

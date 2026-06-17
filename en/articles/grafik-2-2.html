@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ru"><head>
+<!DOCTYPE html><html lang="en"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="yandex-verification" content="7abe6d0b3a4f8029">
@@ -6,8 +6,8 @@
   <title>График 2/2: как рассчитать смены и не сбиться — ShiftSchedule</title>
   <meta name="description" content="Как правильно рассчитать сменный график 2 через 2: якорная дата, цикл, ручные правки. Почему легко ошибиться и как приложение ShiftSchedule решает эту задачу автоматически.">
   <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/articles/grafik-2-2.html">
-  <link rel="icon" type="image/png" href="../favicon.png">
-  <link rel="apple-touch-icon" href="../favicon.png">
+  <link rel="icon" type="image/png" href="../../favicon.png">
+  <link rel="apple-touch-icon" href="../../favicon.png">
   <style>
     :root {
       --bg: #0f1117;
@@ -248,8 +248,8 @@
     ym(109065744,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/109065744" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
-  <script src="../theme.js"></script>
-  <link rel="stylesheet" href="../theme.css">
+  <script src="../../theme.js"></script>
+  <link rel="stylesheet" href="../../theme.css">
 
   <link rel="alternate" hreflang="ru" href="https://mirorstar.github.io/shiftschedule/articles/grafik-2-2.html">
   <link rel="alternate" hreflang="en" href="https://mirorstar.github.io/shiftschedule/en/articles/grafik-2-2.html">
@@ -273,8 +273,8 @@
       </svg>
     </button>
     <div class="lang-toggle">
-    <span class="lang-btn active">RU</span>
-    <a href="../en/articles/grafik-2-2.html" class="lang-btn" style="text-decoration: none;">EN</a>
+    <a href="../../articles/grafik-2-2.html" class="lang-btn" style="text-decoration: none;">RU</a>
+    <span class="lang-btn active">EN</span>
   </div>
   </div>
 </nav>
@@ -282,199 +282,199 @@
 <div class="article-wrap">
 
   <div class="breadcrumb">
-    <a href="../index.html">Главная</a>
-    <span> / Статья</span>
+    <a href="../index.html">Home</a>
+    <span> / Article</span>
   </div>
 
   <article>
     <div class="article-header">
       <h1>
-        <span>График 2/2: как рассчитать смены и не сбиться</span>
         
+        <span>2/2 shift schedule: how to calculate and stay on track</span>
       </h1>
       <div class="article-meta">
-        <span>Обновлено: май 2026</span>
         
+        <span>Updated: May 2026</span>
         <span>ShiftSchedule 1.9.0</span>
       </div>
     </div>
 
-    <img src="img/grafik-2-2-hero.jpg" alt="Пара настраивает сменный график 2 через 2 в приложении ShiftSchedule" style="width:100%; border-radius:16px; margin-bottom:32px; display:block; box-shadow:0 16px 48px rgba(0,0,0,0.5);">
+    <img src="../../articles/img/grafik-2-2-hero.jpg" alt="Пара настраивает сменный график 2 через 2 в приложении ShiftSchedule" style="width:100%; border-radius:16px; margin-bottom:32px; display:block; box-shadow:0 16px 48px rgba(0,0,0,0.5);">
 
     <div class="article-body">
 
-      <p>График 2 через 2 — один из самых распространённых в России: охрана, торговля, медицина, производство. Два дня работаешь, два отдыхаешь — звучит просто. Но уже через месяц без чёткой системы легко запутаться: когда у тебя смена, а когда у коллеги? Совпадают ли выходные с партнёром? В этой статье разберём, как работает расчёт, где чаще всего ошибаются и как это автоматизировать.</p>
       
+      <p>The 2/2 schedule is one of the most common in Russia — used in security, retail, healthcare, and manufacturing. Two days on, two days off. Sounds simple. But after a month without a clear system, it's easy to lose track: when is your shift, when is your colleague's? Do your days off align with your partner's? This article explains how the calculation works, where people most often go wrong, and how to automate it.</p>
 
-      <h2>Как устроен цикл 2/2</h2>
       
+      <h2>How the 2/2 cycle works</h2>
 
-      <p>График 2 через 2 — это повторяющийся <strong>4-дневный цикл</strong>: два рабочих дня, потом два выходных. Цикл не привязан к неделе — он идёт непрерывно.</p>
       
+      <p>The 2/2 schedule is a repeating <strong>4-day cycle</strong>: two working days, then two days off. The cycle isn't tied to the week — it runs continuously.</p>
 
       <table class="cycle-table">
         <thead>
           <tr>
-            <th>День цикла</th>
-            <th>Статус</th>
+            <th>Cycle day</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>1</td><td class="work">Работа</td></tr>
-          <tr><td>2</td><td class="work">Работа</td></tr>
-          <tr><td>3</td><td class="rest">Выходной</td></tr>
-          <tr><td>4</td><td class="rest">Выходной</td></tr>
-          <tr><td>5</td><td class="work">Работа (цикл повторяется)</td></tr>
+          <tr><td>1</td><td class="work">Work</td></tr>
+          <tr><td>2</td><td class="work">Work</td></tr>
+          <tr><td>3</td><td class="rest">Day off</td></tr>
+          <tr><td>4</td><td class="rest">Day off</td></tr>
+          <tr><td>5</td><td class="work">Work (cycle repeats)</td></tr>
         </tbody>
       </table>
 
-      <p>Чтобы узнать статус любого дня, нужны две вещи: <strong>якорная дата</strong> (любой известный рабочий день, с которого начинается отсчёт) и сама формула расчёта.</p>
       
+      <p>To find the status of any day, you need two things: an <strong>anchor date</strong> (any known working day to start counting from) and the calculation formula itself.</p>
 
-      <h2>Формула расчёта</h2>
       
+      <h2>How to calculate</h2>
 
-      <p>Вручную это считается так:</p>
       
+      <p>The manual calculation works like this:</p>
 
       <ol>
-        <li>Возьмите якорную дату — например, <strong>1 января вы работали</strong></li>
         
-        <li>Посчитайте разницу в днях между якорной датой и нужным днём</li>
+        <li>Take an anchor date — for example, <strong>January 1 you were working</strong></li>
         
-        <li>Разделите на 4 и возьмите остаток: 0 или 1 — работа, 2 или 3 — выходной</li>
+        <li>Count the number of days between the anchor date and the target day</li>
         
+        <li>Divide by 4 and take the remainder: 0 or 1 — work, 2 or 3 — day off</li>
       </ol>
 
       <div class="info-box">
-        <p><strong>Пример:</strong> якорная дата 1 января (рабочий). Хотим узнать 25 марта. Разница — 83 дня. 83 ÷ 4 = 20 остаток 3. Остаток 3 — это выходной. Значит 25 марта — выходной.</p>
         
+        <p><strong>Example:</strong> anchor date January 1 (work day). We want to check March 25. Difference — 83 days. 83 ÷ 4 = 20 remainder 3. Remainder 3 — day off. So March 25 is a day off.</p>
       </div>
 
-      <p>Для одной даты — посчитать реально. Но что если нужно быстро глянуть на месяц вперёд? Или проверить, когда совпадают выходные с женой, которая работает по другому графику? Вот тут начинаются трудности.</p>
       
+      <p>For a single date — it's doable. But what if you need a quick overview of the next month? Or check when your days off align with your spouse who works a different schedule? That's where the difficulties begin.</p>
 
-      <h2>Где чаще всего ошибаются</h2>
       
+      <h2>Where people go wrong</h2>
 
-      <h3>1. Потеря точки отсчёта</h3>
       
+      <h3>1. Losing the starting point</h3>
 
-      <p>Самая частая ошибка — перепутать якорную дату. Коллега сказал, что 1-го у него работа, вы взяли это за ориентир — но у него другой вариант смен внутри того же предприятия. В итоге весь ваш расчёт сдвигается на день, и вы приходите на работу в выходной.</p>
       
+      <p>The most common mistake is mixing up the anchor date. Your colleague said he works on the 1st, you used that as a reference — but he's on a different rotation at the same company. The result: your entire calculation is off by a day, and you show up on your day off.</p>
 
-      <h3>2. Больничные и отпуск ломают счёт</h3>
       
+      <h3>2. Sick days and vacation break the count</h3>
 
-      <p>Это ключевое заблуждение: <strong>больничный и отпуск не сдвигают цикл</strong>. График продолжается по формуле независимо от того, болели вы или отдыхали. Сотрудники нередко думают, что пропуск дня означает сдвиг — и начинают считать заново с неправильной точки.</p>
       
+      <p>This is a key misconception: <strong>sick days and vacation don't shift the cycle</strong>. The schedule continues by formula regardless of whether you were sick or on leave. Employees often think that missing a day means a shift — and start recalculating from the wrong point.</p>
 
       <div class="warn-box">
-        <p>Если вы ушли на больничный на 5 дней — цикл продолжается без вас. Когда вернётесь, статус дня считается по той же якорной дате, как будто перерыва не было.</p>
         
+        <p>If you take 5 sick days — the cycle continues without you. When you return, the day's status is calculated from the same anchor date, as if there was no break.</p>
       </div>
 
-      <h3>3. Праздники и переносы</h3>
       
+      <h3>3. Public holidays and swapped shifts</h3>
 
-      <p>Работодатель переносит смену из-за праздника или производственной необходимости — это разовое отклонение, которое не меняет основную формулу. Но если не зафиксировать это отдельно, через месяц уже не вспомнишь, почему один день «выбился» из расчёта.</p>
       
+      <p>Your employer moves a shift due to a holiday or operational need — that's a one-off deviation that doesn't change the base formula. But if you don't record it separately, a month later you won't remember why one day didn't match the calculation.</p>
 
-      <h2>Как это решается в приложении</h2>
       
+      <h2>How the app solves this</h2>
 
-      <p>ShiftSchedule делает ровно то, что описано выше — только автоматически. Вы один раз вводите якорную дату и параметры цикла, дальше приложение считает за вас.</p>
       
+      <p>ShiftSchedule does exactly what's described above — automatically. You enter the anchor date and cycle parameters once, and the app handles all the calculations.</p>
 
-      <img src="img/grafik-2-2-calendar.jpg" alt="Календарь графика 2/2 в приложении ShiftSchedule: синие ячейки — рабочие дни, серые — выходные" style="max-width:320px; width:100%; border-radius:16px; margin:24px auto 32px; display:block; box-shadow:0 16px 48px rgba(0,0,0,0.5);">
+      <img src="../../articles/img/grafik-2-2-calendar.jpg" alt="Календарь графика 2/2 в приложении ShiftSchedule: синие ячейки — рабочие дни, серые — выходные" style="max-width:320px; width:100%; border-radius:16px; margin:24px auto 32px; display:block; box-shadow:0 16px 48px rgba(0,0,0,0.5);">
 
-      <h3>Как настроить график 2/2</h3>
       
+      <h3>How to set up a 2/2 schedule</h3>
 
       <ol class="steps-list">
         <li>
           <div class="step-num">1</div>
           <div class="step-text">
-            <span>Откройте приложение → нажмите <strong>Настройки</strong> → раздел <strong>График</strong></span>
             
+            <span>Open the app → tap <strong>Settings</strong> → <strong>Schedule</strong> section</span>
           </div>
         </li>
         <li>
           <div class="step-num">2</div>
           <div class="step-text">
-            <span>Укажите <strong>рабочих дней: 2</strong> и <strong>выходных: 2</strong></span>
             
+            <span>Set <strong>work days: 2</strong> and <strong>days off: 2</strong></span>
           </div>
         </li>
         <li>
           <div class="step-num">3</div>
           <div class="step-text">
-            <span>Выберите <strong>якорную дату</strong> — любой день, когда вы точно работали</span>
             
+            <span>Choose an <strong>anchor date</strong> — any day when you know you were working</span>
           </div>
         </li>
         <li>
           <div class="step-num">4</div>
           <div class="step-text">
-            <span>Готово. Приложение автоматически раскрасит весь календарь: синие ячейки — работа, серые — выходные</span>
             
+            <span>Done. The app automatically colors the entire calendar: blue cells for work days, grey for days off</span>
           </div>
         </li>
       </ol>
 
-      <h3>Ручные правки без потери ритма</h3>
       
+      <h3>Manual adjustments without losing the rhythm</h3>
 
-      <p>Если в конкретный день что-то изменилось — нажмите на ячейку и поставьте нужный статус: больничный, отпуск, внеплановая смена. Это <strong>не сдвигает цикл</strong> — только помечает отклонение в этот день. Основная формула продолжает работать правильно для всех остальных дней.</p>
       
+      <p>If something changes on a specific day — tap the cell and set the appropriate status: sick leave, vacation, or an extra shift. This <strong>doesn't shift the cycle</strong> — it only marks the deviation for that day. The base formula continues to work correctly for all other days.</p>
 
-      <h2>Дополнительные возможности</h2>
       
+      <h2>Additional features</h2>
 
       <ul>
-        <li><strong>График партнёра</strong> — добавьте расписание супруга или коллеги и сразу видите общие выходные прямо в календаре</li>
         
-        <li><strong>Будильники по графику</strong> — приложение само выставляет будильник перед каждой сменой с нужным опережением</li>
+        <li><strong>Partner schedule</strong> — add your spouse's or colleague's schedule and instantly see shared days off right in the calendar</li>
         
-        <li><strong>Заметки к дням</strong> — прикрепляйте напоминания к конкретным датам: "взять документы", "вечерний обход"</li>
+        <li><strong>Schedule alarms</strong> — the app automatically sets an alarm before each shift with the lead time you choose</li>
         
-        <li><strong>Алиса</strong> — спрашивайте голосом: "я сегодня работаю?", "когда следующий выходной?"</li>
+        <li><strong>Day notes</strong> — attach reminders to specific dates: "bring documents", "evening round"</li>
         
+        <li><strong>Alice</strong> — ask by voice: "do I work today?", "when is my next day off?"</li>
       </ul>
 
       <div class="info-box">
-        <p>График 2/2 — не единственный вариант. ShiftSchedule поддерживает любой цикл: 3/3, сутки через трое (1/3), 5/2, день/ночь и любую другую комбинацию рабочих и выходных дней.</p>
         
+        <p>2/2 isn't the only option. ShiftSchedule supports any cycle: 3/3, every third day (1/3), 5/2, day/night, or any other combination of work and rest days.</p>
       </div>
 
       <div class="cta-box">
-        <h3>ShiftSchedule — бесплатно для Android</h3>
         
-        <p>Настройте любой сменный график за минуту. Синхронизация с партнёром, будильники, заметки, голосовое управление через Алису.</p>
+        <h3>ShiftSchedule — free for Android</h3>
         
+        <p>Set up any shift schedule in minutes. Partner sync, alarms, notes, voice control via Alice.</p>
         <a href="https://www.rustore.ru/catalog/app/com.antigravity.shiftschedule" class="btn-primary" target="_blank" rel="noopener" onclick="ym(109065744,'reachGoal','download_rustore')">
-          <span>Скачать в RuStore</span>
           
+          <span>Get on RuStore</span>
         </a>
         <a href="https://github.com/MIRORSTAR/shiftschedule/releases/latest" class="btn-secondary" target="_blank" rel="noopener" onclick="ym(109065744,'reachGoal','download_apk')">
-          <span>APK напрямую</span>
           
+          <span>Direct APK</span>
         </a>
       </div>
 
       <div class="related">
-        <h3>Читайте также</h3>
         
+        <h3>Read also</h3>
         <div class="related-grid">
           <a href="kak-ne-poteryat-smennyj-grafik.html" class="related-card">
-            <p>Как не потерять сменный график при смене телефона</p>
             
-            <span>Синхронизация и облако</span>
+            <p>How to keep your shift schedule when changing phones</p>
+            <span>Sync and cloud</span>
           </a>
           <a href="alice-navyk.html" class="related-card">
-            <p>Голосовые команды Алисы: полный список</p>
             
-            <span>Яндекс Алиса</span>
+            <p>Alice voice commands: full list</p>
+            <span>Yandex Alice</span>
           </a>
         </div>
       </div>
@@ -485,12 +485,12 @@
 
 <footer>
   <div class="footer-links">
-    <a href="../index.html">Главная</a>
-    <a href="../privacy.html">Политика конфиденциальности</a>
+    <a href="../index.html">Home</a>
+    <a href="../privacy.html">Privacy Policy</a>
     <a href="../faq.html">FAQ</a>
     <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a>
   </div>
-  <div>© 2026 ShiftSchedule · <span>Все права защищены</span></div>
+  <div>© 2026 ShiftSchedule · <span>All rights reserved</span></div>
 </footer>
 
 
@@ -499,6 +499,6 @@
 
 
 <div class="floating-cta" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,0.3); border-radius: 20px;">
-  <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule?utm_source=website&amp;utm_medium=button&amp;utm_campaign=main" class="btn-primary" target="_blank" onclick="if(window.ym) ym(109065744,'reachGoal','download_rustore')" style="margin: 0;">Скачать приложение</a>
+  <a href="https://github.com/MIRORSTAR/shiftschedule/releases/download/v2.0.0/ShiftSchedule-rustore-v2.0.0-19.apk" class="btn-primary" target="_blank" style="margin: 0;">Download App</a>
 </div>
 </body></html>

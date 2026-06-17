@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="yandex-verification" content="7abe6d0b3a4f8029" />
+  <meta name="google-site-verification" content="zC341Z0k-D3wu8oVYMRgyzbLlpQUxbtYQMgWmEf64UY" />
+  <title>Как рассчитать зарплату при сменном графике: ночные, переработки — ShiftSchedule</title>
+  <meta name="description" content="Узнайте, как правильно рассчитать зарплату, если вы работаете по сменному графику 2/2, 3/3 или сутками. Автоматический расчет ночных часов и переработок во вкладке «Доход» приложения ShiftSchedule.">
+  <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/articles/kak-rasschitat-zarplatu-pri-smennom-grafike.html">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="apple-touch-icon" href="../favicon.png">
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --accent: #4a8fe8;
+      --accent2: #66b8b2;
+      --text: #e8eaf0;
+      --text2: #8b90a0;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 40px;
+      background: rgba(15,17,23,0.92);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo { font-size: 18px; font-weight: 700; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .lang-toggle { display: flex; gap: 4px; background: var(--surface2); border-radius: 8px; padding: 4px; }
+    .lang-btn { background: none; border: none; color: var(--text2); cursor: pointer; padding: 4px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; transition: all 0.2s; }
+    .lang-btn.active { background: var(--accent); color: #fff; }
+    .breadcrumb {
+      max-width: 760px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .breadcrumb a { color: var(--text2); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+    .article-header { margin-bottom: 40px; }
+    .article-header h1 {
+      font-size: clamp(26px, 5vw, 38px);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .article-meta {
+      font-size: 13px;
+      color: var(--text2);
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .article-body h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 40px 0 16px;
+      color: var(--text);
+    }
+    .article-body h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin: 28px 0 10px;
+      color: var(--text);
+    }
+    .article-body p { margin-bottom: 16px; font-size: 16px; color: var(--text); }
+    .article-body ul, .article-body ol {
+      margin: 0 0 16px 24px;
+      font-size: 16px;
+    }
+    .article-body li { margin-bottom: 8px; }
+    .article-body strong { color: var(--text); }
+    .info-box {
+      background: var(--surface);
+      border: 1px solid rgba(74,143,232,0.25);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+    .info-box p { margin: 0; font-size: 15px; }
+    .warn-box {
+      background: var(--surface);
+      border: 1px solid rgba(232,143,74,0.25);
+      border-left: 3px solid #e88f4a;
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+    .warn-box p { margin: 0; font-size: 15px; }
+    .steps-list { list-style: none; margin: 0 0 24px 0; padding: 0; }
+    .steps-list li {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .step-num {
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .step-text { padding-top: 4px; font-size: 16px; }
+    .cta-box {
+      background: linear-gradient(135deg, var(--surface), rgba(74,143,232,0.08));
+      border: 1px solid rgba(74,143,232,0.2);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 48px 0 32px;
+      text-align: center;
+    }
+    .cta-box h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .cta-box p { color: var(--text2); margin-bottom: 24px; font-size: 15px; }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+      margin: 4px;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+      margin: 4px;
+    }
+    .btn-secondary:hover { background: #2a2f45; }
+    .related {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .related h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .related-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s;
+    }
+    .related-card:hover { border-color: rgba(74,143,232,0.4); }
+    .related-card p { font-size: 14px; font-weight: 600; margin: 0; line-height: 1.4; }
+    .related-card span { font-size: 12px; color: var(--text2); }
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 32px 20px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px; }
+    .footer-links a { color: var(--text2); text-decoration: none; }
+    .footer-links a:hover { color: var(--accent); }
+    [data-ru], [data-en] { display: none; }
+    .lang-ru [data-ru] { display: inline; }
+    .lang-ru p[data-ru], .lang-ru li[data-ru], .lang-ru div[data-ru],
+    .lang-ru h2[data-ru], .lang-ru h3[data-ru] { display: block; }
+    .lang-en [data-en] { display: inline; }
+    .lang-en p[data-en], .lang-en li[data-en], .lang-en div[data-en],
+    .lang-en h2[data-en], .lang-en h3[data-en] { display: block; }
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+      .article-wrap { padding: 24px 16px 60px; }
+    }
+  </style>
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    ym(109065744,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/109065744" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
+  <script src="../theme.js"></script>
+  <link rel="stylesheet" href="../theme.css">
+</head>
+<body class="lang-ru">
+
+<nav>
+  <a href="../index.html" class="nav-logo">Shift<span>Schedule</span></a>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <button class="theme-btn" onclick="toggleTheme()" aria-label="Сменить тему">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <circle cx="12" cy="12" r="4"/>
+        <line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/>
+        <line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/>
+        <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
+        <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
+      </svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<div class="article-wrap">
+
+  <div class="breadcrumb">
+    <a href="../index.html" data-ru>Главная</a><a href="../index.html" data-en>Home</a>
+    <span data-ru> / Статья</span><span data-en> / Article</span>
+  </div>
+
+  <article>
+    <div class="article-header">
+      <h1>
+        <span data-ru>Как рассчитать зарплату при сменном графике (и не дать себя обмануть)</span>
+        <span data-en>How to calculate salary for shift work (and avoid being underpaid)</span>
+      </h1>
+      <div class="article-meta">
+        <span data-ru>Обновлено: июнь 2026</span>
+        <span data-en>Updated: June 2026</span>
+        <span>ShiftSchedule 2.1.0</span>
+      </div>
+    </div>
+
+    <div class="article-body">
+
+      <p data-ru>Люди, работающие по классической пятидневке, редко задумываются о том, как формируется их зарплата: есть оклад, есть количество рабочих дней в месяце. Но для тех, кто работает по сменному графику (2/2, 3/3, сутки через трое), каждый месяц превращается в сложный математический квест.</p>
+      <p data-en>People working a classic 9-to-5 rarely think about how their salary is formed: there is a base rate and a fixed number of working days. But for those working shifts (2/2, 3/3, 24-hour shifts), every month turns into a complex mathematical quest.</p>
+
+      <p data-ru>Ночные смены оплачиваются по повышенному тарифу, переработки в выходные требуют двойной оплаты, а праздничные дни вносят дополнительную путаницу. Как не потерять свои деньги и точно знать, сколько вам заплатят в конце месяца? Давайте разбираться.</p>
+      <p data-en>Night shifts are paid at a higher rate, overtime on weekends requires double pay, and public holidays add extra confusion. How do you avoid losing money and know exactly how much you'll be paid at the end of the month? Let's figure it out.</p>
+
+      <h2 data-ru>В чем сложность расчета при сменном графике?</h2>
+      <h2 data-en>Why is calculating shift salary so difficult?</h2>
+
+      <p data-ru>Главная проблема сменщиков — <strong>неравномерность</strong>. В одном месяце у вас может выпасть 15 смен, а в другом — 16. Из-за этого ваш доход каждый месяц "плавает". Если вы пытаетесь посчитать зарплату вручную на листке бумаги или в Excel, вам приходится учитывать сразу несколько переменных:</p>
+      <p data-en>The main problem for shift workers is <strong>irregularity</strong>. In one month you might have 15 shifts, and in the next — 16. Because of this, your income fluctuates every month. If you try to calculate your salary manually on a piece of paper or in Excel, you have to account for several variables at once:</p>
+
+      <ul>
+        <li data-ru><strong>Базовая ставка:</strong> Стоимость вашего часа или одной смены (дневной).</li>
+        <li data-en><strong>Base rate:</strong> The cost of your hour or one shift (daytime).</li>
+        <li data-ru><strong>Ночные часы:</strong> По закону ночное время (с 22:00 до 06:00) оплачивается минимум на 20% выше базовой ставки. Если у вас график "день/ночь", эти часы копятся очень быстро.</li>
+        <li data-en><strong>Night hours:</strong> By law, nighttime (from 22:00 to 06:00) is paid at least 20% higher than the base rate. If you have a day/night schedule, these hours add up very quickly.</li>
+        <li data-ru><strong>Праздники:</strong> Если ваша смена выпадает на официальный праздничный день, она должна оплачиваться в двойном размере.</li>
+        <li data-en><strong>Holidays:</strong> If your shift falls on an official public holiday, it must be paid at double the rate.</li>
+        <li data-ru><strong>Переработки (сверх нормы):</strong> Вышли подменить коллегу? Это дополнительные часы, которые часто забывают учесть при выплате.</li>
+        <li data-en><strong>Overtime:</strong> Covered for a colleague? These are extra hours that are often forgotten during payout.</li>
+      </ul>
+
+      <div class="warn-box">
+        <p data-ru>Работодатели — тоже люди, и бухгалтерия может банально ошибиться при переносе ваших часов из табеля. Если вы не ведете собственный учет, вы никогда не заметите недостачу в 2-3 тысячи рублей.</p>
+        <p data-en>Employers are also human, and accounting can easily make a mistake when transferring your hours from the timesheet. If you don't keep your own records, you'll never notice a shortage in your paycheck.</p>
+      </div>
+
+      <h2 data-ru>Как автоматизировать расчет зарплаты (и сэкономить нервы)</h2>
+      <h2 data-en>How to automate salary calculation (and save your nerves)</h2>
+
+      <p data-ru>Вместо того чтобы держать все цифры в голове, мы добавили в приложение <strong>ShiftSchedule</strong> специальный инструмент, который делает все расчеты за вас. В обновлении 2.1.0 появилась полноценная вкладка <strong>«Доход»</strong>.</p>
+      <p data-en>Instead of keeping all the numbers in your head, we added a special tool to the <strong>ShiftSchedule</strong> app that does all the calculations for you. In update 2.1.0, a full-fledged <strong>"Income"</strong> tab was introduced.</p>
+
+      <h3 data-ru>Где найти вкладку «Доход» и как ей пользоваться</h3>
+      <h3 data-en>Where to find the "Income" tab and how to use it</h3>
+
+      <ol class="steps-list">
+        <li>
+          <div class="step-num">1</div>
+          <div class="step-text">
+            <span data-ru>Откройте приложение ShiftSchedule и обратите внимание на нижнюю панель навигации. Там появилась новая кнопка со значком монетки — <strong>Доход</strong>.</span>
+            <span data-en>Open the ShiftSchedule app and look at the bottom navigation bar. There is a new button with a coin icon — <strong>Income</strong>.</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">2</div>
+          <div class="step-text">
+            <span data-ru>При первом входе приложение попросит вас ввести ваши тарифы. Укажите, сколько вы получаете за стандартную дневную смену.</span>
+            <span data-en>Upon first entry, the app will ask you to enter your rates. Specify how much you get for a standard day shift.</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">3</div>
+          <div class="step-text">
+            <span data-ru>Укажите надбавки: если у вас есть ночные смены, введите ставку за ночной час. Также вы можете задать коэффициент для праздничных дней.</span>
+            <span data-en>Set your bonuses: if you have night shifts, enter the rate per night hour. You can also set a multiplier for public holidays.</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">4</div>
+          <div class="step-text">
+            <span data-ru><strong>Готово!</strong> Приложение моментально проанализирует ваш календарь смен на текущий месяц и выдаст итоговую сумму. Если в середине месяца вы возьмете дополнительную смену (отметив её в календаре), расчет обновится автоматически.</span>
+            <span data-en><strong>Done!</strong> The app will instantly analyze your shift calendar for the current month and output the total amount. If you take an extra shift mid-month (marking it in the calendar), the calculation will update automatically.</span>
+          </div>
+        </li>
+      </ol>
+
+      <div class="info-box">
+        <p data-ru><strong>Важно:</strong> Функция «Доход» входит в PRO-версию приложения, так как требует сложных вычислительных алгоритмов под капотом. Но мы предусмотрели <strong>бесплатный пробный период</strong> — вы можете активировать его прямо в приложении и проверить, насколько точно совпадают расчеты с вашим реальным расчетным листком!</p>
+        <p data-en><strong>Important:</strong> The "Income" feature is part of the PRO version of the app, as it requires complex computational algorithms under the hood. But we have provided a <strong>free trial period</strong> — you can activate it right in the app and check how accurately the calculations match your real payslip!</p>
+      </div>
+
+      <h2 data-ru>Свайпы и вкладка «Вместе»</h2>
+      <h2 data-en>Swipes and the "Together" tab</h2>
+
+      <p data-ru>Кстати, в этом же обновлении мы значительно улучшили вкладку <strong>«Вместе»</strong>, которая позволяет синхронизировать ваш график с графиком партнера или коллеги. Теперь вам не нужно нажимать кнопки, чтобы перелистнуть месяц — мы добавили плавные <strong>горизонтальные свайпы</strong>. Просто смахните календарь влево или вправо, чтобы найти ближайшие общие выходные.</p>
+      <p data-en>By the way, in the same update we significantly improved the <strong>"Together"</strong> tab, which allows you to sync your schedule with a partner or colleague. Now you don't need to press buttons to flip the month — we added smooth <strong>horizontal swipes</strong>. Just swipe the calendar left or right to find the nearest shared weekends.</p>
+
+      <div class="cta-box">
+        <h3 data-ru>Попробуйте ShiftSchedule прямо сейчас</h3>
+        <h3 data-en>Try ShiftSchedule right now</h3>
+        <p data-ru>Скачайте обновление 2.1.0, настройте расчет зарплаты и возьмите свои доходы под полный контроль.</p>
+        <p data-en>Download update 2.1.0, set up your salary calculation, and take full control of your income.</p>
+        <a href="https://www.rustore.ru/catalog/app/com.antigravity.shiftschedule" class="btn-primary" target="_blank" rel="noopener" onclick="ym(109065744,'reachGoal','download_rustore')">
+          <span data-ru>Скачать в RuStore</span>
+          <span data-en>Get on RuStore</span>
+        </a>
+        <a href="https://github.com/MIRORSTAR/shiftschedule/releases/latest" class="btn-secondary" target="_blank" rel="noopener" onclick="ym(109065744,'reachGoal','download_apk')">
+          <span data-ru>APK напрямую</span>
+          <span data-en>Direct APK</span>
+        </a>
+      </div>
+
+    </div>
+  </article>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="../index.html" data-ru>Главная</a><a href="../index.html" data-en>Home</a>
+    <a href="../privacy.html" data-ru>Политика конфиденциальности</a><a href="../privacy.html" data-en>Privacy Policy</a>
+    <a href="../faq.html">FAQ</a>
+    <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a>
+  </div>
+  <div>&copy; 2026 ShiftSchedule &middot; <span data-ru>Все права защищены</span><span data-en>All rights reserved</span></div>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector('.lang-btn[onclick="setLang(\'' + lang + '\')"]').classList.add('active');
+    localStorage.setItem('ss_lang', lang);
+    document.documentElement.lang = lang === 'ru' ? 'ru' : 'en';
+  }
+  const saved = localStorage.getItem('ss_lang');
+  if (saved) setLang(saved);
+</script>
+
+</body>
+</html>

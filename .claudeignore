@@ -1,0 +1,9 @@
+# Изображения — не нужны для работы с кодом
+images/
+screenshots/
+articles/img/
+
+# Node / build артефакты (если появятся)
+node_modules/
+dist/
+.cache/

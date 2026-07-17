@@ -1,0 +1,296 @@
+<!DOCTYPE html><html lang="ru"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="yandex-verification" content="7abe6d0b3a4f8029">
+  <meta name="google-site-verification" content="zC341Z0k-D3wu8oVYMRgyzbLlpQUxbtYQMgWmEf64UY">
+  <title>Как я случайно спрятал экран входа за подпиской — ShiftSchedule</title>
+  <meta name="description" content="История о баге в Android-приложении ShiftSchedule: новые пользователи не могли зарегистрироваться, потому что экран входа оказался заперт за PRO-подпиской. Разбор дедлока «курицы и яйца» и его решение.">
+  <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/articles/kak-ya-spryatal-vhod-za-podpiskoy.html">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="apple-touch-icon" href="../favicon.png">
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --accent: #4a8fe8;
+      --accent2: #66b8b2;
+      --text: #e8eaf0;
+      --text2: #8b90a0;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 40px;
+      background: rgba(15,17,23,0.92);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo { font-size: 18px; font-weight: 700; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .breadcrumb {
+      max-width: 760px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .breadcrumb a { color: var(--text2); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+    .article-header { margin-bottom: 40px; }
+    .article-header h1 {
+      font-size: clamp(24px, 5vw, 36px);
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .article-subtitle {
+      font-size: 17px;
+      color: var(--text2);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .article-meta {
+      font-size: 13px;
+      color: var(--text2);
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .article-body h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 40px 0 16px;
+      color: var(--text);
+    }
+    .article-body p { margin-bottom: 16px; font-size: 16px; color: var(--text); }
+    .article-body strong { color: var(--text); }
+    .article-body hr {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin: 36px 0;
+    }
+    .article-body blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 4px 0 4px 20px;
+      margin: 20px 0;
+      color: var(--text2);
+      font-style: italic;
+      font-size: 16px;
+    }
+    .cta-box {
+      background: linear-gradient(135deg, var(--surface), rgba(74,143,232,0.08));
+      border: 1px solid rgba(74,143,232,0.2);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 48px 0 32px;
+      text-align: center;
+    }
+    .cta-box h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .cta-box p { color: var(--text2); margin-bottom: 24px; font-size: 15px; }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+      margin: 4px;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .cover-img {
+      width: 100%;
+      border-radius: var(--radius);
+      margin: 28px 0 40px;
+      display: block;
+      object-fit: cover;
+      max-height: 420px;
+    }
+    .screen-block {
+      margin: 32px 0;
+      text-align: center;
+    }
+    .screen-block img {
+      width: 100%;
+      border-radius: var(--radius);
+      display: block;
+      object-fit: cover;
+      max-height: 420px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    }
+    .screen-caption {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--text2);
+      display: block;
+    }
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text2);
+      font-size: 13px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    footer a { color: var(--text2); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+    }
+  </style>
+  <script src="../theme.js"></script>
+  <link rel="stylesheet" href="../theme.css">
+
+  <link rel="alternate" hreflang="ru" href="https://mirorstar.github.io/shiftschedule/articles/kak-ya-spryatal-vhod-za-podpiskoy.html">
+  <link rel="alternate" hreflang="en" href="https://mirorstar.github.io/shiftschedule/en/articles/kak-ya-spryatal-vhod-za-podpiskoy.html">
+  <link rel="alternate" hreflang="x-default" href="https://mirorstar.github.io/shiftschedule/articles/kak-ya-spryatal-vhod-za-podpiskoy.html">
+  </head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="../index.html">Shift<span>Schedule</span></a>
+  <button class="theme-btn" onclick="toggleTheme()" aria-label="Сменить тему">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <circle cx="12" cy="12" r="4"></circle>
+      <line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line>
+      <line x1="2" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="22" y2="12"></line>
+      <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"></line><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"></line>
+      <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"></line><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"></line>
+    </svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
+</nav>
+
+<div class="breadcrumb">
+  <a href="../index.html">Главная</a> ›
+  <a href="../index.html#articles">Статьи</a> ›
+  Как я спрятал экран входа за подпиской
+</div>
+
+<div class="article-wrap">
+  <div class="article-header">
+    <h1>Как я случайно спрятал экран входа за подпиской — и не замечал этого целый месяц</h1>
+    <p class="article-subtitle">Технический дедлок «курицы и яйца» в логике PRO-триала ShiftSchedule: как я едва не запер новых пользователей за платной стеной ещё до регистрации.</p>
+    <div class="article-meta">
+      <span>17 июля 2026</span>
+      <span>Mirorstar</span>
+      <span>5 мин. чтения</span>
+    </div>
+  </div>
+
+  <img src="img/login-podpiska-cover.png" alt="Разработчик за ноутбуком находит баг в приложении" class="cover-img">
+
+  <div class="article-body">
+
+    <p>Я случайно сделал так, что новый пользователь не мог зарегистрироваться в приложении. Не из-за сбоя сервера, не из-за ошибки авторизации и даже не из-за бага в API. Я сам запер экран входа за платной подпиской.</p>
+    <p>Любая разработка мобильного приложения — это путь проб и ошибок. Недавно в моём приложении для учёта рабочих смен (ShiftSchedule) я столкнулся с классической проблемой, которая едва не стоила мне новых пользователей. Это история о техническом дедлоке, «проблеме курицы и яйца» в логике и о том, почему путь к регистрации всегда должен оставаться свободным.</p>
+
+    <hr>
+
+    <h2>Как я сломал onboarding для новичков</h2>
+
+    <p>В последнем релизе я улучшил систему безопасности, в том числе и получение бесплатного пробного PRO-периода (триала). Логика задумывалась максимально честной и удобной:</p>
+    <p>Вы скачиваете приложение. Авторизуетесь (создаёте аккаунт). Приложение автоматически дарит вам бесплатный PRO-триал без привязки карт. Также в приложении есть подарочные промокоды, которые я периодически разыгрываю.</p>
+    <p>Но вскоре после релиза мне написал реальный пользователь: он выиграл подарочный промокод, попытался его ввести, приложение попросило авторизоваться, а на экране аккаунта высветилась глухая заглушка — «Требуется PRO-доступ».</p>
+    <p>Ни формы логина, ни кнопок. Тупик.</p>
+
+    <hr>
+
+    <h2>Проблема курицы и яйца</h2>
+
+    <p>Начав расследование, я обнаружил, что сам создал дедлок. Проверка PRO-доступа выполнялась раньше, чем пользователь успевал войти в аккаунт.</p>
+    <p>Получился замкнутый круг:</p>
+    <p>Чтобы получить триал (PRO-доступ), пользователю нужно войти в аккаунт. Чтобы увидеть экран входа, пользователю нужен PRO-доступ.</p>
+    <p>Новые пользователи физически не могли пробить эту стену. Почему я не заметил этого раньше? Всё просто: на моих тестовых устройствах и у старой аудитории действовал переходный период лояльности (grace period). У старых пользователей проверка прав всегда проходила успешно, и для меня баг оставался абсолютно невидимым целый месяц.</p>
+
+    <hr>
+
+    <h2>Снимаю замки</h2>
+
+    <p>Самым простым решением, казалось бы, было добавить костыли: пускать на экран регистрации тех, у кого «ещё не было триала», или сделать отдельную кнопку входа где-нибудь сбоку.</p>
+    <p>Но в итоге я понял, что сама идея была неправильной. Экран авторизации вообще не должен зависеть от подписки. Я решил не городить исключения, а убрать саму причину проблемы.</p>
+    <p>Я полностью удалил проверку PRO-доступа с экрана аккаунта.</p>
+    <p>Теперь любой человек может скачать приложение, свободно зайти в свой профиль, посмотреть статус подписки или ввести промокод. Платными (закрытыми) остались только конкретные функции — например, синхронизация данных с сервером или совместный график партнёров. А регистрация и получение триала работают как часы.</p>
+
+    <div class="screen-block">
+      <img src="img/login-podpiska-user.png" alt="Довольный пользователь смартфона после исправления регистрации">
+      <p class="screen-caption">После исправления любой новый пользователь снова может свободно зайти в аккаунт и получить пробный PRO-период.</p>
+    </div>
+
+    <hr>
+
+    <h2>Итоги</h2>
+
+    <p>Самое интересное, что проблема была не в подписке. И не в триале. Она была в архитектуре.</p>
+    <p>Я пытался защитить платную функцию, но случайно защитил путь к её получению. Пользователь никогда не должен доказывать приложению, что достоин увидеть экран входа.</p>
+    <p>После исправления правило стало очень простым:</p>
+    <blockquote>Платными могут быть функции. Экран аккаунта, вход и регистрация — никогда.</blockquote>
+    <p>А вы когда-нибудь сталкивались с подобными «дедлоками» в любимых приложениях? Делитесь в комментариях в наших пабликах <a href="https://vk.com/club238176087" target="_blank" style="color:var(--accent);">VK</a>, <a href="https://t.me/ShiftSchedule" target="_blank" style="color:var(--accent);">Telegram</a> и <a href="https://max.ru/id611120366153_biz" target="_blank" style="color:var(--accent);">MAX</a>.</p>
+
+    <div class="cta-box">
+      <h3>Попробуйте ShiftSchedule</h3>
+      <p>Бесплатно. Без рекламы. Для тех, кто работает по сменам.</p>
+      <a class="btn-primary" href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule" target="_blank">Скачать в RuStore</a>
+    </div>
+
+  </div>
+</div>
+
+<div style="max-width:760px; margin:0 auto 60px; padding:0 20px;">
+  <p style="font-size:13px; color:var(--text2); margin-bottom:16px; text-transform:uppercase; letter-spacing:0.06em; font-weight:600;">Читайте также</p>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+    <a href="solo-razrabotchik-prodvizhenie-bez-byudzheta.html" style="background:var(--surface); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:18px; text-decoration:none; color:var(--text); transition:border-color 0.2s; display:block;" onmouseover="this.style.borderColor='rgba(74,143,232,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)'">
+      <div style="font-weight:700; font-size:15px; margin-bottom:6px; line-height:1.4;">Написать код проще, чем найти первых пользователей</div>
+      <div style="font-size:13px; color:var(--text2);">Как один разработчик продвигает приложение без бюджета</div>
+    </a>
+    <a href="pochemu-ya-sdelal-ne-prosto-grafik.html" style="background:var(--surface); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:18px; text-decoration:none; color:var(--text); transition:border-color 0.2s; display:block;" onmouseover="this.style.borderColor='rgba(74,143,232,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)'">
+      <div style="font-weight:700; font-size:15px; margin-bottom:6px; line-height:1.4;">Я думал, что делаю график смен. А оказалось — про семью</div>
+      <div style="font-size:13px; color:var(--text2);">История создания ShiftSchedule с нуля</div>
+    </a>
+    <a href="../index.html" style="background:var(--surface); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:18px; text-decoration:none; color:var(--text); transition:border-color 0.2s; display:block;" onmouseover="this.style.borderColor='rgba(74,143,232,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)'">
+      <div style="font-weight:700; font-size:15px; margin-bottom:6px; line-height:1.4;">Главная страница ShiftSchedule</div>
+      <div style="font-size:13px; color:var(--text2);">Всё о приложении, скачать для Android</div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 ShiftSchedule &nbsp;·&nbsp;
+    <a href="../privacy.html">Политика конфиденциальности</a> &nbsp;·&nbsp;
+    <a href="../index.html">На главную</a>
+  </p>
+</footer>
+
+
+
+
+<div class="floating-cta" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,0.3); border-radius: 20px;">
+  <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule?utm_source=website&amp;utm_medium=button&amp;utm_campaign=main" class="btn-primary" target="_blank" onclick="if(window.ym) ym(109065744,'reachGoal','download_rustore')" style="margin: 0;">Скачать приложение</a>
+</div>
+</body></html>

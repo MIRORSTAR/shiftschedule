@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="ru"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shift Schedule — оплата прошла</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <style>
+    :root { --bg: #0f1117; --surface: #1a1d27; --accent: #4a8fe8; --text: #e8eaf0; --text2: #8b90a0; --radius: 16px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg); color: var(--text); min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px;
+    }
+    .card { background: var(--surface); border-radius: var(--radius); padding: 40px 32px; max-width: 460px; width: 100%; text-align: center; }
+    .icon { font-size: 48px; margin-bottom: 16px; }
+    h1 { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+    p { color: var(--text2); font-size: 14px; line-height: 1.6; margin-bottom: 8px; }
+    .code { font-size: 28px; font-weight: 800; letter-spacing: 4px; color: var(--accent); background: #0f1117; border: 1px solid #2a2d3d; border-radius: 12px; padding: 16px; margin: 20px 0; }
+    .spinner { width: 36px; height: 36px; border: 3px solid rgba(74,143,232,0.2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    a { color: var(--accent); }
+  </style>
+  <!-- Yandex.Metrika -->
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    ym(109065744,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/109065744" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
+  <!-- /Yandex.Metrika -->
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="spinner"></div>
+    <p>Проверяем оплату...</p>
+  </div>
+
+  <script>
+    const PAYMENTS_URL = 'https://script.google.com/macros/s/AKfycbyIEqhxz-n3fu3CCgJoSd0e_n2uwoJ5Fn7AahhEUM92KQMWpS8tfevAZYHV2Vcveg/exec';
+    const orderId = new URLSearchParams(window.location.search).get('order');
+    const card = document.getElementById('card');
+
+    function showCode(code) {
+      card.innerHTML =
+        '<div class="icon">✅</div>' +
+        '<h1>Оплата прошла успешно!</h1>' +
+        '<p>Ваш промокод для активации PRO:</p>' +
+        '<div class="code">' + code + '</div>' +
+        '<p>Введите его в приложении: Настройки → Синхронизация → «Ввести промокод».</p>' +
+        '<p>Сохраните этот код — страницу можно закрыть, код больше нигде не появится автоматически.</p>';
+    }
+
+    function showWaitingLonger() {
+      card.innerHTML =
+        '<div class="icon">⏳</div>' +
+        '<h1>Оплата обрабатывается</h1>' +
+        '<p>Это иногда занимает больше времени, чем обычно. Код придёт на указанную вами почту в течение дня — если этого не произошло, напишите в поддержку: <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a></p>';
+    }
+
+    function showError() {
+      card.innerHTML =
+        '<div class="icon">❌</div>' +
+        '<h1>Заказ не найден</h1>' +
+        '<p>Ссылка недействительна. Если вы оплатили — напишите в поддержку: <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a></p>';
+    }
+
+    let attempts = 0;
+    const MAX_ATTEMPTS = 24; // 24 × 5с = 2 минуты
+
+    async function poll() {
+      attempts++;
+      try {
+        const res = await fetch(PAYMENTS_URL + '?action=status&order=' + encodeURIComponent(orderId));
+        const data = await res.json();
+        if (data.status === 'not_found') { showError(); return; }
+        if (data.status === 'code_issued' && data.code) { showCode(data.code); return; }
+      } catch (e) { /* сеть могла моргнуть — просто попробуем ещё раз */ }
+
+      if (attempts >= MAX_ATTEMPTS) { showWaitingLonger(); return; }
+      setTimeout(poll, 5000);
+    }
+
+    if (!orderId) { showError(); } else { poll(); }
+  </script>
+</body></html>

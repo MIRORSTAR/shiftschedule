@@ -53,10 +53,6 @@
   <!-- /Yandex.Metrika -->
 </head>
 <body>
-  <!-- TEMP: PAYMENTS_LIVE=false, пока ЮKassa не одобрила боевой магазин (Task 8) —
-       текущий backend подключён к ТЕСТОВОМУ шлюзу ЮKassa, где любой "успешный" тестовый
-       платёж без реальных денег всё равно выдаёт настоящий рабочий промокод. Форма
-       намеренно не рендерится, чтобы никто не смог получить бесплатный PRO. -->
   <div class="card" id="card">
     <h1>Оплата на сайте скоро откроется</h1>
     <p>Сейчас идёт подключение платёжной системы. Пока доступна оплата через RuStore.</p>
@@ -64,7 +60,7 @@
   </div>
 
   <script>
-    const PAYMENTS_LIVE = false;
+    const PAYMENTS_LIVE = true;
     const PAYMENTS_URL = 'https://script.google.com/macros/s/AKfycbyIEqhxz-n3fu3CCgJoSd0e_n2uwoJ5Fn7AahhEUM92KQMWpS8tfevAZYHV2Vcveg/exec';
 
     if (PAYMENTS_LIVE) {

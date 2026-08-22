@@ -1,793 +1,778 @@
-<!DOCTYPE html><html lang="ru"><head>
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="yandex-verification" content="7abe6d0b3a4f8029">
   <meta name="google-site-verification" content="zC341Z0k-D3wu8oVYMRgyzbLlpQUxbtYQMgWmEf64UY">
-  <title>ShiftSchedule — календарь смен для Android</title>
-  <meta name="description" content="ShiftSchedule — Android-приложение для сменного графика. 2/2, день/ночь, сутки через трое. Синхронизация с партнёром, будильники, облако и Яндекс Алиса.">
+  <title>ShiftSchedule — умный календарь сменного графика для Android</title>
+  <meta name="description" content="Приложение для сменного графика: 2/2, день/ночь, сутки/трое. Синхронизация графика с партнёром, умные будильники, расчёт зарплаты, Яндекс.Алиса и виджеты.">
   <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/">
+  
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://mirorstar.github.io/shiftschedule/">
   <meta property="og:title" content="ShiftSchedule — календарь смен для Android">
-  <meta property="og:description" content="2/2, день/ночь, сутки через трое. Синхронизация с партнёром, будильники, облако и Яндекс Алиса — всё в одном Android-приложении.">
-  <meta property="og:image" content="https://mirorstar.github.io/shiftschedule/screenshots/lifestyle_1.jpeg">
+  <meta property="og:description" content="2/2, день/ночь, сутки через трое. Синхронизация с партнёром, будильники, учёт дохода и Яндекс.Алиса — всё в одном приложении.">
+  <meta property="og:image" content="https://mirorstar.github.io/shiftschedule/screenshots/screen-calendar.jpg">
   <meta name="twitter:card" content="summary_large_image">
+
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* ── Reset & Base ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg:            #07070f;
-      --surface:       #101016;
-      --surface2:      #1a1d2e;
-      --surface3:      #22263a;
-      --accent:        #4a8fe8;
-      --accent2:       #66b8b2;
+      --bg: #07070f;
+      --bg-surface: #10111a;
+      --bg-card: #151724;
+      --bg-card-hover: #1c1f30;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(102, 184, 178, 0.5);
+      --accent: #4a8fe8;
+      --accent-teal: #66b8b2;
       --accent-purple: #9b74e0;
-      --text:          #e8eaf0;
-      --text2:         #8b90a0;
-      --text3:         #4a5060;
-      --radius:        16px;
-      --radius-lg:     24px;
+      --accent-glow: rgba(74, 143, 232, 0.28);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --header-bg: rgba(7, 7, 15, 0.88);
+      --overlay-shadow: rgba(0, 0, 0, 0.88);
+      --mockup-bg: #0d0f17;
     }
 
-    html { scroll-behavior: smooth; }
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f5f9;
+      --border: rgba(0, 0, 0, 0.08);
+      --border-hover: rgba(37, 99, 235, 0.5);
+      --accent: #2563eb;
+      --accent-teal: #0d9488;
+      --accent-purple: #7c3aed;
+      --accent-glow: rgba(37, 99, 235, 0.18);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #94a3b8;
+      --header-bg: rgba(255, 255, 255, 0.92);
+      --overlay-shadow: rgba(0, 0, 0, 0.1);
+      --mockup-bg: #e2e8f0;
+    }
 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 65px; }
+    section[id] { scroll-margin-top: 65px; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+      font-family: 'Montserrat', 'Inter', -apple-system, sans-serif;
       background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
+      color: var(--text-main);
       overflow-x: hidden;
-    }
-
-    /* Ambient blobs */
-    body::before {
-      content: '';
-      position: fixed;
-      width: 900px; height: 900px;
-      top: -350px; left: 50%;
-      transform: translateX(-50%);
-      background: radial-gradient(circle, rgba(74,143,232,0.07) 0%, transparent 65%);
-      pointer-events: none;
-      z-index: 0;
-    }
-    body::after {
-      content: '';
-      position: fixed;
-      width: 600px; height: 600px;
-      bottom: 20%; right: -150px;
-      background: radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 65%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* ── Container ── */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 32px;
+      line-height: 1.6;
       position: relative;
-      z-index: 1;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s, color 0.3s;
     }
-    @media (max-width: 768px) { .container { padding: 0 20px; } }
 
-    /* ── NAV ── */
-    nav {
-      position: sticky;
+    /* Ambient Breathing Neon Aura Glow */
+    .ambient-aura {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(120px);
+      animation: breatheAura 8s ease-in-out infinite alternate;
+    }
+    .aura-1 {
+      top: -150px;
+      right: -150px;
+      background: radial-gradient(circle, rgba(102, 184, 178, 0.18) 0%, rgba(74, 143, 232, 0.05) 70%, transparent 100%);
+    }
+    .aura-2 {
+      top: 45%;
+      left: -200px;
+      background: radial-gradient(circle, rgba(155, 116, 224, 0.15) 0%, rgba(74, 143, 232, 0.05) 70%, transparent 100%);
+      animation-delay: -4s;
+    }
+
+    @keyframes breatheAura {
+      0% { opacity: 0.4; transform: scale(0.95) translate(0, 0); }
+      50% { opacity: 0.85; transform: scale(1.12) translate(20px, 15px); }
+      100% { opacity: 0.4; transform: scale(0.95) translate(0, 0); }
+    }
+
+    /* Fixed Glass Header */
+    header {
+      position: fixed;
       top: 0;
-      z-index: 100;
-      background: rgba(7,7,15,0.88);
+      left: 0;
+      width: 100%;
+      padding: 14px 5%;
+      background: var(--header-bg);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .nav-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 15px 32px;
+      z-index: 1000;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 16px;
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s;
     }
-    @media (max-width: 768px) { .nav-inner { padding: 13px 20px; } }
-
-    .nav-logo {
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-      color: var(--text);
-      text-decoration: none;
-      flex-shrink: 0;
-    }
-    .nav-logo span {
-      background: linear-gradient(135deg, #4a8fe8, #9b74e0);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .nav-right {
+    .logo {
       display: flex;
       align-items: center;
-      gap: 16px;
-    }
-    .nav-link {
-      font-size: 13px;
-      color: var(--text2);
+      gap: 12px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 2px;
       text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
+      color: var(--text-main);
     }
-    .nav-link:hover { color: var(--text); }
-
-    .nav-cta {
-      background: var(--accent);
-      color: #fff;
-      border-radius: 10px;
-      padding: 8px 18px;
-      font-size: 13px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: opacity 0.2s, box-shadow 0.2s;
-    }
-    .nav-cta:hover {
-      opacity: 0.88;
-      box-shadow: 0 4px 16px rgba(74,143,232,0.35);
-    }
-
-    @media (max-width: 600px) {
-      .nav-link { display: none !important; }
-      .nav-cta  { display: none !important; }
-    }
-
-    .lang-toggle {
-      display: flex;
-      gap: 2px;
-      background: var(--surface2);
+    .logo span { color: var(--accent-teal); }
+    .logo img {
+      width: 32px;
+      height: 32px;
       border-radius: 8px;
-      padding: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
-    .lang-btn {
-      background: none;
-      border: none;
-      color: var(--text2);
-      cursor: pointer;
-      padding: 4px 10px;
-      border-radius: 5px;
-      font-size: 12px;
-      font-weight: 600;
-      transition: background 0.2s, color 0.2s;
-    }
-    .lang-btn.active { background: var(--accent); color: #fff; }
-
-    /* ── BUTTONS ── */
-    .btn-primary {
-      background: var(--accent);
-      color: #fff !important;
-      border: none;
-      border-radius: 12px;
-      padding: 13px 24px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      transition: opacity 0.2s, box-shadow 0.25s, transform 0.15s;
-      white-space: nowrap;
-    }
-    .btn-primary:hover {
-      opacity: 0.91;
-      box-shadow: 0 8px 28px rgba(74,143,232,0.4);
-      transform: translateY(-2px);
-    }
-    .btn-secondary {
-      background: var(--surface2);
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      padding: 13px 24px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      transition: background 0.2s, transform 0.15s;
-      white-space: nowrap;
-    }
-    .btn-secondary:hover { background: #252940; transform: translateY(-2px); }
-    .btn-ghost {
-      color: var(--text);
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 12px;
-      padding: 13px 24px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      transition: background 0.2s, border-color 0.2s, transform 0.15s;
-      white-space: nowrap;
-    }
-    .btn-ghost:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.28); transform: translateY(-2px); }
-
-    /* ── HERO ── */
-    .hero-section {
-      padding: 88px 0 56px;
-    }
-    @media (max-width: 768px) { .hero-section { padding: 60px 0 40px; } }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: center;
-    }
-    @media (max-width: 960px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-        gap: 48px;
-        text-align: center;
-      }
-    }
-
-    .hero-badge {
-      display: inline-block;
-      background: rgba(74,143,232,0.12);
-      color: var(--accent);
-      border: 1px solid rgba(74,143,232,0.25);
-      border-radius: 20px;
-      padding: 5px 16px;
-      font-size: 12px;
-      font-weight: 600;
-      margin-bottom: 22px;
-      letter-spacing: 0.3px;
-    }
-
-    .hero-content h1 {
-      font-size: clamp(32px, 4.2vw, 56px);
-      font-weight: 800;
-      letter-spacing: -1.5px;
-      line-height: 1.08;
-      margin-bottom: 22px;
-    }
-    .hero-content h1 .accent {
-      background: linear-gradient(135deg, #4a8fe8 20%, #9b74e0 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-sub {
-      font-size: 17px;
-      color: var(--text2);
-      line-height: 1.7;
-      margin-bottom: 36px;
-      max-width: 480px;
-    }
-    @media (max-width: 960px) { .hero-sub { margin-left: auto; margin-right: auto; } }
-
-    .hero-buttons {
+    .nav-links {
+      list-style: none;
       display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
     }
-    @media (max-width: 960px) { .hero-buttons { justify-content: center; } }
-    .hero-buttons .btn-primary, .hero-buttons .btn-secondary { padding: 12px 18px; font-size: 14px; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--accent-teal); }
 
-    /* ── PHONE MOCKUP ── */
-    .hero-visual {
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .theme-toggle {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    .theme-toggle:hover {
+      border-color: var(--accent-teal);
+      transform: scale(1.05);
+    }
+
+    .btn-buy-nav {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-teal) 100%);
+      color: #fff !important;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-size: 0.78rem !important;
+      font-weight: 700 !important;
+      text-decoration: none;
+      box-shadow: 0 2px 10px var(--accent-glow);
+      transition: all 0.3s !important;
+    }
+    .btn-buy-nav:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px var(--accent-glow);
+    }
+
+    /* Pinned Cinematic Lifestyle Hero */
+    .hero {
+      height: 100vh;
+      min-height: 700px;
+      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
+      text-align: center;
+      background-color: var(--bg);
     }
-    .phone-wrapper {
-      position: relative;
-      width: fit-content;
-    }
-    .phone-glow {
+    .hero-bg {
       position: absolute;
-      inset: -60px;
-      background: radial-gradient(ellipse at center,
-        rgba(74,143,232,0.18) 0%,
-        rgba(155,116,224,0.1) 45%,
-        transparent 72%);
-      filter: blur(24px);
-      z-index: 0;
-      border-radius: 50%;
-    }
-    .phone-frame {
-      width: 260px;
-      height: 554px;
-      background: #0c0c18;
-      border-radius: 46px;
-      border: 8px solid #252840;
-      box-shadow:
-        0 64px 128px rgba(0,0,0,0.72),
-        0 0 0 1px rgba(255,255,255,0.07),
-        inset 0 0 0 1px rgba(255,255,255,0.03);
-      position: relative;
-      overflow: hidden;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('screenshots/hero-bg.jpg') no-repeat center center;
+      background-size: cover;
+      background-attachment: fixed;
       z-index: 1;
     }
-    .phone-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top center;
-      display: block;
-    }
-    /* Hardware buttons */
-    .phone-btn { position: absolute; background: #252840; border-radius: 2px; }
-    .phone-btn.vol1  { left: -10px; top: 104px;  width: 3px; height: 34px; border-radius: 2px 0 0 2px; }
-    .phone-btn.vol2  { left: -10px; top: 148px;  width: 3px; height: 34px; border-radius: 2px 0 0 2px; }
-    .phone-btn.power { right: -10px; top: 120px; width: 3px; height: 54px; border-radius: 0 2px 2px 0; }
-
-    /* Floating info badges */
-    .phone-badge {
+    .hero-overlay {
       position: absolute;
-      background: rgba(22,25,42,0.92);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 14px;
-      padding: 9px 14px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text);
-      backdrop-filter: blur(12px);
+      inset: 0;
+      background: linear-gradient(180deg, rgba(7, 7, 15, 0.68) 0%, rgba(7, 7, 15, 0.92) 100%);
       z-index: 2;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.45);
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      white-space: nowrap;
     }
-    .badge-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-    .phone-badge.top-right { top: 56px; right: -90px; }
-    .phone-badge.bottom-left { bottom: 88px; left: -100px; }
-
-    @media (max-width: 960px) {
-      .phone-frame { width: 230px; height: 492px; }
-      .phone-badge.top-right  { right: -70px; }
-      .phone-badge.bottom-left { left: -80px; }
-    }
-    @media (max-width: 640px) {
-      .phone-badge { display: none; }
-      .phone-frame { width: 200px; height: 428px; border-radius: 38px; }
+    [data-theme="light"] .hero-overlay {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.72) 0%, rgba(15, 23, 42, 0.9) 100%);
     }
 
-    /* ── SECTION COMMON ── */
-    .section { padding: 80px 0; }
-
-    .section-header {
-      text-align: center;
-      margin-bottom: 52px;
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      padding: 0 24px;
+      max-width: 960px;
+      animation: heroFadeIn 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
-    .section-tag {
+
+    @keyframes heroFadeIn {
+      0% { opacity: 0; transform: translateY(22px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .top-tag {
       display: inline-block;
-      background: rgba(74,143,232,0.1);
-      color: var(--accent);
-      border: 1px solid rgba(74,143,232,0.2);
-      border-radius: 20px;
-      padding: 4px 14px;
-      font-size: 11px;
+      letter-spacing: 4px;
       font-weight: 700;
-      margin-bottom: 14px;
-      letter-spacing: 0.8px;
+      font-size: 0.82rem;
+      color: var(--accent-teal);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-size: clamp(2.3rem, 4.8vw, 4.2rem);
+      letter-spacing: 3px;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 22px;
+      color: #ffffff;
       text-transform: uppercase;
     }
-    .section-title {
-      font-size: clamp(24px, 3.5vw, 40px);
-      font-weight: 800;
-      letter-spacing: -1px;
-      margin-bottom: 12px;
-      background: linear-gradient(135deg, #e8eaf0 55%, rgba(232,234,240,0.55) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .hero p {
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      font-weight: 300;
+      color: #e2e8f0;
+      max-width: 720px;
+      margin: 0 auto 38px;
+      line-height: 1.65;
     }
-    .section-sub {
-      font-size: 16px;
-      color: var(--text2);
-      max-width: 560px;
-      margin: 0 auto;
-    }
-
-    /* ── SCHEDULE TYPES ── */
-    .schedule-types-section { padding: 0 0 80px; }
-
-    .schedule-types-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 12px;
-    }
-    @media (max-width: 1100px) { .schedule-types-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 540px)  { .schedule-types-grid { grid-template-columns: repeat(2, 1fr); } }
-
-    .st-card {
-      background: var(--surface);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: var(--radius);
-      padding: 24px 16px;
-      text-align: center;
-      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-      cursor: default;
-    }
-    .st-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(74,143,232,0.3);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.45);
-    }
-    .st-icon { font-size: 26px; margin-bottom: 10px; }
-    .st-label { font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 6px; letter-spacing: -0.5px; }
-    .st-desc  { font-size: 12px; color: var(--text2); line-height: 1.45; }
-
-    /* ── FEATURES ── */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    .hero-buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       gap: 16px;
     }
-    .feature-card {
-      background: var(--surface);
-      border-radius: var(--radius);
-      padding: 28px 24px;
-      border: 1px solid rgba(255,255,255,0.06);
-      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-      cursor: default;
+    .hero-buttons-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
     }
-    .feature-card.featured {
-      border-color: rgba(74,143,232,0.2);
-      background: linear-gradient(135deg, var(--surface), rgba(74,143,232,0.06));
+    .btn-main {
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #fff;
+      padding: 15px 32px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border-radius: 6px;
+      box-shadow: 0 4px 24px var(--accent-glow);
+      transition: all 0.3s;
     }
-    .feature-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(74,143,232,0.28);
-      box-shadow: 0 20px 44px rgba(0,0,0,0.5), 0 0 0 1px rgba(74,143,232,0.08);
+    .btn-main:hover {
+      background: #3b82f6;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px var(--accent-glow);
     }
-    .feature-icon { font-size: 30px; margin-bottom: 14px; display: block; }
-    .feature-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
-    .feature-card p  { font-size: 14px; color: var(--text2); line-height: 1.65; }
-    .pro-tag {
+    .btn-ghost {
+      border: 1px solid var(--border-hover);
+      color: var(--text-main);
+      padding: 15px 30px;
+      text-decoration: none;
       display: inline-block;
-      background: linear-gradient(135deg, rgba(74,143,232,0.2), rgba(155,116,224,0.2));
-      color: var(--accent);
-      border-radius: 4px;
-      padding: 1px 7px;
-      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      border-radius: 6px;
+      transition: all 0.3s;
+    }
+    .btn-ghost:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--text-main);
+    }
+    /* Hero всегда на тёмном фоне-изображении независимо от темы сайта */
+    .hero-buttons .btn-ghost {
+      border-color: rgba(255, 255, 255, 0.35);
+      color: #fff;
+    }
+    .hero-buttons .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #fff;
+    }
+
+    /* Content Overlay Sliding Up Over Hero */
+    .content-overlay {
+      position: relative;
+      z-index: 10;
+      background: var(--bg);
+      border-radius: 36px 36px 0 0;
+      box-shadow: 0 -25px 60px var(--overlay-shadow);
+      border-top: 1px solid var(--border);
+      padding: 90px 6% 60px;
+    }
+
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto 110px;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 54px;
+    }
+    .section-header .sub-label {
+      letter-spacing: 4px;
+      font-size: 0.75rem;
+      color: var(--accent-teal);
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+      letter-spacing: 2px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-main);
+    }
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 640px;
+      margin: 14px auto 0;
+      font-weight: 300;
+    }
+
+    /* Panels Grid */
+    .panels-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 26px;
+    }
+    .panel-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1), border-color 0.4s, box-shadow 0.4s, background-color 0.3s;
+    }
+    .panel-card:hover {
+      transform: translateY(-6px) scale(1.015);
+      border-color: var(--border-hover);
+      background: var(--bg-card-hover);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25), 0 0 24px var(--accent-glow);
+    }
+    .panel-card .panel-icon {
+      font-size: 2.2rem;
+      margin-bottom: 18px;
+      display: inline-block;
+    }
+    .panel-card h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+    .panel-card p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* Showcase Split Rows with Layered 2-Phone Fan Mockups */
+    .showcase-split {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+      gap: 50px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 46px;
+      margin-bottom: 44px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.4s, box-shadow 0.4s;
+    }
+    .showcase-split:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+    }
+    .showcase-split.reverse {
+      grid-template-columns: 0.95fr 1.05fr;
+    }
+    .showcase-text h3 {
+      font-size: 1.75rem;
       font-weight: 700;
       letter-spacing: 0.5px;
-      margin-left: 6px;
-      vertical-align: middle;
+      margin-bottom: 16px;
+      color: var(--text-main);
     }
-
-    /* ── SCREENSHOTS GALLERY ── */
-    .screenshots-section { padding: 0 0 80px; }
-
-    .screenshots-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 16px;
+    .showcase-text p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 22px;
+      font-weight: 300;
     }
-    .screen-card { grid-column: span 2; }
-    .screen-card:nth-child(4),
-    .screen-card:nth-child(5) { grid-column: span 3; }
-    @media (max-width: 768px) {
-      .screenshots-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-      .screen-card,
-      .screen-card:nth-child(4),
-      .screen-card:nth-child(5) { grid-column: span 1; }
+    .check-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
-    @media (max-width: 480px) {
-      .screenshots-grid { grid-template-columns: 1fr; gap: 12px; }
-      .screen-card,
-      .screen-card:nth-child(4),
-      .screen-card:nth-child(5) { grid-column: span 1; }
+    .check-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.92rem;
+      color: var(--text-main);
     }
-
-    .screen-card {
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
-      aspect-ratio: 16/9;
-      background: var(--surface);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    .check-list li::before {
+      content: '✓';
+      color: var(--accent-teal);
+      font-weight: 800;
     }
-    .screen-card img {
+    
+    /* Layered 2-Phone Fan Showcase Wrapper */
+    .mockup-fan-container {
+      position: relative;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-      transition: transform 0.42s ease;
+      height: 480px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      perspective: 1000px;
     }
-    .screen-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 32px 64px rgba(0,0,0,0.65);
-    }
-    .screen-card:hover img { transform: scale(1.04); }
-
-    /* ── LIFESTYLE PHOTOS ── */
-    .lifestyle-section { padding: 0 0 80px; }
-
-    .lifestyle-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    @media (max-width: 480px) {
-      .lifestyle-grid { grid-template-columns: 1fr; }
-    }
-    .lifestyle-main {
-      grid-column: 1 / -1;
-      border-radius: var(--radius-lg);
+    .fan-card {
+      position: absolute;
+      width: 240px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--mockup-bg);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
       overflow: hidden;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+      transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1), box-shadow 0.6s;
     }
-    .lifestyle-thumb {
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
-    }
-    .lifestyle-main img,
-    .lifestyle-thumb img {
+    .fan-card img {
       width: 100%;
       height: auto;
       display: block;
     }
-
-    /* ── STATUS BADGES ── */
-    .statuses-section { padding: 0 0 80px; }
-    .statuses {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
+    /* Phone 1 (Back, tilted left) */
+    .fan-card-back {
+      transform: translateX(-40px) translateY(-10px) rotate(-6deg) scale(0.92);
+      z-index: 1;
+      opacity: 0.9;
     }
-    .status-badge {
-      border-radius: 10px;
-      padding: 7px 18px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #fff;
+    /* Phone 2 (Front, tilted right) */
+    .fan-card-front {
+      transform: translateX(35px) translateY(15px) rotate(4deg);
+      z-index: 2;
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55);
+    }
+    /* Hover fan expansion */
+    .showcase-split:hover .fan-card-back {
+      transform: translateX(-65px) translateY(-18px) rotate(-10deg) scale(0.95);
+      opacity: 1;
+    }
+    .showcase-split:hover .fan-card-front {
+      transform: translateX(55px) translateY(22px) rotate(7deg) scale(1.03);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.65), 0 0 20px var(--accent-glow);
     }
 
-    /* ── PRO ── */
-    .pro-section-wrap { padding: 80px 0; }
-    .pro-section {
-      background:
-        linear-gradient(var(--surface), var(--surface)) padding-box,
-        linear-gradient(135deg, rgba(74,143,232,0.35), rgba(102,184,178,0.35)) border-box;
-      border: 1px solid transparent;
-      border-radius: var(--radius-lg);
-      padding: 64px 48px;
+    /* Price / PRO Card */
+    .pro-card-box {
       max-width: 720px;
       margin: 0 auto;
+      background: linear-gradient(135deg, rgba(102, 184, 178, 0.1) 0%, var(--bg-surface) 100%);
+      border: 1px solid var(--accent-teal);
+      border-radius: 24px;
+      padding: 50px 6%;
       text-align: center;
+      position: relative;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.25);
     }
-    @media (max-width: 768px) { .pro-section { padding: 40px 28px; } }
-
     .pro-badge {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff;
-      border-radius: 8px;
-      padding: 4px 14px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      display: inline-block;
-      margin-bottom: 20px;
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent-teal);
+      color: #042f2e;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 18px;
+      border-radius: 14px;
     }
-    .pro-section h2 { font-size: 30px; font-weight: 800; margin-bottom: 14px; letter-spacing: -0.5px; }
-    .pro-section > p { color: var(--text2); margin-bottom: 28px; max-width: 500px; margin-left: auto; margin-right: auto; }
-    .pro-list { list-style: none; text-align: left; display: inline-block; margin-bottom: 32px; }
-    .pro-list li {
-      padding: 6px 0;
-      font-size: 15px;
+    .pro-val {
+      font-size: 3.2rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin: 16px 0 6px;
+    }
+    .pro-val span {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+    .pro-features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      text-align: left;
+      margin: 32px 0 38px;
+    }
+    .pro-features-grid li {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      list-style: none;
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    .pro-list li::before { content: "✦"; color: var(--accent); font-size: 10px; }
-    .price { font-size: 40px; font-weight: 800; color: var(--accent); margin-bottom: 24px; }
-    .price span { font-size: 16px; color: var(--text2); font-weight: 400; }
-    .trial-note { font-size: 13px; color: var(--text2); margin-top: 12px; }
+    .pro-features-grid li::before {
+      content: '●';
+      color: var(--accent-teal);
+      font-size: 0.75rem;
+    }
+    .pro-buttons-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-buy-card {
+      background: var(--accent-teal);
+      color: #042f2e;
+      padding: 16px 36px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(102, 184, 178, 0.35);
+      transition: all 0.3s;
+    }
+    .btn-buy-card:hover {
+      background: #5eead4;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(102, 184, 178, 0.45);
+    }
 
-    /* ── CHANGELOG ── */
+    /* FAQ Accordion Section */
+    .faq-accordion {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .faq-item:hover { border-color: var(--border-hover); }
+    .faq-question {
+      padding: 20px 24px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-main);
+      user-select: none;
+    }
+    .faq-question::after {
+      content: '+';
+      font-size: 1.4rem;
+      color: var(--accent-teal);
+      transition: transform 0.3s;
+    }
+    .faq-item.active .faq-question::after {
+      transform: rotate(45deg);
+    }
+    .faq-answer {
+      padding: 0 24px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.65;
+      font-weight: 300;
+    }
+    .faq-item.active .faq-answer {
+      padding: 0 24px 22px;
+      max-height: 280px;
+    }
+
+    /* Articles Grid */
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 26px;
+    }
+    .article-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 30px;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;
+    }
+    .article-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--border-hover);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+    }
+    .article-tag {
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent-teal);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .article-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+    .article-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .article-more {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Changelog */
     .changelog-wrap {
       max-width: 720px;
       margin: 0 auto;
       max-height: 440px;
       overflow-y: auto;
-      border-radius: var(--radius);
+      border-radius: 14px;
       scrollbar-width: thin;
-      scrollbar-color: var(--surface2) transparent;
+      scrollbar-color: var(--border-hover) transparent;
     }
     .changelog-wrap::-webkit-scrollbar { width: 4px; }
-    .changelog-wrap::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 2px; }
+    .changelog-wrap::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 2px; }
     .changelog { display: flex; flex-direction: column; gap: 10px; padding: 2px; }
     .cl-item {
-      background: var(--surface);
-      border-radius: var(--radius);
-      border: 1px solid rgba(255,255,255,0.06);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
       padding: 20px 24px;
     }
-    .cl-item.cl-latest { border-color: rgba(74,143,232,0.25); }
+    .cl-item.cl-latest { border-color: var(--border-hover); }
     .cl-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-    .cl-version { background: var(--accent); color: #fff; border-radius: 6px; padding: 3px 10px; font-size: 13px; font-weight: 700; }
-    .cl-version.cl-old { background: var(--surface2); color: var(--text2); }
-    .cl-date { font-size: 13px; color: var(--text2); }
+    .cl-version { background: var(--bg-card-hover); color: var(--text-muted); border-radius: 6px; padding: 3px 10px; font-size: 0.78rem; font-weight: 700; }
+    .cl-version.cl-latest { background: var(--accent-teal); color: #042f2e; }
+    .cl-date { font-size: 0.8rem; color: var(--text-muted); }
     .cl-list { list-style: none; }
-    .cl-list li { font-size: 14px; color: var(--text2); padding: 3px 0; display: flex; align-items: flex-start; gap: 8px; line-height: 1.5; }
-    .cl-list li::before { content: "—"; color: var(--accent); flex-shrink: 0; }
-    .cl-item.cl-old .cl-list li::before { color: var(--text2); }
+    .cl-list li { font-size: 0.88rem; color: var(--text-muted); padding: 3px 0; display: flex; align-items: flex-start; gap: 8px; line-height: 1.55; font-weight: 300; }
+    .cl-list li::before { content: "—"; color: var(--text-muted); flex-shrink: 0; }
+    .cl-item.cl-latest .cl-list li::before { color: var(--accent-teal); }
 
-    /* ── ARTICLES ── */
-    .articles-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-      gap: 16px;
+    /* Fade-In Scroll Animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .article-card {
-      background: var(--surface);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: var(--radius);
-      padding: 24px;
-      text-decoration: none;
-      color: var(--text);
-      display: block;
-      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
-    .article-card:hover {
-      border-color: rgba(74,143,232,0.42);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
-    }
-    .article-icon { font-size: 24px; margin-bottom: 12px; }
-    .article-card h3 { font-weight: 700; font-size: 15px; margin-bottom: 8px; line-height: 1.4; }
-    .article-card p  { font-size: 13px; color: var(--text2); }
 
-    /* ── DOWNLOAD CTA ── */
-    .download-section { padding: 80px 0; }
-    .download-cta {
-      background: linear-gradient(135deg, rgba(74,143,232,0.08), rgba(155,116,224,0.06));
-      border: 1px solid rgba(74,143,232,0.16);
-      border-radius: var(--radius-lg);
-      padding: 64px 40px;
-      max-width: 720px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    @media (max-width: 768px) { .download-cta { padding: 40px 24px; } }
-    .download-cta h2 { font-size: 32px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; }
-    .download-cta > p { color: var(--text2); margin-bottom: 32px; }
-    .download-buttons {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .download-note { margin-top: 16px; font-size: 12px; color: var(--text3); }
-
-    /* ── FOOTER ── */
+    /* Footer */
     footer {
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding: 40px 0;
-      position: relative;
-      z-index: 1;
+      padding: 60px 6% 40px;
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+      letter-spacing: 1px;
     }
-    .footer-links {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
+    .footer-contact {
+      margin-bottom: 20px;
+      color: var(--text-muted);
     }
-    footer a { color: var(--accent); text-decoration: none; font-size: 13px; }
-    footer a:hover { text-decoration: underline; }
-    .footer-copy { font-size: 13px; color: var(--text2); }
+    .footer-contact a {
+      color: var(--accent-teal);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .footer-contact a:hover { text-decoration: underline; }
 
-    /* ── LOCALIZATION ── */
-    [data-en] { display: none; }
-    body.lang-en [data-ru] { display: none; }
-    body.lang-en [data-en] { display: revert; }
-
-    /* ── SCROLL REVEAL ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.65s ease, transform 0.65s ease;
+    /* Mobile */
+    @media (max-width: 860px) {
+      .nav-links { display: none; }
+      .hero-bg { background-attachment: scroll; }
+      .showcase-split { grid-template-columns: 1fr !important; gap: 36px; padding: 32px 20px; }
+      .showcase-split.reverse .showcase-text { order: 1; }
+      .showcase-split.reverse .mockup-fan-container { order: 2; }
+      .mockup-fan-container { height: 380px; }
+      .fan-card { width: 190px; }
+      .content-overlay { padding-top: 60px; border-radius: 24px 24px 0 0; }
+      .pro-features-grid { grid-template-columns: 1fr; }
     }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    .reveal-scale {
-      opacity: 0;
-      transform: scale(0.94) translateY(18px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .reveal-scale.visible { opacity: 1; transform: scale(1) translateY(0); }
-
-    /* ── REDUCED MOTION ── */
-    @media (prefers-reduced-motion: reduce) {
-      .reveal, .reveal-scale { opacity: 1; transform: none; transition: none; }
-      .feature-card, .st-card, .screen-card, .article-card,
-      .btn-primary, .btn-secondary, .btn-ghost { transition: none !important; }
-      .screen-card:hover img { transform: none; }
-      html { scroll-behavior: auto; }
-    }
-
-    /* ── THEME BUTTON ── */
-    .theme-btn {
-      background: none;
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 8px;
-      color: var(--text2);
-      cursor: pointer;
-      width: 34px; height: 34px;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s, color 0.2s, border-color 0.2s;
-      flex-shrink: 0;
-      padding: 0;
-    }
-    .theme-btn:hover { background: var(--surface2); color: var(--text); border-color: rgba(255,255,255,0.22); }
-    .theme-btn svg { width: 15px; height: 15px; pointer-events: none; }
-    .icon-sun  { display: block; }
-    .icon-moon { display: none; }
-    html.light .icon-sun  { display: none; }
-    html.light .icon-moon { display: block; }
-
-    /* ── LIGHT THEME ── */
-    html.light {
-      --bg:       #f0f2f8;
-      --surface:  #ffffff;
-      --surface2: #e4e8f4;
-      --surface3: #d8dcee;
-      --text:     #181a2a;
-      --text2:    #525870;
-      --text3:    #9aa0b0;
-    }
-    html.light body { background: var(--bg); color: var(--text); }
-    html.light nav {
-      background: rgba(240,242,248,0.92);
-      border-bottom-color: rgba(0,0,0,0.07);
-    }
-    html.light .theme-btn { border-color: rgba(0,0,0,0.12); }
-    html.light .theme-btn:hover { border-color: rgba(0,0,0,0.22); background: var(--surface2); }
-    html.light .btn-ghost {
-      background: rgba(0,0,0,0.05);
-      border-color: rgba(0,0,0,0.14);
-      color: var(--text);
-    }
-    html.light .btn-ghost:hover { background: rgba(0,0,0,0.09); border-color: rgba(0,0,0,0.22); }
-    html.light .lang-toggle { background: var(--surface3); }
-    html.light .lang-btn { color: var(--text2); }
-    html.light body::before {
-      background: radial-gradient(circle, rgba(74,143,232,0.1) 0%, transparent 65%);
-    }
-    html.light body::after {
-      background: radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 65%);
-    }
-    html.light .section-title {
-      background: linear-gradient(135deg, #181a2a 60%, rgba(24,26,42,0.7) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    html.light .section-sub { color: #404560; }
-    html.light h1, html.light h2, html.light h3 { color: var(--text); }
-    html.light p { color: var(--text); }
   </style>
-
-  <script>(function(){var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:light)').matches?'light':'dark');if(t==='light')document.documentElement.classList.add('light');})();</script>
 
   <!-- Yandex.Metrika -->
   <script type="text/javascript">
@@ -800,696 +785,553 @@
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/109065744" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
   <!-- /Yandex.Metrika -->
-
-  <link rel="alternate" hreflang="ru" href="https://mirorstar.github.io/shiftschedule/">
-  <link rel="alternate" hreflang="en" href="https://mirorstar.github.io/shiftschedule/en/">
-  <link rel="alternate" hreflang="x-default" href="https://mirorstar.github.io/shiftschedule/">
-  
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "ShiftSchedule",
-  "operatingSystem": "ANDROID",
-  "applicationCategory": "BusinessApplication",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "RUB"
-  }
-}
-</script>
 </head>
 <body>
 
-<!-- ═══ NAV ═══ -->
-<nav>
-  <div class="nav-inner">
-    <a href="/" class="nav-logo">Shift<span>Schedule</span></a>
-    <div class="nav-right">
-      <a href="faq.html" class="nav-link">FAQ</a>
-      
-      <a href="help.html" class="nav-link">Инструкция</a>
-      
-      <a href="#download" class="nav-cta" onclick="ym(109065744,'reachGoal','nav_download')">Скачать</a>
-      
-      <button class="theme-btn" onclick="toggleTheme()" aria-label="Сменить тему">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <circle cx="12" cy="12" r="4"></circle>
-          <line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line>
-          <line x1="2" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="22" y2="12"></line>
-          <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"></line><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"></line>
-          <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"></line><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"></line>
-        </svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-      </button>
-      <div class="lang-toggle">
-    <span class="lang-btn active">RU</span>
-    <a href="en/index.html" class="lang-btn" style="text-decoration: none;">EN</a>
+<!-- Ambient Neon Auras -->
+<div class="ambient-aura aura-1"></div>
+<div class="ambient-aura aura-2"></div>
+
+<!-- Header with Theme Toggle & Navigation -->
+<header>
+  <a href="#" class="logo">
+    <img src="favicon.png" alt="ShiftSchedule">
+    <div>
+      SHIFT<span>SCHEDULE</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Возможности</a></li>
+    <li><a href="#pro">PRO</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="articles.html">Статьи</a></li>
+    <li><a href="guide.html">Руководство</a></li>
+  </ul>
+  <div class="header-actions">
+    <button class="theme-toggle" id="themeToggle" title="Переключить тему" aria-label="Переключить тему">☀️</button>
+    <a href="buy.html" class="btn-buy-nav" onclick="ym(109065744,'reachGoal','buy_on_site')">Купить PRO (199 ₽)</a>
   </div>
+</header>
+
+<!-- Pinned Hero Section -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="top-tag">УМНЫЙ КАЛЕНДАРЬ СМЕН ДЛЯ ANDROID</span>
+    <h1>СМЕННЫЙ ГРАФИК<br>ПОД ПОЛНЫМ КОНТРОЛЕМ</h1>
+    <p>Календарь смен 2/2, день/ночь, сутки через трое. Синхронизация расписания с партнёром, умные будильники, расчёт зарплаты и Яндекс.Алиса.</p>
+    <div class="hero-buttons">
+      <div class="hero-buttons-row">
+        <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule?utm_source=website&amp;utm_medium=hero&amp;utm_campaign=main" target="_blank" rel="noopener noreferrer" class="btn-main" onclick="ym(109065744,'reachGoal','download_rustore')">Скачать в RuStore</a>
+        <a href="https://github.com/MIRORSTAR/shiftschedule/releases/download/v2.2.1/ShiftSchedule-rustore-v2.2.1-23.apk" class="btn-main" onclick="ym(109065744,'reachGoal','download_apk')">↓ Скачать APK</a>
+      </div>
+      <a href="buy.html" class="btn-ghost" onclick="ym(109065744,'reachGoal','buy_on_site')">Купить PRO на сайте</a>
     </div>
   </div>
-</nav>
+</section>
 
-<!-- ═══ HERO ═══ -->
-<section class="hero-section">
-  <div class="container">
-    <div class="hero-grid">
+<!-- Content Overlay Sliding Up Over Hero -->
+<div class="content-overlay">
 
-      <!-- Left: text + CTA -->
-      <div class="hero-content reveal">
-        <div class="hero-badge">
-          <span>Android приложение</span>
-          
+  <!-- Features Grid -->
+  <section id="features" class="section-container">
+    <div class="section-header fade-in">
+      <span class="sub-label">ВОЗМОЖНОСТИ</span>
+      <h2 class="section-title">ВСЁ ДЛЯ СМЕННОЙ ЖИЗНИ</h2>
+      <p class="section-desc">Удобное приложение, созданное сменщиком для сменщиков. Без лишней сложности и на 100% автономное.</p>
+    </div>
+
+    <div class="panels-grid">
+      <div class="panel-card fade-in">
+        <div class="panel-icon">📅</div>
+        <h3>Любые типы смен</h3>
+        <p>Быстрая настройка графиков 2/2, 3/3, день/ночь/48, сутки/трое, произвольных циклов и отметка подработок.</p>
+      </div>
+
+      <div class="panel-card fade-in">
+        <div class="panel-icon">❤️</div>
+        <h3>График партнёра</h3>
+        <p>Подключайте расписание близкого человека по коду и сразу видите совместные выходные на одном экране.</p>
+      </div>
+
+      <div class="panel-card fade-in">
+        <div class="panel-icon">⏰</div>
+        <h3>Умные будильники</h3>
+        <p>Будильники сами переключаются в зависимости от дневной или ночной смены и отключаются в выходные.</p>
+      </div>
+
+      <div class="panel-card fade-in">
+        <div class="panel-icon">💰</div>
+        <h3>Вкладка «Доход»</h3>
+        <p>Автоматический расчёт заработка за месяц с учётом часовых ставок, ночных надбавок и внеплановых подработок.</p>
+      </div>
+
+      <div class="panel-card fade-in">
+        <div class="panel-icon">🗣️</div>
+        <h3>Яндекс.Алиса</h3>
+        <p>Спросите у Алисы: «Когда у меня следующая смена?» или «Какой график на выходные?» прямо с колонки.</p>
+      </div>
+
+      <div class="panel-card fade-in">
+        <div class="panel-icon">🔄</div>
+        <h3>Экспорт и интеграции</h3>
+        <p>Экспорт смен в системный календарь устройства, интеграция с Home Assistant и резервное копирование в облако.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase 1: Main Calendar & Partner Underline (Fan Mockup) -->
+  <section id="calendar" class="section-container">
+    <div class="showcase-split fade-in">
+      <div class="showcase-text">
+        <span class="sub-label">ГЛАВНЫЙ ЭКРАН</span>
+        <h3>Наглядный календарь на весь год вперёд</h3>
+        <p>Один взгляд на экран — и вы точно знаете, работаете ли вы в субботу, на Новый год или день рождения друга через полгода.</p>
+        <ul class="check-list">
+          <li>Цветная маркировка дневных, ночных смен и отпусков</li>
+          <li>Подчёркивание выходных партнёра прямо на датах месяца</li>
+          <li>Быстрое добавление подработок и подмен в одно касание</li>
+        </ul>
+      </div>
+      <div class="mockup-fan-container">
+        <div class="fan-card fan-card-back">
+          <img src="screenshots/screen-partner-underline.jpg" alt="Календарь с отметками партнера">
         </div>
-        <h1>
-          <span>Календарь смен,<br>который понимает<br>ваш <span class="accent">график</span></span>
-          
-        </h1>
-        <p class="hero-sub">
-          <span>2/2, день/ночь, сутки через трое, подработки, общие выходные с партнёром, будильники, облако и Алиса — всё в одном Android-приложении.</span>
-          
-        </p>
-        <div class="hero-buttons">
-          <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule?utm_source=website&amp;utm_medium=hero&amp;utm_campaign=main" class="btn-primary" onclick="ym(109065744,'reachGoal','download_rustore')">
-            <span>Скачать в RuStore</span>
-            
-          </a>
-          <a href="https://github.com/MIRORSTAR/shiftschedule/releases/download/v2.2.1/ShiftSchedule-rustore-v2.2.1-23.apk" class="btn-secondary" onclick="ym(109065744,'reachGoal','download_apk')">
-            <span>↓ Скачать APK</span>
-            
-          </a>
-          <a href="buy.html" class="btn-secondary" onclick="ym(109065744,'reachGoal','buy_on_site')">
-            <span>Купить на сайте</span>
-          </a>
+        <div class="fan-card fan-card-front">
+          <img src="screenshots/screen-calendar.jpg" alt="Главный календарь смен ShiftSchedule">
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- Right: phone mockup -->
-      <div class="hero-visual reveal">
-        <div class="phone-wrapper">
-          <div class="phone-glow"></div>
-          <div class="phone-frame">
-            <div class="phone-btn vol1"></div>
-            <div class="phone-btn vol2"></div>
-            <div class="phone-btn power"></div>
-            <img src="screenshots/hero_main.jpg" alt="ShiftSchedule — главный экран">
-          </div>
+  <!-- Showcase 2: Partner Schedule (Together Fan Mockup) -->
+  <section id="together" class="section-container">
+    <div class="showcase-split reverse fade-in">
+      <div class="mockup-fan-container">
+        <div class="fan-card fan-card-back">
+          <img src="screenshots/screen-together-setup.jpg" alt="Настройка синхронизации партнера">
+        </div>
+        <div class="fan-card fan-card-front">
+          <img src="screenshots/screen-together.jpg" alt="График партнера и совместные выходные">
         </div>
       </div>
+      <div class="showcase-text">
+        <span class="sub-label">ВКЛАДКА «ВМЕСТЕ»</span>
+        <h3>Совместные выходные без звонков и уточнений</h3>
+        <p>Подключите расписание супруга, партнёра или друга. Приложение автоматически подсветит дни, когда вы оба отдыхаете.</p>
+        <ul class="check-list">
+          <li>Сравнение двух разных графиков (например, 2/2 и день/ночь)</li>
+          <li>Быстрое подключение по 6-значному коду без паролей</li>
+          <li>Планирование совместных поездок и отпусков за секунды</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
+  <!-- Showcase 3: Income Calculator (Fan Mockup) -->
+  <section id="income" class="section-container">
+    <div class="showcase-split fade-in">
+      <div class="showcase-text">
+        <span class="sub-label">УЧЁТ ФИНАНСОВ</span>
+        <h3>Точный расчёт зарплаты и стоимости смен</h3>
+        <p>Больше не нужно считать часы на калькуляторе. Введите ставку за смену или час — приложение само рассчитает заработок за месяц.</p>
+        <ul class="check-list">
+          <li>Раздельный учёт дневных, ночных смен и переработок</li>
+          <li>Наглядная статистика дохода и отработанных часов</li>
+          <li>Контроль расчётного листа от работодателя</li>
+        </ul>
+      </div>
+      <div class="mockup-fan-container">
+        <div class="fan-card fan-card-back">
+          <img src="screenshots/screen-income-settings.jpg" alt="Настройки ставок дохода">
+        </div>
+        <div class="fan-card fan-card-front">
+          <img src="screenshots/screen-income.jpg" alt="Расчет зарплаты со смен">
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ═══ SCREENSHOTS ═══ -->
-<section class="screenshots-section">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Как выглядит приложение</h2>
-      
-      <p class="section-sub">Всё продумано для ежедневного использования</p>
-      
+  <!-- Showcase 4: Smart Alarms & Home Assistant (Fan Mockup) -->
+  <section id="alarms" class="section-container">
+    <div class="showcase-split reverse fade-in">
+      <div class="mockup-fan-container">
+        <div class="fan-card fan-card-back">
+          <img src="screenshots/screen-home-assistant.jpg" alt="Интеграция с Home Assistant">
+        </div>
+        <div class="fan-card fan-card-front">
+          <img src="screenshots/screen-alarms.jpg" alt="Умные будильники под смены">
+        </div>
+      </div>
+      <div class="showcase-text">
+        <span class="sub-label">АВТОМАТИЗАЦИЯ</span>
+        <h3>Будильники, которые знают ваш график</h3>
+        <p>Забудьте о ручном переставлении будильников каждый вечер. ShiftSchedule сам разбудит вас перед сменой и даст выспаться в выходной.</p>
+        <ul class="check-list">
+          <li>Автоматическое включение будильника по типу смены</li>
+          <li>Интеграция с умным домом Home Assistant</li>
+          <li>Голосовой ассистент Яндекс.Алиса</li>
+        </ul>
+      </div>
     </div>
-    <div class="screenshots-grid">
-      <div class="screen-card"><img src="screenshots/feat_main.png" alt="Календарь смен" loading="lazy"></div>
-      <div class="screen-card"><img src="screenshots/feat_schedules.png" alt="Настройки графика" loading="lazy"></div>
-      <div class="screen-card"><img src="screenshots/feat_alarm.png" alt="Будильники" loading="lazy"></div>
-      <div class="screen-card"><img src="screenshots/feat_notes.png" alt="Заметки" loading="lazy"></div>
-      <div class="screen-card"><img src="screenshots/feat_themes.png" alt="Темы оформления" loading="lazy"></div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- ═══ LIFESTYLE ═══ -->
-<section class="lifestyle-section">
-  <div class="container">
-    <div class="lifestyle-grid">
-      <div class="lifestyle-main reveal">
-        <img src="screenshots/lifestyle_1.jpeg" alt="ShiftSchedule — всегда под рукой" loading="lazy">
-      </div>
-      <div class="lifestyle-thumb reveal"><img src="screenshots/lifestyle_2.jpeg" alt="Планирование вместе" loading="lazy"></div>
-      <div class="lifestyle-thumb reveal"><img src="screenshots/lifestyle_3.jpeg" alt="График в телефоне" loading="lazy"></div>
-      <div class="lifestyle-thumb reveal"><img src="screenshots/lifestyle_4.jpeg" alt="Сменный работник" loading="lazy"></div>
-      <div class="lifestyle-thumb reveal"><img src="screenshots/lifestyle_5.jpeg" alt="Смены всегда рядом" loading="lazy"></div>
+  <!-- PRO Section -->
+  <section id="pro" class="section-container">
+    <div class="section-header fade-in">
+      <span class="sub-label">ТАРИФЫ</span>
+      <h2 class="section-title">ПРОЗРАЧНАЯ ПОКУПКА БЕЗ ПОДПИСОК</h2>
+      <p class="section-desc">Базовые функции бесплатны навсегда. PRO-версия открывает все возможности навсегда за разовую оплату.</p>
     </div>
-  </div>
-</section>
 
-<!-- ═══ SCHEDULE TYPES ═══ -->
-<section class="schedule-types-section">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title reveal">Для каких графиков</h2>
-      
-      <p class="section-sub reveal">Настрой любой цикл: укажи якорную дату и количество рабочих и выходных дней</p>
-      
-    </div>
-    <div class="schedule-types-grid">
-      <div class="st-card">
-        <div class="st-icon">🔵</div>
-        <div class="st-label">2/2</div>
-        <div class="st-desc">2 рабочих / 2 выходных</div>
-        
-      </div>
-      <div class="st-card">
-        <div class="st-icon">🌒</div>
-        <div class="st-label">День/ночь</div>
-        
-        <div class="st-desc">Циклы с дневными и ночными сменами</div>
-        
-      </div>
-      <div class="st-card">
-        <div class="st-icon">📅</div>
-        <div class="st-label">Сутки/3</div>
-        
-        <div class="st-desc">Сутки через трое</div>
-        
-      </div>
-      <div class="st-card">
-        <div class="st-icon">⚡</div>
-        <div class="st-label">3/3</div>
-        <div class="st-desc">3 рабочих / 3 выходных</div>
-        
-      </div>
-      <div class="st-card">
-        <div class="st-icon">💼</div>
-        <div class="st-label">5/2</div>
-        <div class="st-desc">Стандартная пятидневка</div>
-        
-      </div>
-      <div class="st-card">
-        <div class="st-icon">✨</div>
-        <div class="st-label">Свой цикл</div>
-        
-        <div class="st-desc">Любое сочетание дней</div>
-        
-      </div>
-    </div>
-  </div>
-</section>
+    <div class="pro-card-box fade-in">
+      <div class="pro-badge">РАЗОВАЯ ПОКУПКА</div>
+      <h3 style="font-size: 1.8rem; font-weight: 800;">ShiftSchedule PRO</h3>
+      <div class="pro-val">199 ₽ <span>/ навсегда</span></div>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">Один раз оплатили — пользуетесь бессрочно на всех своих устройствах.</p>
 
-<!-- ═══ FEATURES ═══ -->
-<section class="section">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-tag">Функции</div>
-      
-      <h2 class="section-title">Всё что нужно для сменного графика</h2>
-      
-      <p class="section-sub">Бесплатные функции, которые работают без интернета</p>
-      
-    </div>
-    <div class="features-grid">
-      <div class="feature-card featured">
-        <span class="feature-icon">👥</span>
-        <h3>Общие выходные с партнёром <span class="pro-tag">PRO</span></h3>
-        
-        <p>Видишь выходные коллеги или члена семьи прямо на своём календаре. Общие выходные выделяются маркером — сразу видно, когда можно отдохнуть вместе.</p>
-        
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">📅</span>
-        <h3>Умный календарь</h3>
-        
-        <p>Автоматический расчёт цикла смен по якорной дате. Поддержка любых графиков: 2/2, 3/3, 5/2 и других.</p>
-        
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🌒</span>
-        <h3>Смены день/ночь</h3>
-        
-        <p>Настраивай цикл с дневными и ночными сменами. В списке дней сразу видно тип смены.</p>
-        
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">⏰</span>
-        <h3>Будильники на смены</h3>
-        
-        <p>Установи один раз — приложение само расставит будильники на рабочие дни вперёд.</p>
-        
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">✏️</span>
-        <h3>Заметки, отпуск, больничный</h3>
-        
-        <p>5 типов дней: Работа, Выходной, Подработка, Отпуск, Больничный. Добавляй заметки к любому дню.</p>
-        
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">☁️</span>
-        <h3>Облачная синхронизация <span class="pro-tag">PRO</span></h3>
-        
-        <p>Сохраняй график в облаке. Восстанавливай на новом устройстве без потерь.</p>
-        
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🎙️</span>
-        <h3>Навык Яндекс Алисы</h3>
-        
-        <p>Спрашивайте о рабочих сменах голосом — на колонке, в телефоне или на умном экране.</p>
-        
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🌤️</span>
-        <h3>Погода</h3>
-        
-        <p>Прогноз погоды в приложении — на рабочие дни, чтобы знать, что надеть.</p>
-        
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🎨</span>
-        <h3>Темы оформления</h3>
-        
-        <p>Тёмная и светлая тема, стили Glass, Aurora, Nordic, Forest, iOS и другие.</p>
-        
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ STATUS BADGES ═══ -->
-<section class="statuses-section">
-  <div class="container">
-    <div class="statuses">
-      <span class="status-badge" style="background:#4a8fe8">Работа</span>
-      
-      <span class="status-badge" style="background:#5a6070">Выходной</span>
-      
-      <span class="status-badge" style="background:#4caf7a">Подработка</span>
-      
-      <span class="status-badge" style="background:#e8a44a">Отпуск</span>
-      
-      <span class="status-badge" style="background:#e85454">Больничный</span>
-      
-    </div>
-  </div>
-</section>
-
-<!-- ═══ PRO ═══ -->
-<section class="pro-section-wrap">
-  <div class="container">
-    <div class="pro-section reveal">
-      <div class="pro-badge">PRO</div>
-      <h2>Больше возможностей</h2>
-      
-      <p>Мы настоятельно рекомендуем привязать почту или аккаунт в приложении — это защитит ваш график от потери. И как бонус — все PRO-функции на 14 дней бесплатно.</p>
-      
-      <ul class="pro-list">
-        <li><span>Облачная синхронизация между устройствами</span></li>
-        <li><span>Совместный просмотр графика с партнёром</span></li>
-        <li><span>Вкладка «Доход» — расчёт зарплаты, премии и вычеты</span></li>
-        <li><span>Стили Glass &amp; Air и iOS</span></li>
-        <li><span>Новые стили Aurora, Nordic, Forest</span></li>
+      <ul class="pro-features-grid">
+        <li>Синхронизация графика с партнёром</li>
+        <li>Автоматические умные будильники</li>
+        <li>Вкладка расчёта дохода и зарплаты</li>
+        <li>Интеграция с Яндекс.Алисой и Home Assistant</li>
+        <li>Экспорт смен в системный календарь</li>
+        <li>Все темы оформления (iOS, Material, Dark)</li>
       </ul>
-      <div class="price">199 ₽ <span>/ навсегда</span></div>
-      <div style="display:flex; flex-direction:column; gap:10px; align-items:center;">
-        <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule?utm_source=website&amp;utm_medium=button&amp;utm_campaign=pro_trial" class="btn-primary" onclick="ym(109065744,'reachGoal','download_rustore')">Привязать аккаунт и попробовать PRO</a>
-        <a href="buy.html" class="btn-primary" onclick="ym(109065744,'reachGoal','buy_on_site')">Купить PRO на сайте</a>
+
+      <div class="pro-buttons-row">
+        <a href="buy.html" class="btn-buy-card" onclick="ym(109065744,'reachGoal','buy_on_site')">Оплатить на сайте (ЮKassa / СБП)</a>
+        <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule?utm_source=website&amp;utm_medium=button&amp;utm_campaign=pro_trial" target="_blank" rel="noopener noreferrer" class="btn-ghost" onclick="ym(109065744,'reachGoal','download_rustore')">Купить в RuStore</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Accordion -->
+  <section id="faq" class="section-container">
+    <div class="section-header fade-in">
+      <span class="sub-label">ПОМОЩЬ И ВОПРОСЫ</span>
+      <h2 class="section-title">ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ</h2>
+      <p class="section-desc">Ответы на популярные вопросы о синхронизации, оплате и работе приложения.</p>
+    </div>
+
+    <div class="faq-accordion fade-in">
+      <div class="faq-item">
+        <div class="faq-question">Как подключить график партнёра?</div>
+        <div class="faq-answer">Откройте вкладку «Вместе» → скопируйте свой персональный код подключения и отправьте партнёру. Партнёр вводит код в своём приложении, и графики мгновенно синхронизируются.</div>
       </div>
 
-      <div class="trial-note">14 дней PRO-функций бесплатно после привязки аккаунта — потом 199 ₽ один раз.</div>
+      <div class="faq-item">
+        <div class="faq-question">Нужно ли платить каждый месяц?</div>
+        <div class="faq-answer">Нет! ShiftSchedule PRO покупается <b>один раз и навсегда</b> за 199 ₽. Никаких скрытых ежемесячных списаний нет.</div>
+      </div>
 
-    </div>
-  </div>
-</section>
+      <div class="faq-item">
+        <div class="faq-question">Как активировать PRO после покупки на сайте?</div>
+        <div class="faq-answer">После оплаты через ЮKassa на сайте вы получите уникальный промокод. Откройте приложение: Настройки → «ShiftSchedule PRO» → «Ввести промокод» — и все функции активируются мгновенно.</div>
+      </div>
 
-<!-- ═══ CHANGELOG ═══ -->
-<section class="section" id="changelog" style="padding-top: 0;">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">История обновлений</h2>
-      
-      <p class="section-sub">Что изменилось в каждой версии</p>
-      
+      <div class="faq-item">
+        <div class="faq-question">Работает ли приложение без интернета?</div>
+        <div class="faq-answer">Да, календарь, смены, будильники и расчёт дохода работают на 100% автономно на телефоне. Интернет требуется только для синхронизации с партнёром и облачной копии.</div>
+      </div>
     </div>
-    <div class="changelog-wrap">
+
+    <div style="text-align: center; margin-top: 38px;">
+      <a href="faq.html" class="btn-ghost" style="font-size: 0.82rem; padding: 14px 28px; border-color: var(--border-hover);">Все вопросы FAQ →</a>
+    </div>
+  </section>
+
+  <!-- Articles & Guides -->
+  <section id="articles" class="section-container">
+    <div class="section-header fade-in">
+      <span class="sub-label">БЛОГ И СТАТЬИ</span>
+      <h2 class="section-title">ПОЛЕЗНЫЕ МАТЕРИАЛЫ</h2>
+      <p class="section-desc">Статьи о сменной работе, планировании совместных выходных и лайфхаках для сменщиков.</p>
+    </div>
+
+    <div class="articles-grid fade-in">
+      <a href="articles/sutki-cherez-troe.html" class="article-card">
+        <div>
+          <div class="article-tag">ГРАФИКИ</div>
+          <h3>График «Сутки через трое»: как не сломать здоровье и личную жизнь</h3>
+          <p>Разбор плюсов и минусов суточного графика, восстановления сна и совмещения с семьёй.</p>
+        </div>
+        <div class="article-more">Читать статью →</div>
+      </a>
+
+      <a href="articles/obshchie-vyhodnye.html" class="article-card">
+        <div>
+          <div class="article-tag">ОТНОШЕНИЯ</div>
+          <h3>Как найти общие выходные, если у вас разные сменные графики</h3>
+          <p>Практические советы для пар, работающих по графикам 2/2 и день/ночь/48.</p>
+        </div>
+        <div class="article-more">Читать статью →</div>
+      </a>
+
+      <a href="articles/why-standard-alarm-is-shift-work-enemy.html" class="article-card">
+        <div>
+          <div class="article-tag">ЛАЙФХАКИ</div>
+          <h3>Почему стандартный будильник — главный враг сменного работника</h3>
+          <p>Как умные плавающие будильники спасают от случайных звонков в законный выходной.</p>
+        </div>
+        <div class="article-more">Читать статью →</div>
+      </a>
+    </div>
+
+    <div style="text-align: center; margin-top: 38px;">
+      <a href="articles.html" class="btn-ghost" style="font-size: 0.82rem; padding: 14px 28px; border-color: var(--border-hover);">Все статьи базы знаний →</a>
+    </div>
+  </section>
+
+  <!-- Changelog -->
+  <section id="changelog" class="section-container">
+    <div class="section-header fade-in">
+      <span class="sub-label">ЧТО НОВОГО</span>
+      <h2 class="section-title">ИСТОРИЯ ОБНОВЛЕНИЙ</h2>
+      <p class="section-desc">Что изменилось в каждой версии.</p>
+    </div>
+
+    <div class="changelog-wrap fade-in">
       <div class="changelog">
 
         <div class="cl-item cl-latest">
           <div class="cl-header">
-            <span class="cl-version">2.2.1</span>
-            <span class="cl-date"><span>август 2026</span></span>
+            <span class="cl-version cl-latest">2.2.1</span>
+            <span class="cl-date">август 2026</span>
           </div>
           <ul class="cl-list">
-            <li><span>Исправлено сохранение сумм с копейками (точка/запятая) в разделе «Доход»</span></li>
-            <li><span>Исправлен расчёт зарплаты для суточных графиков (сутки/сутки, сутки/двое, сутки/трое) — раньше считался как 12-часовая смена</span></li>
-            <li><span>Улучшена видимость активного поля ввода при редактировании чисел</span></li>
+            <li>Исправлено сохранение сумм с копейками (точка/запятая) в разделе «Доход»</li>
+            <li>Исправлен расчёт зарплаты для суточных графиков (сутки/сутки, сутки/двое, сутки/трое) — раньше считался как 12-часовая смена</li>
+            <li>Улучшена видимость активного поля ввода при редактировании чисел</li>
           </ul>
         </div>
 
-        <div class="cl-item cl-old">
+        <div class="cl-item">
           <div class="cl-header">
-            <span class="cl-version cl-old">2.2.0</span>
-            <span class="cl-date"><span>август 2026</span></span>
+            <span class="cl-version">2.2.0</span>
+            <span class="cl-date">август 2026</span>
           </div>
           <ul class="cl-list">
-            <li><span>Премии и вычеты в разделе «Доход» теперь можно сделать повторяющимися — кнопка-таблетка «Каждый месяц» / «Один раз» на каждой строке, не нужно вводить одну и ту же надбавку заново каждый месяц</span></li>
-            <li><span>Уточнено название поля «Сумма подработки» (было «Ставка подработки»)</span></li>
-            <li><span>Повышена надёжность долгого нажатия для выбора диапазона дней в календаре</span></li>
-            <li><span>Улучшена синхронизация вкладки «Вместе»</span></li>
+            <li>Премии и вычеты в разделе «Доход» теперь можно сделать повторяющимися — кнопка-таблетка «Каждый месяц» / «Один раз» на каждой строке, не нужно вводить одну и ту же надбавку заново каждый месяц</li>
+            <li>Уточнено название поля «Сумма подработки» (было «Ставка подработки»)</li>
+            <li>Повышена надёжность долгого нажатия для выбора диапазона дней в календаре</li>
+            <li>Улучшена синхронизация вкладки «Вместе»</li>
           </ul>
         </div>
 
-        <div class="cl-item cl-old">
+        <div class="cl-item">
           <div class="cl-header">
-            <span class="cl-version cl-old">2.1.1</span>
-            <span class="cl-date"><span>июнь 2026</span></span>
+            <span class="cl-version">2.1.1</span>
+            <span class="cl-date">июнь 2026</span>
           </div>
           <ul class="cl-list">
-            <li><span>Исправлена проблема при входе в аккаунт для новых пользователей — регистрация и пробный период теперь работают корректно</span></li>
-            <li><span>Мелкие улучшения стабильности</span></li>
+            <li>Исправлена проблема при входе в аккаунт для новых пользователей — регистрация и пробный период теперь работают корректно</li>
+            <li>Мелкие улучшения стабильности</li>
           </ul>
         </div>
 
-        <div class="cl-item cl-old">
+        <div class="cl-item">
           <div class="cl-header">
-            <span class="cl-version cl-old">2.1.0</span>
-            <span class="cl-date"><span>июнь 2026</span></span>
+            <span class="cl-version">2.1.0</span>
+            <span class="cl-date">июнь 2026</span>
           </div>
           <ul class="cl-list">
-            <li><span>Новая вкладка «Доход» — полноценный инструмент для расчёта заработка: прогресс-бар, график с цветовыми маркерами, управление премиями и штрафами</span></li>
-            <li><span>Свайпы для навигации по месяцам — горизонтальный свайп в главном календаре и на вкладке «Вместе»</span></li>
-            <li><span>Полная локализация новых функций на русский, английский и испанский</span></li>
-            <li><span>PRO-версия активируется моментально после покупки без перезапуска</span></li>
+            <li>Новая вкладка «Доход» — полноценный инструмент для расчёта заработка: прогресс-бар, график с цветовыми маркерами, управление премиями и штрафами</li>
+            <li>Свайпы для навигации по месяцам — горизонтальный свайп в главном календаре и на вкладке «Вместе»</li>
+            <li>Полная локализация новых функций на русский, английский и испанский</li>
+            <li>PRO-версия активируется моментально после покупки без перезапуска</li>
           </ul>
         </div>
 
-        <div class="cl-item cl-old">
+        <div class="cl-item">
           <div class="cl-header">
-            <span class="cl-version cl-old">2.0.0</span>
-            <span class="cl-date"><span>июнь 2026</span></span>
+            <span class="cl-version">2.0.0</span>
+            <span class="cl-date">июнь 2026</span>
           </div>
           <ul class="cl-list">
-            <li><span>Ручные дневные и ночные смены — выбирайте тип смены при добавлении вручную</span></li>
-            <li><span>Анимация перехода между месяцами — плавный горизонтальный слайд</span></li>
-            <li><span>Государственные праздники отображаются прямо в ячейках календаря</span></li>
-            <li><span>Улучшена анимация вкладки AI-помощника</span></li>
+            <li>Ручные дневные и ночные смены — выбирайте тип смены при добавлении вручную</li>
+            <li>Анимация перехода между месяцами — плавный горизонтальный слайд</li>
+            <li>Государственные праздники отображаются прямо в ячейках календаря</li>
+            <li>Улучшена анимация вкладки AI-помощника</li>
           </ul>
         </div>
 
-        <div class="cl-item cl-old">
+        <div class="cl-item">
           <div class="cl-header">
-            <span class="cl-version cl-old">1.9.0</span>
-            <span class="cl-date"><span>май 2026</span></span>
+            <span class="cl-version">1.9.0</span>
+            <span class="cl-date">май 2026</span>
           </div>
           <ul class="cl-list">
-            <li><span>Навык Яндекс Алисы «Мой график смен» — спрашивайте о рабочих сменах голосом на колонке или в приложении Яндекса</span></li>
-            <li><span>Вход через Яндекс ID и Google — войти в аккаунт теперь можно одним нажатием</span></li>
-            <li><span>Обновление кода партнёра — новая кнопка «Обновить» со сменой кода и подтверждением двойным нажатием</span></li>
-            <li><span>Рекомендуем создать аккаунт: график сохранится в облаке и восстановится на любом устройстве. При регистрации — 14 дней PRO бесплатно</span></li>
-            <li><span>Исправлен чёрный экран при запрете геолокации на некоторых устройствах (Oppo, ColorOS)</span></li>
-            <li><span>Расписание партнёра теперь корректно обновляется после загрузки из облака</span></li>
+            <li>Навык Яндекс Алисы «Мой график смен» — спрашивайте о рабочих сменах голосом на колонке или в приложении Яндекса</li>
+            <li>Вход через Яндекс ID и Google — войти в аккаунт теперь можно одним нажатием</li>
+            <li>Обновление кода партнёра — новая кнопка «Обновить» со сменой кода и подтверждением двойным нажатием</li>
+            <li>Рекомендуем создать аккаунт: график сохранится в облаке и восстановится на любом устройстве. При регистрации — 14 дней PRO бесплатно</li>
+            <li>Исправлен чёрный экран при запрете геолокации на некоторых устройствах (Oppo, ColorOS)</li>
+            <li>Расписание партнёра теперь корректно обновляется после загрузки из облака</li>
           </ul>
         </div>
 
-        <div class="cl-item cl-old">
+        <div class="cl-item">
           <div class="cl-header">
-            <span class="cl-version cl-old">1.8.0</span>
-            <span class="cl-date"><span>май 2026</span></span>
+            <span class="cl-version">1.8.0</span>
+            <span class="cl-date">май 2026</span>
           </div>
           <ul class="cl-list">
-            <li><span>Второй график — добавьте расписание второй работы поверх основного: свои смены, свои выходные, значок портфеля в ячейке</span></li>
-            <li><span>Совместные выходные с партнёром учитывают второй график</span></li>
-            <li><span>Расписание партнёра обновляется автоматически каждые 30 секунд</span></li>
-            <li><span>Будильники восстанавливаются при открытии приложения после перезагрузки телефона</span></li>
-            <li><span>Исправлен счётчик «Всего» в фильтре</span></li>
-            <li><span>Улучшена совместимость с устройствами Xiaomi/MIUI</span></li>
+            <li>Второй график — добавьте расписание второй работы поверх основного: свои смены, свои выходные, значок портфеля в ячейке</li>
+            <li>Совместные выходные с партнёром учитывают второй график</li>
+            <li>Расписание партнёра обновляется автоматически каждые 30 секунд</li>
+            <li>Будильники восстанавливаются при открытии приложения после перезагрузки телефона</li>
+            <li>Исправлен счётчик «Всего» в фильтре</li>
+            <li>Улучшена совместимость с устройствами Xiaomi/MIUI</li>
           </ul>
         </div>
 
-        <div class="cl-item cl-old">
+        <div class="cl-item">
           <div class="cl-header">
-            <span class="cl-version cl-old">1.7.0</span>
-            <span class="cl-date"><span>май 2026</span></span>
+            <span class="cl-version">1.7.0</span>
+            <span class="cl-date">май 2026</span>
           </div>
           <ul class="cl-list">
-            <li><span>Анимация переключения тёмной и светлой темы</span></li>
-            <li><span>Плавные анимации при переходе между разделами настроек</span></li>
-            <li><span>Будильники пересчитываются сразу при нажатии «Применить»</span></li>
-            <li><span>В подсказке будильника отображается точное время срабатывания</span></li>
-            <li><span>Исправлено: поля времени смены сбрасывались при повторном запуске</span></li>
-            <li><span>Мелкие исправления перевода на английский и испанский</span></li>
+            <li>Анимация переключения тёмной и светлой темы</li>
+            <li>Плавные анимации при переходе между разделами настроек</li>
+            <li>Будильники пересчитываются сразу при нажатии «Применить»</li>
+            <li>В подсказке будильника отображается точное время срабатывания</li>
+            <li>Исправлено: поля времени смены сбрасывались при повторном запуске</li>
+            <li>Мелкие исправления перевода на английский и испанский</li>
           </ul>
         </div>
 
-        <div class="cl-item cl-old">
+        <div class="cl-item">
           <div class="cl-header">
-            <span class="cl-version cl-old">1.6.0</span>
-            <span class="cl-date"><span>май 2026</span></span>
+            <span class="cl-version">1.6.0</span>
+            <span class="cl-date">май 2026</span>
           </div>
           <ul class="cl-list">
-            <li><span>Ручная настройка города для прогноза погоды</span></li>
-            <li><span>Кнопка принудительного обновления погоды прямо в настройках</span></li>
-            <li><span>Город и настройки погоды сохраняются в резервную копию</span></li>
-            <li><span>Синхронизация с Android-календарём значительно быстрее</span></li>
+            <li>Ручная настройка города для прогноза погоды</li>
+            <li>Кнопка принудительного обновления погоды прямо в настройках</li>
+            <li>Город и настройки погоды сохраняются в резервную копию</li>
+            <li>Синхронизация с Android-календарём значительно быстрее</li>
           </ul>
         </div>
 
-        <div class="cl-item cl-old">
+        <div class="cl-item">
           <div class="cl-header">
-            <span class="cl-version cl-old">1.5.0</span>
-            <span class="cl-date"><span>май 2026</span></span>
+            <span class="cl-version">1.5.0</span>
+            <span class="cl-date">май 2026</span>
           </div>
           <ul class="cl-list">
-            <li><span>Настройки сохраняются в резервную копию и восстанавливаются при переустановке</span></li>
-            <li><span>Новые иконки погоды Meteocons</span></li>
-            <li><span>Добавлены переводы интерфейса на английский и испанский</span></li>
-            <li><span>Выбор диапазона дней работает через несколько месяцев</span></li>
+            <li>Настройки сохраняются в резервную копию и восстанавливаются при переустановке</li>
+            <li>Новые иконки погоды Meteocons</li>
+            <li>Добавлены переводы интерфейса на английский и испанский</li>
+            <li>Выбор диапазона дней работает через несколько месяцев</li>
           </ul>
         </div>
 
-        <div class="cl-item cl-old">
+        <div class="cl-item">
           <div class="cl-header">
-            <span class="cl-version cl-old">1.4.0</span>
-            <span class="cl-date"><span>май 2026</span></span>
+            <span class="cl-version">1.4.0</span>
+            <span class="cl-date">май 2026</span>
           </div>
           <ul class="cl-list">
-            <li><span>Напоминания из заметок — укажи время в заметке, и придёт уведомление в нужный день</span></li>
-            <li><span>Раздельное упреждение будильника для дневной и ночной смены</span></li>
-            <li><span>Время напоминания отображается прямо в списке дней</span></li>
+            <li>Напоминания из заметок — укажи время в заметке, и придёт уведомление в нужный день</li>
+            <li>Раздельное упреждение будильника для дневной и ночной смены</li>
+            <li>Время напоминания отображается прямо в списке дней</li>
           </ul>
         </div>
 
-        <div class="cl-item cl-old">
+        <div class="cl-item">
           <div class="cl-header">
-            <span class="cl-version cl-old">1.3.3</span>
-            <span class="cl-date"><span>май 2026</span></span>
+            <span class="cl-version">1.3.3</span>
+            <span class="cl-date">май 2026</span>
           </div>
           <ul class="cl-list">
-            <li><span>Выделение диапазона дней — долгое нажатие включает режим, тап задаёт конец диапазона</span></li>
-            <li><span>Применение статуса сразу ко всем выделенным дням</span></li>
+            <li>Выделение диапазона дней — долгое нажатие включает режим, тап задаёт конец диапазона</li>
+            <li>Применение статуса сразу ко всем выделенным дням</li>
           </ul>
         </div>
 
-        <div class="cl-item cl-old">
+        <div class="cl-item">
           <div class="cl-header">
-            <span class="cl-version cl-old">1.3.0</span>
-            <span class="cl-date"><span>май 2026</span></span>
+            <span class="cl-version">1.3.0</span>
+            <span class="cl-date">май 2026</span>
           </div>
           <ul class="cl-list">
-            <li><span>Степпер минут для будильника: тап — ввод вручную, долгое нажатие ± — быстрое изменение</span></li>
-            <li><span>Смена статуса дня автоматически отменяет будильник</span></li>
-            <li><span>Кнопка «Закрыть» прямо в уведомлении о смене</span></li>
+            <li>Степпер минут для будильника: тап — ввод вручную, долгое нажатие ± — быстрое изменение</li>
+            <li>Смена статуса дня автоматически отменяет будильник</li>
+            <li>Кнопка «Закрыть» прямо в уведомлении о смене</li>
           </ul>
         </div>
 
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ═══ DOWNLOAD ═══ -->
-<section class="download-section" id="download">
-  <div class="container">
-    <div class="download-cta reveal">
-      <h2>Скачать ShiftSchedule</h2>
-      
-      <p>Доступно для Android</p>
-      
-      <div class="download-buttons">
-        <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule?utm_source=website&amp;utm_medium=button&amp;utm_campaign=main" class="btn-primary" style="font-size:17px;padding:15px 32px;" onclick="ym(109065744,'reachGoal','download_rustore')">
-          <span>Скачать в RuStore</span>
-          
-        </a>
-        <a href="https://github.com/MIRORSTAR/shiftschedule/releases/download/v2.2.1/ShiftSchedule-rustore-v2.2.1-23.apk" class="btn-secondary" style="font-size:16px;padding:15px 28px;" onclick="ym(109065744,'reachGoal','download_apk')">
-          <span>↓ Скачать APK напрямую</span>
-          
-        </a>
-      </div>
-      <div class="download-note">Прямой APK: перед установкой разрешите «Установку из неизвестных источников» в настройках Android → Безопасность</div>
-      
-    </div>
-  </div>
-</section>
+</div>
 
-<!-- ═══ ARTICLES ═══ -->
-<section class="section" style="padding-top: 0;">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Полезные статьи</h2>
-      
-      <p class="section-sub">Советы для сменных работников</p>
-      
-    </div>
-    <div class="articles-grid">
-      <a href="articles/sutki-cherez-troe.html" class="article-card" style="border-color: rgba(74,143,232,0.5);">
-        <div class="article-icon">📅</div>
-        <h3>График «сутки через трое»: как рассчитать дежурства на год вперёд</h3>
-        <p>Почему 4-дневный цикл ломает обычные календари и как быстро настроить смены</p>
-      </a>
-      <a href="articles/why-standard-alarm-is-shift-work-enemy.html" class="article-card" style="border-color: rgba(243,156,18,0.35);">
-        <div class="article-icon">⏰</div>
-        <h3>Почему обычный будильник — враг сменного графика</h3>
-        <p>Автоматический будильник под график смен против лишнего стресса</p>
-      </a>
-      <a href="articles/kak-ya-spryatal-vhod-za-podpiskoy.html" class="article-card" style="border-color: rgba(74,143,232,0.4);">
-        <div class="article-icon">🔒</div>
-        <h3>Как я случайно спрятал экран входа за подпиской</h3>
-
-        <p>Дедлок «курицы и яйца» в логике PRO-триала — и как я его снял</p>
-
-      </a>
-      <a href="articles/kak-rasschitat-zarplatu-pri-smennom-grafike.html" class="article-card" style="border-color: rgba(74,143,232,0.4);">
-        <div class="article-icon">💰</div>
-        <h3>Как рассчитать зарплату при сменном графике (и не дать себя обмануть)</h3>
-        
-        <p>Автоматический расчет ночных и переработок</p>
-        
-      </a>
-      <a href="articles/common-shift-weekends-periods.html" class="article-card" style="border-color: rgba(102,184,178,0.25);">
-        <div class="article-icon">💑</div>
-        <h3>Как найти несколько общих выходных подряд при сменном графике</h3>
-        
-        <p>Вкладка «Вместе», периоды, погода и праздники в ShiftSchedule 2.0</p>
-        
-      </a>
-      <a href="articles/kak-ne-poteryat-smennyj-grafik.html" class="article-card">
-        <div class="article-icon">💾</div>
-        <h3>Как не потерять сменный график при смене телефона</h3>
-        
-        <p>Облачная синхронизация и регистрация аккаунта</p>
-        
-      </a>
-      <a href="articles/grafik-2-2.html" class="article-card">
-        <div class="article-icon">📅</div>
-        <h3>График 2/2: как рассчитать смены и не сбиться</h3>
-        
-        <p>Якорная дата, цикл, ручные правки</p>
-        
-      </a>
-      <a href="articles/obshchie-vyhodnye.html" class="article-card">
-        <div class="article-icon">👫</div>
-        <h3>Общие выходные с партнёром при сменном графике</h3>
-        
-        <p>Синхронизация расписаний, код партнёра, вкладка «Вместе»</p>
-        
-      </a>
-      <a href="articles/alice-navyk.html" class="article-card" style="border-color: rgba(124,58,237,0.2);">
-        <div class="article-icon">🎙️</div>
-        <h3>Голосовые команды Алисы: полный список</h3>
-        
-        <p>Навык Яндекс Алисы «Мой график смен»</p>
-        
-      </a>
-      <a href="articles/pochemu-ya-sdelal-ne-prosto-grafik.html" class="article-card" style="border-color: rgba(74,143,232,0.15);">
-        <div class="article-icon">✍️</div>
-        <h3>Я думал, что делаю график смен. А оказалось — приложение про семью</h3>
-        
-        <p>История создания ShiftSchedule</p>
-        
-      </a>
-      <a href="articles/solo-razrabotchik-prodvizhenie-bez-byudzheta.html" class="article-card" style="border-color: rgba(74,143,232,0.15);">
-        <div class="article-icon">🚀</div>
-        <h3>Написать код проще, чем найти первых пользователей</h3>
-        
-        <p>Как один разработчик продвигает приложение без бюджета</p>
-        
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ FOOTER ═══ -->
+<!-- Footer -->
 <footer>
-  <div class="container">
-    <div class="footer-links">
-      <a href="privacy.html">Политика конфиденциальности</a>
-
-      <a href="requisites.html">Реквизиты</a>
-
-      <a href="guide.html">Руководство</a>
-      
-      <a href="help.html">Инструкции PRO</a>
-      
-      <a href="https://max.ru/id611120366153_biz">Канал в MAX</a>
-      
-      <a href="https://4pda.to/forum/index.php?showtopic=1122144">Обсуждение на 4PDA</a>
-      
-      <a href="https://t.me/ShiftSchedule">Telegram-канал</a>
-      
-      <a href="https://vk.com/club238176087">Группа ВКонтакте</a>
-      
-      <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a>
-    </div>
-    <div class="footer-copy">© 2026 ShiftSchedule · <span>Все права защищены</span></div>
+  <div class="footer-contact">
+    Поддержка и обратная связь: <a href="mailto:mirorstar.reports@yandex.ru">mirorstar.reports@yandex.ru</a>
   </div>
+  <div style="margin-bottom: 18px;">
+    <a href="privacy.html" style="color: var(--text-muted); text-decoration: none; margin: 0 12px; font-size: 0.85rem;">Политика конфиденциальности</a>
+    <span style="color: var(--border);">•</span>
+    <a href="requisites.html" style="color: var(--text-muted); text-decoration: none; margin: 0 12px; font-size: 0.85rem;">Реквизиты</a>
+    <span style="color: var(--border);">•</span>
+    <a href="faq.html" style="color: var(--text-muted); text-decoration: none; margin: 0 12px; font-size: 0.85rem;">FAQ</a>
+    <span style="color: var(--border);">•</span>
+    <a href="guide.html" style="color: var(--text-muted); text-decoration: none; margin: 0 12px; font-size: 0.85rem;">Руководство</a>
+    <span style="color: var(--border);">•</span>
+    <a href="buy.html" style="color: var(--text-muted); text-decoration: none; margin: 0 12px; font-size: 0.85rem;" onclick="ym(109065744,'reachGoal','buy_on_site')">Оплата PRO</a>
+  </div>
+  <div style="margin-bottom: 8px; font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-teal); font-weight: 700;">Мы в соцсетях</div>
+  <div style="margin-bottom: 18px;">
+    <a href="https://vk.com/club238176087" target="_blank" rel="noopener noreferrer" style="color: var(--text-muted); text-decoration: none; margin: 0 12px; font-size: 0.85rem;">Группа ВКонтакте</a>
+    <span style="color: var(--border);">•</span>
+    <a href="https://t.me/ShiftSchedule" target="_blank" rel="noopener noreferrer" style="color: var(--text-muted); text-decoration: none; margin: 0 12px; font-size: 0.85rem;">Telegram-канал</a>
+    <span style="color: var(--border);">•</span>
+    <a href="https://4pda.to/forum/index.php?showtopic=1122144" target="_blank" rel="noopener noreferrer" style="color: var(--text-muted); text-decoration: none; margin: 0 12px; font-size: 0.85rem;">Обсуждение на 4PDA</a>
+  </div>
+  <p>MIRORSTAR &copy; 2026. SHIFTSCHEDULE — КАЛЕНДАРЬ СМЕН ДЛЯ ANDROID. ВСЕ ПРАВА ЗАЩИЩЕНЫ.</p>
 </footer>
 
-<!-- ═══ SCRIPTS ═══ -->
-
-
 <script>
-  // ── THEME ──
-  function toggleTheme() {
-    const isLight = document.documentElement.classList.toggle('light');
-    localStorage.setItem('theme', isLight ? 'light' : 'dark');
-  }
+  document.addEventListener("DOMContentLoaded", function() {
+    // Theme Switcher
+    const themeBtn = document.getElementById('themeToggle');
+    const htmlEl = document.documentElement;
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    htmlEl.setAttribute('data-theme', savedTheme);
+    themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
 
-  document.addEventListener('DOMContentLoaded', () => {
-    // Staggered reveal for feature cards
-    document.querySelectorAll('.features-grid .feature-card').forEach((el, i) => {
-      el.classList.add('reveal');
-      el.style.transitionDelay = (i * 0.07) + 's';
+    themeBtn.addEventListener('click', () => {
+      const current = htmlEl.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      htmlEl.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
     });
 
-    // Staggered reveal for schedule type cards
-    document.querySelectorAll('.st-card').forEach((el, i) => {
-      el.classList.add('reveal-scale');
-      el.style.transitionDelay = (i * 0.06) + 's';
+    // FAQ Accordion
+    document.querySelectorAll('.faq-question').forEach(q => {
+      q.addEventListener('click', () => {
+        q.parentElement.classList.toggle('active');
+      });
     });
 
-    // Staggered reveal for screenshots
-    document.querySelectorAll('.screen-card').forEach((el, i) => {
-      el.classList.add('reveal');
-      el.style.transitionDelay = (i * 0.09) + 's';
-    });
-
-    // Reveal for section headers
-    document.querySelectorAll('.section-header').forEach(el => {
-      if (!el.classList.contains('reveal')) el.classList.add('reveal');
-    });
-
-    // Reveal for article cards
-    document.querySelectorAll('.article-card').forEach((el, i) => {
-      el.classList.add('reveal');
-      el.style.transitionDelay = (i * 0.06) + 's';
-    });
-
+    // Reveal Animation on Scroll
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.07, rootMargin: '0px 0px -24px 0px' });
+    }, { threshold: 0.08, rootMargin: "0px 0px -30px 0px" });
 
-    document.querySelectorAll('.reveal, .reveal-scale').forEach(el => observer.observe(el));
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   });
 </script>
-
-
-
-</body></html>
+</body>
+</html>

@@ -1,87 +1,108 @@
-<!DOCTYPE html><html lang="ru"><head>
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Реквизиты — ShiftSchedule</title>
-  <meta name="description" content="Реквизиты продавца для оплаты Shift Schedule PRO на сайте.">
+  <title>Реквизиты продавца — ShiftSchedule</title>
+  <meta name="description" content="Реквизиты продавца для оплаты ShiftSchedule PRO на сайте.">
+  <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/requisites.html">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f1117; --surface: #1a1d27;
-      --accent: #4a8fe8; --text: #e8eaf0; --text2: #8b90a0;
+      --bg: #07070f; --bg-surface: #10111a; --bg-card: #151724;
+      --border: rgba(255, 255, 255, 0.08); --accent: #4a8fe8; --accent-teal: #66b8b2;
+      --text-main: #f8fafc; --text-muted: #94a3b8; --text-dim: #64748b;
+    }
+    [data-theme="light"] {
+      --bg: #f8fafc; --bg-surface: #ffffff; --bg-card: #ffffff;
+      --border: rgba(0, 0, 0, 0.08); --accent: #2563eb; --accent-teal: #0d9488;
+      --text-main: #0f172a; --text-muted: #475569; --text-dim: #94a3b8;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .nav-logo { font-size: 18px; font-weight: 700; }
-    .nav-logo span { color: var(--accent); }
-    nav a { color: var(--accent); text-decoration: none; font-size: 14px; }
-    .content { max-width: 720px; margin: 0 auto; padding: 60px 24px; }
-    h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
-    .updated { color: var(--text2); font-size: 14px; margin-bottom: 40px; }
-    h2 { font-size: 18px; font-weight: 700; margin: 32px 0 10px; color: var(--accent); }
-    p { color: var(--text2); margin-bottom: 12px; font-size: 15px; }
-    .req-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
-    .req-table td { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 15px; }
-    .req-table td:first-child { color: var(--text2); width: 45%; }
-    a { color: var(--accent); }
-    footer { text-align: center; padding: 32px; color: var(--text2); font-size: 13px; border-top: 1px solid rgba(255,255,255,0.06); margin-top: 40px; }
+    body {
+      font-family: 'Montserrat', 'Inter', -apple-system, sans-serif;
+      background: var(--bg); color: var(--text-main);
+      line-height: 1.7; padding: 0; -webkit-font-smoothing: antialiased;
+    }
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 6%; background: var(--bg-surface); border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; text-decoration: none; color: var(--text-main); letter-spacing: 2px; }
+    .nav-logo span { color: var(--accent-teal); }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-right a { color: var(--accent-teal); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+    .theme-toggle {
+      background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main);
+      width: 36px; height: 36px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+    .content { max-width: 760px; margin: 0 auto; padding: 60px 24px 80px; }
+    h1 { font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 800; margin-bottom: 8px; letter-spacing: 1px; }
+    .subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 36px; }
+    h2 { font-size: 1.25rem; font-weight: 700; margin: 36px 0 12px; color: var(--accent-teal); letter-spacing: 0.5px; }
+    p { color: var(--text-muted); margin-bottom: 14px; font-size: 0.98rem; font-weight: 300; }
+    .req-table { width: 100%; border-collapse: collapse; margin-top: 16px; background: var(--bg-surface); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
+    .req-table td { padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+    .req-table tr:last-child td { border-bottom: none; }
+    .req-table td:first-child { color: var(--text-dim); width: 40%; font-weight: 500; }
+    .req-table td:last-child { color: var(--text-main); font-weight: 600; }
+    a { color: var(--accent-teal); }
+    footer {
+      text-align: center; padding: 36px 6%; color: var(--text-dim); font-size: 0.82rem;
+      border-top: 1px solid var(--border); background: var(--bg-surface);
+    }
+    footer a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
+    footer a:hover { color: var(--accent-teal); }
   </style>
-  <script src="theme.js"></script>
-  <link rel="stylesheet" href="theme.css">
-  <!-- Yandex.Metrika -->
-  <script type="text/javascript">
-    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-    m[i].l=1*new Date();
-    for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
-    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
-    ym(109065744,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
-  </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/109065744" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
-  <!-- /Yandex.Metrika -->
-
-  <link rel="alternate" hreflang="ru" href="https://mirorstar.github.io/shiftschedule/requisites.html">
-  <link rel="alternate" hreflang="x-default" href="https://mirorstar.github.io/shiftschedule/requisites.html">
-  </head>
+</head>
 <body>
 <nav>
-  <div class="nav-logo">Shift<span>Schedule</span></div>
-  <div style="display:flex;align-items:center;gap:12px;">
-    <button class="theme-btn" onclick="toggleTheme()" aria-label="Сменить тему">
-      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <circle cx="12" cy="12" r="4"></circle>
-        <line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line>
-        <line x1="2" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="22" y2="12"></line>
-        <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"></line><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"></line>
-        <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"></line><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"></line>
-      </svg>
-      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-      </svg>
-    </button>
+  <a href="index.html" class="nav-logo">SHIFT<span>SCHEDULE</span></a>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" title="Переключить тему">☀️</button>
     <a href="index.html">← На главную</a>
   </div>
 </nav>
 <div class="content">
   <h1>Реквизиты продавца</h1>
-  <div class="updated">Оплата на сайте: Shift Schedule PRO</div>
+  <div class="subtitle">Оплата ShiftSchedule PRO на сайте через ЮKassa</div>
 
   <table class="req-table">
     <tr><td>Продавец</td><td>Миронов Руслан Петрович</td></tr>
     <tr><td>Статус</td><td>Плательщик налога на профессиональный доход (самозанятый)</td></tr>
     <tr><td>ИНН</td><td>611120366153</td></tr>
-    <tr><td>Контакты</td><td><a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a></td></tr>
+    <tr><td>Электронная почта</td><td><a href="mailto:mirorstar.reports@yandex.ru">mirorstar.reports@yandex.ru</a></td></tr>
   </table>
 
   <h2>Что вы покупаете</h2>
-  <p>Shift Schedule PRO — разовая покупка доступа к расширенным функциям приложения Shift Schedule (Android): синхронизация между устройствами, расписание партнёра, уведомления о начале смены, экспорт в системный календарь, все темы оформления. Покупка разовая, без подписки, действует бессрочно.</p>
+  <p><b>ShiftSchedule PRO</b> — разовая покупка бессрочного доступа к расширенным функциям Android-приложения ShiftSchedule: синхронизация с партнёром, умные будильники под смены, расчёт дохода и зарплаты, интеграция с Яндекс.Алисой и Home Assistant, двусторонний экспорт в календарь и все темы оформления. Покупка разовая, без подписки, действует бессрочно.</p>
 
-  <h2>Получение</h2>
-  <p>После оплаты промокод для активации PRO отображается на странице подтверждения и вводится в приложении: Настройки → «ShiftSchedule PRO» → «Ввести промокод». Доставка цифровая, без физической отправки.</p>
+  <h2>Получение и активация</h2>
+  <p>После успешной оплаты уникальный промокод активации PRO мгновенно отображается на экране подтверждения и высылается на указанный email. Введите промокод в приложении: Настройки → «ShiftSchedule PRO» → «Ввести промокод». Доставка цифровая, без физической отправки.</p>
 
   <h2>Контакты и поддержка</h2>
-  <p>По вопросам оплаты и работы приложения: <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a></p>
+  <p>По всем вопросам оплаты и работы сервиса: <a href="mailto:mirorstar.reports@yandex.ru">mirorstar.reports@yandex.ru</a></p>
 </div>
-<footer>© 2026 Shift Schedule · <a href="privacy.html">Политика конфиденциальности</a></footer>
-</body></html>
+<footer>
+  <p>© 2026 MIRORSTAR · <a href="privacy.html">Политика конфиденциальности</a> · <a href="index.html">Главная</a></p>
+</footer>
+<script>
+  const themeBtn = document.getElementById('themeToggle');
+  const htmlEl = document.documentElement;
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  htmlEl.setAttribute('data-theme', savedTheme);
+  themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+  themeBtn.addEventListener('click', () => {
+    const current = htmlEl.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    htmlEl.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+</script>
+</body>
+</html>

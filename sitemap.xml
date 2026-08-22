@@ -6,6 +6,11 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
+    <loc>https://mirorstar.github.io/shiftschedule/articles.html</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
     <loc>https://mirorstar.github.io/shiftschedule/faq.html</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
@@ -61,11 +66,6 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://mirorstar.github.io/shiftschedule/articles/topics-2026-08-13.html</loc>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
     <loc>https://mirorstar.github.io/shiftschedule/articles/why-standard-alarm-is-shift-work-enemy.html</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
@@ -73,6 +73,16 @@
   <url>
     <loc>https://mirorstar.github.io/shiftschedule/articles/sutki-cherez-troe.html</loc>
     <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://mirorstar.github.io/shiftschedule/articles/common-shift-weekends-periods.html</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://mirorstar.github.io/shiftschedule/articles/kak-rasschitat-zarplatu-pri-smennom-grafike.html</loc>
+    <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
 </urlset>

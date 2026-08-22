@@ -1,167 +1,108 @@
-<!DOCTYPE html><html lang="ru"><head>
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy Policy — ShiftSchedule</title>
-  <meta name="description" content="Политика конфиденциальности приложения ShiftSchedule: какие данные собираются, как используются и защищаются.">
+  <title>Политика конфиденциальности — ShiftSchedule</title>
+  <meta name="description" content="Политика конфиденциальности приложения ShiftSchedule: локальное хранение данных, безопасность и защита информации.">
+  <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/privacy.html">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f1117; --surface: #1a1d27;
-      --accent: #4a8fe8; --text: #e8eaf0; --text2: #8b90a0;
+      --bg: #07070f; --bg-surface: #10111a; --bg-card: #151724;
+      --border: rgba(255, 255, 255, 0.08); --accent: #4a8fe8; --accent-teal: #66b8b2;
+      --text-main: #f8fafc; --text-muted: #94a3b8; --text-dim: #64748b;
+    }
+    [data-theme="light"] {
+      --bg: #f8fafc; --bg-surface: #ffffff; --bg-card: #ffffff;
+      --border: rgba(0, 0, 0, 0.08); --accent: #2563eb; --accent-teal: #0d9488;
+      --text-main: #0f172a; --text-muted: #475569; --text-dim: #94a3b8;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .nav-logo { font-size: 18px; font-weight: 700; }
-    .nav-logo span { color: var(--accent); }
-    nav a { color: var(--accent); text-decoration: none; font-size: 14px; }
-    .content { max-width: 720px; margin: 0 auto; padding: 60px 24px; }
-    h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
-    .updated { color: var(--text2); font-size: 14px; margin-bottom: 40px; }
-    h2 { font-size: 18px; font-weight: 700; margin: 32px 0 10px; color: var(--accent); }
-    p { color: var(--text2); margin-bottom: 12px; font-size: 15px; }
-    ul { color: var(--text2); padding-left: 20px; margin-bottom: 12px; font-size: 15px; }
-    li { margin-bottom: 6px; }
-    a { color: var(--accent); }
-    footer { text-align: center; padding: 32px; color: var(--text2); font-size: 13px; border-top: 1px solid rgba(255,255,255,0.06); margin-top: 40px; }
+    body {
+      font-family: 'Montserrat', 'Inter', -apple-system, sans-serif;
+      background: var(--bg); color: var(--text-main);
+      line-height: 1.7; padding: 0; -webkit-font-smoothing: antialiased;
+    }
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 6%; background: var(--bg-surface); border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; text-decoration: none; color: var(--text-main); letter-spacing: 2px; }
+    .nav-logo span { color: var(--accent-teal); }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-right a { color: var(--accent-teal); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+    .theme-toggle {
+      background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main);
+      width: 36px; height: 36px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+    .content { max-width: 760px; margin: 0 auto; padding: 60px 24px 80px; }
+    h1 { font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 800; margin-bottom: 8px; letter-spacing: 1px; }
+    .subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 36px; }
+    h2 { font-size: 1.25rem; font-weight: 700; margin: 36px 0 12px; color: var(--accent-teal); letter-spacing: 0.5px; }
+    p { color: var(--text-muted); margin-bottom: 14px; font-size: 0.98rem; font-weight: 300; }
+    ul { color: var(--text-muted); padding-left: 24px; margin-bottom: 16px; font-size: 0.95rem; }
+    li { margin-bottom: 8px; }
+    a { color: var(--accent-teal); }
+    footer {
+      text-align: center; padding: 36px 6%; color: var(--text-dim); font-size: 0.82rem;
+      border-top: 1px solid var(--border); background: var(--bg-surface);
+    }
+    footer a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
+    footer a:hover { color: var(--accent-teal); }
   </style>
-  <script src="theme.js"></script>
-  <link rel="stylesheet" href="theme.css">
-  <!-- Yandex.Metrika -->
-  <script type="text/javascript">
-    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-    m[i].l=1*new Date();
-    for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
-    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
-    ym(109065744,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
-  </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/109065744" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
-  <!-- /Yandex.Metrika -->
-
-  <link rel="alternate" hreflang="ru" href="https://mirorstar.github.io/shiftschedule/privacy.html">
-  <link rel="alternate" hreflang="en" href="https://mirorstar.github.io/shiftschedule/en/privacy.html">
-  <link rel="alternate" hreflang="x-default" href="https://mirorstar.github.io/shiftschedule/privacy.html">
-  </head>
+</head>
 <body>
 <nav>
-  <div class="nav-logo">Shift<span>Schedule</span></div>
-  <div style="display:flex;align-items:center;gap:12px;">
-    <button class="theme-btn" onclick="toggleTheme()" aria-label="Сменить тему">
-      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <circle cx="12" cy="12" r="4"></circle>
-        <line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line>
-        <line x1="2" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="22" y2="12"></line>
-        <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"></line><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"></line>
-        <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"></line><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"></line>
-      </svg>
-      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-      </svg>
-    </button>
+  <a href="index.html" class="nav-logo">SHIFT<span>SCHEDULE</span></a>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" title="Переключить тему">☀️</button>
     <a href="index.html">← На главную</a>
   </div>
 </nav>
 <div class="content">
   <h1>Политика конфиденциальности</h1>
-  <div class="updated">Последнее обновление: 21 апреля 2026 г.</div>
+  <div class="subtitle">Последнее обновление: 22 августа 2026 г.</div>
 
   <h2>1. Общие положения</h2>
-  <p>Настоящая политика конфиденциальности описывает, как приложение <strong>ShiftSchedule</strong> («мы», «приложение») собирает, использует и защищает информацию пользователей.</p>
+  <p>Настоящая Политика конфиденциальности описывает, как мобильное приложение <strong>ShiftSchedule</strong> («мы», «приложение») обрабатывает и защищает данные пользователей.</p>
 
   <h2>2. Какие данные мы собираем</h2>
-  <p><strong>Данные, хранимые локально на устройстве:</strong></p>
+  <p><b>Данные, хранимые локально на вашем устройстве:</b></p>
   <ul>
-    <li>Настройки графика смен (якорная дата, цикл, статусы дней)</li>
-    <li>Заметки к дням</li>
-    <li>Настройки приложения (тема, язык, стиль)</li>
-    <li>Настройки уведомлений</li>
+    <li>Настройки цикла смен (якорная дата, статусы дней)</li>
+    <li>Заметки к дням и расписание подработок</li>
+    <li>Настройки будильников и цветовых тем</li>
+    <li>Введённые ставки для расчёта дохода</li>
   </ul>
-  <p>Все эти данные хранятся <strong>только на вашем устройстве</strong> и не передаются третьим лицам.</p>
+  <p>Все эти данные хранятся <b>исключительно на вашем смартфоне</b> и не передаются третьим лицам.</p>
 
-  <p><strong>Данные при использовании облачной синхронизации (PRO):</strong></p>
-  <ul>
-    <li>Адрес электронной почты и зашифрованный пароль (через Firebase Authentication)</li>
-    <li>Данные графика смен (те же, что хранятся локально) — для синхронизации между устройствами</li>
-  </ul>
+  <h2>3. Синхронизация с партнёром (PRO)</h2>
+  <p>При включении функции синхронизации расписания данные графика передаются через защищённый сервис Firebase исключительно между связанными устройствами по сгенерированному вами коду.</p>
 
-  <h2>3. Геолокация</h2>
-  <p>Приложение может запрашивать разрешение на геолокацию для отображения прогноза погоды. Координаты используются только для запроса погоды и <strong>не сохраняются</strong> на серверах приложения.</p>
-
-  <h2>4. Доступ к календарю</h2>
-  <p>При включении синхронизации с календарём приложение запрашивает доступ на чтение и запись событий в системный календарь устройства. Эти данные используются только для экспорта смен и не передаются третьим лицам.</p>
-
-  <h2>5. Уведомления</h2>
-  <p>Приложение использует локальные уведомления для напоминания о предстоящих сменах. Уведомления не содержат персональных данных и не передаются на внешние серверы.</p>
-
-  <h2>6. Сторонние сервисы</h2>
-  <ul>
-    <li><strong>Firebase (Google)</strong> — используется для аутентификации и хранения данных при облачной синхронизации (только PRO). <a href="https://firebase.google.com/support/privacy" target="_blank">Политика конфиденциальности Firebase</a></li>
-    <li><strong>Open-Meteo</strong> — используется для получения прогноза погоды. Данные передаются только координаты местоположения. <a href="https://open-meteo.com/en/terms" target="_blank">Условия использования Open-Meteo</a></li>
-  </ul>
-
-  <h2>7. Хранение данных</h2>
-  <p>Локальные данные хранятся на вашем устройстве и удаляются при удалении приложения. Данные облачной синхронизации хранятся в Firebase и могут быть удалены по запросу пользователя.</p>
-
-  <h2>8. Права пользователей</h2>
-  <p>Вы можете в любой момент:</p>
-  <ul>
-    <li>Отключить геолокацию в настройках телефона</li>
-    <li>Отключить доступ к календарю в настройках телефона</li>
-    <li>Удалить аккаунт облачной синхронизации через раздел «Синхронизация» в настройках приложения</li>
-    <li>Запросить удаление всех данных, написав на <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a></li>
-  </ul>
-
-  <h2>9. Дети</h2>
-  <p>Приложение не предназначено для детей до 13 лет и не собирает намеренно данные лиц до 13 лет.</p>
-
-  <h2>10. Изменения политики</h2>
-  <p>Мы можем обновлять настоящую политику конфиденциальности. Актуальная версия всегда доступна по адресу: <a href="https://mirorstar.github.io/shiftschedule/privacy.html">mirorstar.github.io/shiftschedule/privacy.html</a></p>
-
-  <h2>11. Контакты</h2>
-  <p>По вопросам конфиденциальности: <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a></p>
-
-  <hr style="border-color: rgba(255,255,255,0.06); margin: 40px 0;">
-
-  <h1 style="margin-top: 0;">Privacy Policy</h1>
-  <div class="updated">Last updated: April 21, 2026</div>
-
-  <h2>1. General</h2>
-  <p>This privacy policy describes how the <strong>ShiftSchedule</strong> application ("we", "app") collects, uses and protects user information.</p>
-
-  <h2>2. Data we collect</h2>
-  <p><strong>Data stored locally on the device:</strong></p>
-  <ul>
-    <li>Shift schedule settings (anchor date, cycle, day statuses)</li>
-    <li>Day notes</li>
-    <li>App settings (theme, language, style)</li>
-    <li>Notification settings</li>
-  </ul>
-  <p>All this data is stored <strong>only on your device</strong> and is not shared with third parties.</p>
-
-  <p><strong>Data when using cloud sync (PRO):</strong></p>
-  <ul>
-    <li>Email address and encrypted password (via Firebase Authentication)</li>
-    <li>Schedule data — for syncing between devices</li>
-  </ul>
-
-  <h2>3. Location</h2>
-  <p>The app may request location permission to show weather forecasts. Coordinates are only used to fetch weather data and are <strong>not stored</strong> on our servers.</p>
-
-  <h2>4. Calendar access</h2>
-  <p>When calendar sync is enabled, the app requests read/write access to the device calendar. This data is only used to export shifts and is not shared with third parties.</p>
-
-  <h2>5. Third-party services</h2>
-  <ul>
-    <li><strong>Firebase (Google)</strong> — used for authentication and data storage for cloud sync (PRO only). <a href="https://firebase.google.com/support/privacy" target="_blank">Firebase Privacy Policy</a></li>
-    <li><strong>Open-Meteo</strong> — used for weather forecasts. Only location coordinates are shared. <a href="https://open-meteo.com/en/terms" target="_blank">Open-Meteo Terms</a></li>
-  </ul>
-
-  <h2>6. Contact</h2>
-  <p>For privacy inquiries: <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a></p>
+  <h2>4. Контакты и обратная связь</h2>
+  <p>По всем вопросам конфиденциальности вы можете связаться с нами: <a href="mailto:mirorstar.reports@yandex.ru">mirorstar.reports@yandex.ru</a></p>
 </div>
-<footer>© 2026 ShiftSchedule</footer>
-
-
-</body></html>
+<footer>
+  <p>© 2026 MIRORSTAR · <a href="requisites.html">Реквизиты</a> · <a href="index.html">Главная</a></p>
+</footer>
+<script>
+  const themeBtn = document.getElementById('themeToggle');
+  const htmlEl = document.documentElement;
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  htmlEl.setAttribute('data-theme', savedTheme);
+  themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+  themeBtn.addEventListener('click', () => {
+    const current = htmlEl.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    htmlEl.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+</script>
+</body>
+</html>

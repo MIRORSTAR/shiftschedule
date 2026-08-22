@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>База знаний и статьи — ShiftSchedule</title>
+  <meta name="description" content="Статьи, практические руководства и советы о сменной работе, совместных выходных, умных будильниках и расчете зарплаты.">
+  <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/articles.html">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07070f; --bg-surface: #10111a; --bg-card: #151724; --bg-card-hover: #1c1f30;
+      --border: rgba(255, 255, 255, 0.08); --border-hover: rgba(102, 184, 178, 0.5);
+      --accent: #4a8fe8; --accent-teal: #66b8b2; --accent-purple: #9b74e0;
+      --text-main: #f8fafc; --text-muted: #94a3b8; --text-dim: #64748b;
+    }
+    [data-theme="light"] {
+      --bg: #f8fafc; --bg-surface: #ffffff; --bg-card: #ffffff; --bg-card-hover: #f1f5f9;
+      --border: rgba(0, 0, 0, 0.08); --border-hover: rgba(37, 99, 235, 0.5);
+      --accent: #2563eb; --accent-teal: #0d9488; --accent-purple: #7c3aed;
+      --text-main: #0f172a; --text-muted: #475569; --text-dim: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Montserrat', 'Inter', -apple-system, sans-serif;
+      background: var(--bg); color: var(--text-main);
+      line-height: 1.7; padding: 0; -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 6%; background: var(--bg-surface); border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; text-decoration: none; color: var(--text-main); letter-spacing: 2px; }
+    .nav-logo span { color: var(--accent-teal); }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-right a { color: var(--accent-teal); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+    .theme-toggle {
+      background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main);
+      width: 36px; height: 36px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+    .content { max-width: 1100px; margin: 0 auto; padding: 60px 24px 100px; }
+    .page-header { text-align: center; margin-bottom: 50px; }
+    .sub-label { letter-spacing: 4px; font-size: 0.78rem; color: var(--accent-teal); text-transform: uppercase; font-weight: 700; margin-bottom: 12px; display: block; }
+    h1 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 14px; letter-spacing: 1px; }
+    .subtitle { color: var(--text-muted); font-size: 1.05rem; max-width: 680px; margin: 0 auto; font-weight: 300; }
+
+    .articles-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 26px;
+    }
+    .article-card {
+      background: var(--bg-surface); border: 1px solid var(--border); border-radius: 20px;
+      padding: 30px; display: flex; flex-direction: column; justify-content: space-between;
+      text-decoration: none;
+      transition: transform 0.4s cubic-bezier(0.2, 1, 0.3, 1), border-color 0.4s, box-shadow 0.4s;
+    }
+    .article-card:hover {
+      transform: translateY(-6px); border-color: var(--border-hover);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+    }
+    .article-tag {
+      font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-teal); font-weight: 700; margin-bottom: 12px;
+    }
+    .article-card h3 {
+      font-size: 1.2rem; font-weight: 700; color: var(--text-main); line-height: 1.4; margin-bottom: 12px;
+    }
+    .article-card p {
+      color: var(--text-muted); font-size: 0.92rem; font-weight: 300; line-height: 1.65; margin-bottom: 24px;
+    }
+    .article-link {
+      font-size: 0.85rem; font-weight: 600; color: var(--accent); display: flex; align-items: center; gap: 6px;
+    }
+    footer {
+      text-align: center; padding: 40px 6%; color: var(--text-dim); font-size: 0.82rem;
+      border-top: 1px solid var(--border); background: var(--bg-surface);
+    }
+    footer a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
+    footer a:hover { color: var(--accent-teal); }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">SHIFT<span>SCHEDULE</span></a>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" title="Переключить тему">☀️</button>
+    <a href="index.html">← На главную</a>
+  </div>
+</nav>
+
+<div class="content">
+  <div class="page-header">
+    <span class="sub-label">БАЗА ЗНАНИЙ И СТАТЬИ</span>
+    <h1>Полезные материалы</h1>
+    <p class="subtitle">Практические статьи о сменной жизни, графиках 2/2, день/ночь, 1/3, синхронизации расписания и расчёте зарплаты.</p>
+  </div>
+
+  <div class="articles-grid">
+    <a href="articles/sutki-cherez-troe.html" class="article-card">
+      <div>
+        <div class="article-tag">ГРАФИКИ</div>
+        <h3>График «Сутки через трое»: как не сломать здоровье и личную жизнь</h3>
+        <p>Разбор плюсов и минусов суточного графика, восстановления сна и совмещения со второй работой и семьёй.</p>
+      </div>
+      <div class="article-link">Читать статью →</div>
+    </a>
+
+    <a href="articles/obshchie-vyhodnye.html" class="article-card">
+      <div>
+        <div class="article-tag">ОТНОШЕНИЯ</div>
+        <h3>Как найти общие выходные, если у вас разные сменные графики</h3>
+        <p>Практические советы для пар, работающих по графикам 2/2 и день/ночь/48, и автоматический расчёт совместных дней.</p>
+      </div>
+      <div class="article-link">Читать статью →</div>
+    </a>
+
+    <a href="articles/why-standard-alarm-is-shift-work-enemy.html" class="article-card">
+      <div>
+        <div class="article-tag">ЛАЙФХАКИ</div>
+        <h3>Почему стандартный будильник — главный враг сменного работника</h3>
+        <p>Как умные плавающие будильники спасают от случайных звонков в законный выходной и недосыпа.</p>
+      </div>
+      <div class="article-link">Читать статью →</div>
+    </a>
+
+    <a href="articles/grafik-2-2.html" class="article-card">
+      <div>
+        <div class="article-tag">ГРАФИКИ 2/2</div>
+        <h3>График 2/2: день/ночь/отсыпной/выходной — полное руководство</h3>
+        <p>Как устроен один из самых популярных сменных графиков, как настроить якорную дату и планировать отпуск.</p>
+      </div>
+      <div class="article-link">Читать статью →</div>
+    </a>
+
+    <a href="articles/kak-rasschitat-zarplatu-pri-smennom-grafike.html" class="article-card">
+      <div>
+        <div class="article-tag">ФИНАНСЫ И ДОХОД</div>
+        <h3>Как рассчитать зарплату при сменном графике: ночные часы и переработки</h3>
+        <p>Пошаговый алгоритм расчёта заработной платы, ночных коэффициентов и учёта дополнительных смен.</p>
+      </div>
+      <div class="article-link">Читать статью →</div>
+    </a>
+
+    <a href="articles/alice-navyk.html" class="article-card">
+      <div>
+        <div class="article-tag">УМНЫЙ ДОМ</div>
+        <h3>Яндекс Алиса и ShiftSchedule: голосовое управление сменным графиком</h3>
+        <p>Как подключить навык Алисы и спрашивать время следующей смены или будильника прямо у колонки.</p>
+      </div>
+      <div class="article-link">Читать статью →</div>
+    </a>
+
+    <a href="articles/kak-ne-poteryat-smennyj-grafik.html" class="article-card">
+      <div>
+        <div class="article-tag">СИНХРОНИЗАЦИЯ</div>
+        <h3>Как не потерять сменный график при смене телефона</h3>
+        <p>Резервное копирование в облако, экспорт в Google Календарь и восстановление данных за пару секунд.</p>
+      </div>
+      <div class="article-link">Читать статью →</div>
+    </a>
+
+    <a href="articles/pochemu-ya-sdelal-ne-prosto-grafik.html" class="article-card">
+      <div>
+        <div class="article-tag">ИСТОРИЯ СОЗДАНИЯ</div>
+        <h3>Почему я сделал не просто график, а помощник для пар</h3>
+        <p>История разработки функции «Вместе» и как она помогает парам со сменной работой не терять связь.</p>
+      </div>
+      <div class="article-link">Читать статью →</div>
+    </a>
+
+    <a href="articles/common-shift-weekends-periods.html" class="article-card">
+      <div>
+        <div class="article-tag">ОТПУСК И ПЛАНЫ</div>
+        <h3>Периоды совпадения выходных: как поймать «длинные» совместные выходные</h3>
+        <p>Математика сменных циклов: когда совпадают субботы и воскресенья у сменщиков 2/2 и 3/3.</p>
+      </div>
+      <div class="article-link">Читать статью →</div>
+    </a>
+
+    <a href="articles/kak-ya-spryatal-vhod-za-podpiskoy.html" class="article-card">
+      <div>
+        <div class="article-tag">ОПЫТ РАЗРАБОТКИ</div>
+        <h3>Честная разовая покупка против бесконечных подписок</h3>
+        <p>Почему ShiftSchedule выбрал модель «199 ₽ навсегда» вместо ежемесячных списаний.</p>
+      </div>
+      <div class="article-link">Читать статью →</div>
+    </a>
+
+    <a href="articles/solo-razrabotchik-prodvizhenie-bez-byudzheta.html" class="article-card">
+      <div>
+        <div class="article-tag">КЕЙС</div>
+        <h3>Продвижение сменного календаря в RuStore: опыт соло-разработчика</h3>
+        <p>Как приложение выросло без рекламных бюджетов благодаря отзывам реальных сменщиков.</p>
+      </div>
+      <div class="article-link">Читать статью →</div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 MIRORSTAR · <a href="privacy.html">Политика конфиденциальности</a> · <a href="requisites.html">Реквизиты</a> · <a href="index.html">Главная</a></p>
+</footer>
+<script>
+  const themeBtn = document.getElementById('themeToggle');
+  const htmlEl = document.documentElement;
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  htmlEl.setAttribute('data-theme', savedTheme);
+  themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+  themeBtn.addEventListener('click', () => {
+    const current = htmlEl.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    htmlEl.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+</script>
+</body>
+</html>

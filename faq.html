@@ -1,713 +1,294 @@
-<!DOCTYPE html><html lang="ru"><head>
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Частые вопросы — Shift Schedule</title>
-  <meta name="description" content="Ответы на частые вопросы о приложении Shift Schedule: настройка, PRO версия, синхронизация, покупки.">
+  <title>Часто задаваемые вопросы — ShiftSchedule</title>
+  <meta name="description" content="Ответы на популярные вопросы о приложении ShiftSchedule: настройка, PRO версия, оплата и синхронизация.">
+  <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/faq.html">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f1117;
-      --surface: #1a1d27;
-      --surface2: #22263a;
-      --accent: #4a8fe8;
-      --accent2: #66b8b2;
-      --text: #e8eaf0;
-      --text2: #8b90a0;
-      --radius: 16px;
+      --bg: #07070f; --bg-surface: #10111a; --bg-card: #151724; --bg-card-hover: #1c1f30;
+      --border: rgba(255, 255, 255, 0.08); --border-hover: rgba(102, 184, 178, 0.5);
+      --accent: #4a8fe8; --accent-teal: #66b8b2; --accent-purple: #9b74e0;
+      --text-main: #f8fafc; --text-muted: #94a3b8; --text-dim: #64748b;
+    }
+    [data-theme="light"] {
+      --bg: #f8fafc; --bg-surface: #ffffff; --bg-card: #ffffff; --bg-card-hover: #f1f5f9;
+      --border: rgba(0, 0, 0, 0.08); --border-hover: rgba(37, 99, 235, 0.5);
+      --accent: #2563eb; --accent-teal: #0d9488; --accent-purple: #7c3aed;
+      --text-main: #0f172a; --text-muted: #475569; --text-dim: #94a3b8;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
+      font-family: 'Montserrat', 'Inter', -apple-system, sans-serif;
+      background: var(--bg); color: var(--text-main);
+      line-height: 1.7; padding: 0; -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s, color 0.3s;
     }
-
-    /* NAV */
     nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 18px 40px;
-      background: rgba(15,17,23,0.92);
-      backdrop-filter: blur(12px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 6%; background: var(--bg-surface); border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
     }
-    .nav-logo { font-size: 18px; font-weight: 700; color: var(--text); text-decoration: none; }
-    .nav-logo span { color: var(--accent); }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; text-decoration: none; color: var(--text-main); letter-spacing: 2px; }
+    .nav-logo span { color: var(--accent-teal); }
     .nav-right { display: flex; align-items: center; gap: 16px; }
-    .lang-toggle {
-      display: flex;
-      gap: 4px;
-      background: var(--surface2);
-      border-radius: 8px;
-      padding: 4px;
-    }
-    .lang-btn {
-      background: none;
-      border: none;
-      color: var(--text2);
-      cursor: pointer;
-      padding: 4px 12px;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: 600;
-      transition: all 0.2s;
-    }
-    .lang-btn.active { background: var(--accent); color: #fff; }
-    .nav-back {
-      font-size: 13px;
-      color: var(--text2);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: color 0.2s;
-    }
-    .nav-back:hover { color: var(--text); }
-
-    /* HERO */
-    .hero {
-      text-align: center;
-      padding: 60px 20px 40px;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    .hero-badge {
-      display: inline-block;
-      background: rgba(74,143,232,0.15);
-      color: var(--accent);
-      border: 1px solid rgba(74,143,232,0.3);
-      border-radius: 20px;
-      padding: 5px 16px;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
-    .hero h1 {
-      font-size: clamp(26px, 5vw, 40px);
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      margin-bottom: 12px;
-    }
-    .hero p {
+    .nav-right a { color: var(--accent-teal); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+    .theme-toggle {
+      background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main);
+      width: 36px; height: 36px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;
       font-size: 16px;
-      color: var(--text2);
     }
+    .content { max-width: 860px; margin: 0 auto; padding: 50px 24px 80px; }
+    .page-header { text-align: center; margin-bottom: 40px; }
+    .sub-label { letter-spacing: 4px; font-size: 0.78rem; color: var(--accent-teal); text-transform: uppercase; font-weight: 700; margin-bottom: 12px; display: block; }
+    h1 { font-size: clamp(2rem, 3.8vw, 2.6rem); font-weight: 800; margin-bottom: 12px; }
 
-    /* FAQ */
-    .faq-section {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 0 20px 80px;
-    }
-    .faq-category {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin: 40px 0 12px;
-    }
-    .faq-item {
-      background: var(--surface);
-      border-radius: var(--radius);
-      border: 1px solid rgba(255,255,255,0.06);
-      margin-bottom: 8px;
-      overflow: hidden;
-    }
-    .faq-question {
-      width: 100%;
-      background: none;
-      border: none;
-      color: var(--text);
-      text-align: left;
-      padding: 20px 24px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      transition: background 0.2s;
-    }
-    .faq-question:hover { background: rgba(255,255,255,0.03); }
-    .faq-arrow {
-      flex-shrink: 0;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--surface2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      transition: transform 0.25s, background 0.2s;
-    }
-    .faq-item.open .faq-arrow { transform: rotate(180deg); background: var(--accent); }
-    .faq-answer {
-      display: none;
-      padding: 0 24px 20px;
-      font-size: 14px;
-      color: var(--text2);
-      line-height: 1.7;
-    }
-    .faq-item.open .faq-answer { display: block; }
-    .faq-answer a { color: var(--accent); text-decoration: none; }
-    .faq-answer a:hover { text-decoration: underline; }
-    .faq-answer ul { padding-left: 18px; margin-top: 8px; }
-    .faq-answer ul li { margin-bottom: 4px; }
+    .faq-accordion { display: flex; flex-direction: column; gap: 16px; margin-top: 30px; }
+    .faq-item { background: var(--bg-surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .faq-question { padding: 20px 24px; font-weight: 600; font-size: 1.05rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-question::after { content: '+'; font-size: 1.4rem; color: var(--accent-teal); transition: transform 0.3s; }
+    .faq-item.active .faq-question::after { transform: rotate(45deg); }
+    .faq-answer { padding: 0 24px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; color: var(--text-muted); font-size: 0.95rem; line-height: 1.65; font-weight: 300; }
+    .faq-item.active .faq-answer { padding: 0 24px 22px; max-height: 2000px; }
+    .faq-answer p { margin-bottom: 10px; }
+    .faq-answer p:last-child { margin-bottom: 0; }
+    .faq-answer ul { padding-left: 18px; margin: 8px 0; }
+    .faq-answer li { margin-bottom: 4px; }
+    .faq-category { font-size: 0.78rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-teal); margin: 32px 0 4px; }
+    .faq-accordion .faq-category:first-child { margin-top: 0; }
 
-    /* CONTACT */
-    .contact-block {
-      max-width: 720px;
-      margin: 0 auto 80px;
-      padding: 0 20px;
+    footer {
+      text-align: center; padding: 36px 6%; color: var(--text-dim); font-size: 0.82rem;
+      border-top: 1px solid var(--border); background: var(--bg-surface);
     }
-    .contact-card {
-      background: var(--surface);
-      border-radius: var(--radius);
-      border: 1px solid rgba(255,255,255,0.06);
-      padding: 32px;
-      text-align: center;
-    }
-    .contact-card h3 {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .contact-card p {
-      color: var(--text2);
-      font-size: 14px;
-      margin-bottom: 24px;
-    }
-    .contact-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      padding: 12px 24px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: opacity 0.2s;
-    }
-    .btn-primary:hover { opacity: 0.85; }
-    .btn-secondary {
-      background: var(--surface2);
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      padding: 12px 24px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: background 0.2s;
-    }
-    .btn-secondary:hover { background: #2a2f45; }
-
-    @media (max-width: 600px) {
-      nav { padding: 14px 20px; }
-    }
+    footer a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
+    footer a:hover { color: var(--accent-teal); }
   </style>
-  <script src="theme.js"></script>
-  <link rel="stylesheet" href="theme.css">
-  <!-- Yandex.Metrika -->
-  <script type="text/javascript">
-    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-    m[i].l=1*new Date();
-    for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
-    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
-    ym(109065744,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
-  </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/109065744" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
-  <!-- /Yandex.Metrika -->
-
-  <link rel="alternate" hreflang="ru" href="https://mirorstar.github.io/shiftschedule/faq.html">
-  <link rel="alternate" hreflang="en" href="https://mirorstar.github.io/shiftschedule/en/faq.html">
-  <link rel="alternate" hreflang="x-default" href="https://mirorstar.github.io/shiftschedule/faq.html">
-  </head>
+</head>
 <body>
-
 <nav>
-  <a href="index.html" class="nav-logo">Shift<span>Schedule</span></a>
+  <a href="index.html" class="nav-logo">SHIFT<span>SCHEDULE</span></a>
   <div class="nav-right">
-    <a href="index.html" class="nav-back">
-      <span>←</span>
-      <span>На главную</span>
-      
-    </a>
-      <button class="theme-btn" onclick="toggleTheme()" aria-label="Сменить тему">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <circle cx="12" cy="12" r="4"></circle>
-          <line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line>
-          <line x1="2" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="22" y2="12"></line>
-          <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"></line><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"></line>
-          <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"></line><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"></line>
-        </svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-      </button>
-    <div class="lang-toggle">
-    <span class="lang-btn active">RU</span>
-    <a href="en/faq.html" class="lang-btn" style="text-decoration: none;">EN</a>
-  </div>
+    <button class="theme-toggle" id="themeToggle" title="Переключить тему">☀️</button>
+    <a href="index.html">← На главную</a>
   </div>
 </nav>
 
-<div class="hero">
-  <div class="hero-badge">Частые вопросы</div>
-  
-  <h1>Как мы можем помочь?</h1>
-  
-  <p>Ответы на самые популярные вопросы о Shift Schedule</p>
-  
-</div>
-
-<div class="faq-section">
-
-  <!-- КАТЕГОРИЯ: РАСПИСАНИЕ -->
-  <div class="faq-category">Расписание</div>
-  
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Как настроить своё расписание смен?</span>
-      
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Откройте <strong>Настройки → Расписание</strong>. Укажите дату начала цикла (дата, с которой начинается ваш первый рабочий день), количество рабочих дней и количество выходных. Приложение автоматически посчитает все остальные дни.</p>
-      
-    </div>
+<div class="content">
+  <div class="page-header">
+    <span class="sub-label">СПРАВОЧНЫЙ ЦЕНТР</span>
+    <h1>Часто задаваемые вопросы</h1>
   </div>
 
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Могу ли я изменить отдельный день вручную?</span>
-      
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Да. Нажмите на любой день в календаре и выберите нужный статус: <strong>Работа, Выходной, Дополнительный, Отпуск, Больничный</strong>. Ручные изменения имеют приоритет над формулой расписания.</p>
-      
+  <div class="faq-accordion">
+
+    <div class="faq-category">Расписание</div>
+    <div class="faq-item active">
+      <div class="faq-question">Как настроить своё расписание смен?</div>
+      <div class="faq-answer"><p>Откройте <strong>Настройки → Расписание</strong>. Укажите дату начала цикла (дата, с которой начинается ваш первый рабочий день), количество рабочих дней и количество выходных. Приложение автоматически посчитает все остальные дни.</p></div>
     </div>
-  </div>
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Как добавить заметку к дню?</span>
-      
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Нажмите на день в календаре. В появившемся меню выберите <strong>«Заметка»</strong> и введите текст. Заметка отображается под датой и синхронизируется вместе с расписанием.</p>
-      
+    <div class="faq-item">
+      <div class="faq-question">Могу ли я изменить отдельный день вручную?</div>
+      <div class="faq-answer"><p>Да. Нажмите на любой день в календаре и выберите нужный статус: <strong>Работа, Выходной, Дополнительный, Отпуск, Больничный</strong>. Ручные изменения имеют приоритет над формулой расписания.</p></div>
     </div>
-  </div>
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Как изменить статус сразу нескольким дням?</span>
-      
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Нажмите и удерживайте любой день в календаре (~0.5 сек) — включится режим выделения диапазона. Затем нажмите второй день, чтобы задать границу диапазона. В появившемся окне выберите статус — он применится сразу ко всем дням диапазона.</p>
-      
+    <div class="faq-item">
+      <div class="faq-question">Как добавить заметку к дню?</div>
+      <div class="faq-answer"><p>Нажмите на день в календаре. В появившемся меню выберите <strong>«Заметка»</strong> и введите текст. Заметка отображается под датой и синхронизируется вместе с расписанием.</p></div>
     </div>
-  </div>
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Что такое второй график и зачем он нужен?</span>
-      
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Второй график — это отдельное расписание второй работы поверх основного. Удобно, если вы иногда работаете на второй работе по собственному циклу смен.</p>
-      <br>
-      <p>Как включить: нажмите на любой выходной день → <strong>Второй график → настроить</strong>. Задайте дату начала цикла и количество рабочих/выходных дней. В дни, когда активен второй график, в ячейке календаря появится значок портфеля.</p>
-      <br>
-      <p>Важно: второй график не заменяет основной, а дополняет. Если в один день активны оба — в ячейке отображается основной статус, а портфель сигнализирует о второй работе. Ваш партнёр увидит, что у вас работа, — общий выходной в этот день не засчитывается.</p>
-      
-      <br>
-      
-      <br>
-      
+    <div class="faq-item">
+      <div class="faq-question">Как изменить статус сразу нескольким дням?</div>
+      <div class="faq-answer"><p>Нажмите и удерживайте любой день в календаре (~0.5 сек) — включится режим выделения диапазона. Затем нажмите второй день, чтобы задать границу диапазона. В появившемся окне выберите статус — он применится сразу ко всем дням диапазона.</p></div>
     </div>
-  </div>
-
-  <!-- КАТЕГОРИЯ: БУДИЛЬНИКИ -->
-  <div class="faq-category">Будильники</div>
-  
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Будильники установлены, но не срабатывают</span>
-      
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Чаще всего это происходит из-за настроек батареи на телефоне — особенно на Xiaomi, Samsung и Huawei. Три шага:</p>
-      
-      <br>
-      <p><strong>1. Автозапуск (Xiaomi/MIUI):</strong> Настройки → Приложения → ShiftSchedule → <strong>Автозапуск → включить</strong>. Без этого будильник не просыпается если приложение закрыто.</p>
-      
-      <br>
-      <p><strong>2. Батарея:</strong> Настройки → Батарея → Приложения → ShiftSchedule → выбрать <strong>«Без ограничений»</strong>.</p>
-      
-      <br>
-      <p><strong>3. Android 12+:</strong> система может запросить разрешение на точные будильники — откройте Настройки → Приложения → ShiftSchedule → <strong>Будильники и напоминания → разрешить</strong>.</p>
-      
-      <br>
-      <p>Если всё сделано и будильник всё равно не срабатывает — напишите нам на <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a>, укажите модель телефона и версию Android.</p>
-      
+    <div class="faq-item">
+      <div class="faq-question">Что такое второй график и зачем он нужен?</div>
+      <div class="faq-answer">
+        <p>Второй график — это отдельное расписание второй работы поверх основного. Удобно, если вы иногда работаете на второй работе по собственному циклу смен.</p>
+        <p>Как включить: нажмите на любой выходной день → <strong>Второй график → настроить</strong>. Задайте дату начала цикла и количество рабочих/выходных дней. В дни, когда активен второй график, в ячейке календаря появится значок портфеля.</p>
+        <p>Важно: второй график не заменяет основной, а дополняет. Если в один день активны оба — в ячейке отображается основной статус, а портфель сигнализирует о второй работе. Ваш партнёр увидит, что у вас работа, — общий выходной в этот день не засчитывается.</p>
+      </div>
     </div>
-  </div>
 
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>После перезагрузки телефона будильники пропали</span>
-      
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Это стандартное поведение Android: при перезагрузке все запланированные будильники удаляются системой. Shift Schedule умеет их восстанавливать — но для этого нужно открыть приложение после включения телефона.</p>
-      <br>
-      <p>Чтобы не забыть: после перезагрузки в шторке уведомлений появится тихое напоминание от приложения. Нажмите на него — откроется Shift Schedule и будильники автоматически пересчитаются на ближайшие дни.</p>
-      <br>
-      <p>На устройствах Xiaomi/MIUI: включите <strong>Автозапуск</strong> для Shift Schedule в настройках телефона (Настройки → Приложения → ShiftSchedule → Автозапуск). Тогда приложение сможет восстановить будильники сразу после перезагрузки без вашего участия.</p>
-      
-      <br>
-      
-      <br>
-      
+    <div class="faq-category">Будильники</div>
+    <div class="faq-item">
+      <div class="faq-question">Будильники установлены, но не срабатывают</div>
+      <div class="faq-answer">
+        <p>Чаще всего это происходит из-за настроек батареи на телефоне — особенно на Xiaomi, Samsung и Huawei. Три шага:</p>
+        <p><strong>1. Автозапуск (Xiaomi/MIUI):</strong> Настройки → Приложения → ShiftSchedule → <strong>Автозапуск → включить</strong>. Без этого будильник не просыпается если приложение закрыто.</p>
+        <p><strong>2. Батарея:</strong> Настройки → Батарея → Приложения → ShiftSchedule → выбрать <strong>«Без ограничений»</strong>.</p>
+        <p><strong>3. Android 12+:</strong> система может запросить разрешение на точные будильники — откройте Настройки → Приложения → ShiftSchedule → <strong>Будильники и напоминания → разрешить</strong>.</p>
+        <p>Если всё сделано и будильник всё равно не срабатывает — напишите нам на <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a>, укажите модель телефона и версию Android.</p>
+      </div>
     </div>
-  </div>
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Значок колокольчика не появился после установки будильников</span>
-      
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Значок колокольчика показывается только рядом с <strong>рабочими сменами</strong> в списке дней — не рядом с выходными. Убедитесь, что у вас правильно настроена якорная дата и на ближайшие дни стоит статус «Работа». Если статус стоит, но значка нет — попробуйте нажать «Установить будильники» ещё раз.</p>
-      
+    <div class="faq-item">
+      <div class="faq-question">После перезагрузки телефона будильники пропали</div>
+      <div class="faq-answer">
+        <p>Это стандартное поведение Android: при перезагрузке все запланированные будильники удаляются системой. Shift Schedule умеет их восстанавливать — но для этого нужно открыть приложение после включения телефона.</p>
+        <p>Чтобы не забыть: после перезагрузки в шторке уведомлений появится тихое напоминание от приложения. Нажмите на него — откроется Shift Schedule и будильники автоматически пересчитаются на ближайшие дни.</p>
+        <p>На устройствах Xiaomi/MIUI: включите <strong>Автозапуск</strong> для Shift Schedule в настройках телефона (Настройки → Приложения → ShiftSchedule → Автозапуск). Тогда приложение сможет восстановить будильники сразу после перезагрузки без вашего участия.</p>
+      </div>
     </div>
-  </div>
-
-  <!-- КАТЕГОРИЯ: PRO ВЕРСИЯ -->
-  <div class="faq-category">PRO версия</div>
-  
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Что входит в PRO и сколько стоит?</span>
-      
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>PRO — это разовая покупка (не подписка). Включает: синхронизацию между устройствами, расписание партнёра, уведомления, экспорт в системный календарь, виджет погоды, все темы оформления. Цена указана в RuStore.</p>
-      
+    <div class="faq-item">
+      <div class="faq-question">Значок колокольчика не появился после установки будильников</div>
+      <div class="faq-answer"><p>Значок колокольчика показывается только рядом с <strong>рабочими сменами</strong> в списке дней — не рядом с выходными. Убедитесь, что у вас правильно настроена якорная дата и на ближайшие дни стоит статус «Работа». Если статус стоит, но значка нет — попробуйте нажать «Установить будильники» ещё раз.</p></div>
     </div>
-  </div>
 
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Как купить PRO?</span>
-      
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>В приложении нажмите <strong>«Купить PRO»</strong> — откроется окно оплаты RuStore. Оплата проходит через RuStore, банковской картой или другим способом из тех, что привязаны к вашему аккаунту RuStore.</p>
-      
+    <div class="faq-category">PRO версия</div>
+    <div class="faq-item">
+      <div class="faq-question">Что входит в PRO и сколько стоит?</div>
+      <div class="faq-answer"><p>PRO — это разовая покупка (не подписка). Включает: синхронизацию между устройствами, расписание партнёра, уведомления, экспорт в системный календарь, виджет погоды, все темы оформления. Цена указана в RuStore.</p></div>
     </div>
-  </div>
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Я купил PRO, но после переустановки он пропал</span>
-      
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Откройте <strong>Настройки → PRO → Восстановить покупку</strong>. Убедитесь, что вы вошли в тот же аккаунт RuStore, через который оплачивали. Восстановление бесплатно и работает без интернета не получится — нужно соединение.</p>
-      
+    <div class="faq-item">
+      <div class="faq-question">Как купить PRO?</div>
+      <div class="faq-answer"><p>В приложении нажмите <strong>«Купить PRO»</strong> — откроется окно оплаты RuStore. Оплата проходит через RuStore, банковской картой или другим способом из тех, что привязаны к вашему аккаунту RuStore.</p></div>
     </div>
-  </div>
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>У меня есть пробный период?</span>
-      
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Да. После первой установки доступно <strong>14 дней PRO бесплатно</strong>. Все функции работают в полном объёме. По истечении пробного периода базовые функции (календарь, ручные отметки) остаются доступны без ограничений.</p>
-      
+    <div class="faq-item">
+      <div class="faq-question">Как активировать PRO после покупки на сайте?</div>
+      <div class="faq-answer"><p>После оплаты через ЮKassa на сайте вы получите уникальный промокод. Откройте приложение: Настройки → «ShiftSchedule PRO» → «Ввести промокод» — и все функции активируются мгновенно.</p></div>
     </div>
-  </div>
-
-  <!-- КАТЕГОРИЯ: СИНХРОНИЗАЦИЯ -->
-  <div class="faq-category">Синхронизация</div>
-  
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Как синхронизировать расписание между двумя телефонами?</span>
-      
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Нужна PRO версия. Создайте аккаунт в <strong>Настройки → Синхронизация</strong>, войдите на обоих устройствах с одними данными. Расписание синхронизируется автоматически каждые 3 минуты после изменений.</p>
-      
+    <div class="faq-item">
+      <div class="faq-question">Я купил PRO, но после переустановки он пропал</div>
+      <div class="faq-answer"><p>Откройте <strong>Настройки → PRO → Восстановить покупку</strong>. Убедитесь, что вы вошли в тот же аккаунт RuStore, через который оплачивали. Восстановление бесплатно, но работает только при наличии интернет-соединения.</p></div>
     </div>
-  </div>
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Как посмотреть расписание коллеги или партнёра?</span>
-      
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Нужна PRO версия. Попросите коллегу открыть <strong>Настройки → Синхронизация → Код партнёра</strong> и продиктовать вам 6-значный код. Введите этот код у себя в том же разделе — расписание партнёра появится в вашем календаре отдельным цветом.</p>
-      
+    <div class="faq-item">
+      <div class="faq-question">У меня есть пробный период?</div>
+      <div class="faq-answer"><p>Да. После первой установки доступно <strong>14 дней PRO бесплатно</strong>. Все функции работают в полном объёме. По истечении пробного периода базовые функции (календарь, ручные отметки) остаются доступны без ограничений.</p></div>
     </div>
-  </div>
 
-  <!-- КАТЕГОРИЯ: ПОГОДА -->
-  <div class="faq-category">Погода</div>
-  
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Погода не показывается в списке смен</span>
-      
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Два условия для работы погоды:</p>
-      
-      <br>
-      <p><strong>1. Разрешение на геолокацию.</strong> Настройки телефона → Приложения → Shift Schedule → Разрешения → Местоположение → разрешить. Без этого приложение не знает, для какого города загружать прогноз.</p>
-      
-      <br>
-      <p><strong>2. Доступ в интернет.</strong> Прогноз загружается из сети — без интернета погода не появится. Если соединение было отключено, попробуйте обновить страницу или перезапустить приложение при наличии сети.</p>
-      
-      <br>
-      <p>Если оба пункта выполнены — укажите версию приложения и напишите нам.</p>
-      
+    <div class="faq-category">Синхронизация</div>
+    <div class="faq-item">
+      <div class="faq-question">Как синхронизировать расписание между двумя телефонами?</div>
+      <div class="faq-answer"><p>Нужна PRO версия. Создайте аккаунт в <strong>Настройки → Синхронизация</strong>, войдите на обоих устройствах с одними данными. Расписание синхронизируется автоматически каждые 3 минуты после изменений.</p></div>
     </div>
-  </div>
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Зачем создавать аккаунт, если я пользуюсь один?</span>
-      
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Без аккаунта расписание хранится только на вашем телефоне. Если телефон сломается, потеряется или вы переустановите приложение — все данные пропадут без возможности восстановления.</p>
-      
-      <br>
-      <p>Аккаунт (бесплатно, нужна PRO версия) даёт:</p>
-      
-      <ul>
-        <li>Резервную копию расписания в облаке</li>
-        <li>Восстановление при смене телефона</li>
-        <li>Синхронизацию между устройствами</li>
-      </ul>
-      
-      <br>
-      <p>Создать аккаунт: <strong>Настройки → Синхронизация → Создать аккаунт</strong>.</p>
-      
+    <div class="faq-item">
+      <div class="faq-question">Как посмотреть расписание коллеги или партнёра?</div>
+      <div class="faq-answer"><p>Нужна PRO версия. Попросите коллегу открыть <strong>Настройки → Синхронизация → Код партнёра</strong> и продиктовать вам 6-значный код. Введите этот код у себя в том же разделе — расписание партнёра появится в вашем календаре отдельным цветом.</p></div>
     </div>
-  </div>
 
-  <!-- КАТЕГОРИЯ: ДОХОД -->
-  <div class="faq-category">Вкладка «Доход»</div>
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Как открыть вкладку «Доход»?</span>
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Потяните нижнюю панель вкладок вверх свайпом — откроется вкладка «Доход». Так же открывается вкладка «Вместе». Это PRO-функция.</p>
+    <div class="faq-category">Погода</div>
+    <div class="faq-item">
+      <div class="faq-question">Погода не показывается в списке смен</div>
+      <div class="faq-answer">
+        <p>Два условия для работы погоды:</p>
+        <p><strong>1. Разрешение на геолокацию.</strong> Настройки телефона → Приложения → Shift Schedule → Разрешения → Местоположение → разрешить. Без этого приложение не знает, для какого города загружать прогноз.</p>
+        <p><strong>2. Доступ в интернет.</strong> Прогноз загружается из сети — без интернета погода не появится. Если соединение было отключено, попробуйте обновить страницу или перезапустить приложение при наличии сети.</p>
+        <p>Если оба пункта выполнены — укажите версию приложения и напишите нам.</p>
+      </div>
     </div>
-  </div>
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Как настроить расчёт зарплаты?</span>
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>На вкладке «Доход» нажмите <strong>«Настроить расчёт»</strong>. В открывшемся окне:</p>
-      <br>
-      <ul>
-        <li><strong>Режим расчёта</strong> — выберите ₽/час, ₽/смену или ₽/месяц (оклад)</li>
-        <li><strong>Ставка</strong> — укажите сумму (часовую, сменную или оклад)</li>
-        <li><strong>Ночная надбавка %</strong> — процент доплаты за каждую ночную смену (начисляется сверх базовой ставки)</li>
-        <li><strong>Праздничная надбавка %</strong> — процент доплаты за смены в государственные праздники</li>
-        <li><strong>Налог %</strong> — процент НДФЛ (по умолчанию 13%)</li>
-        <li><strong>Дата аванса / зарплаты</strong> — число месяца для отображения ближайших выплат</li>
-      </ul>
-      <br>
-      <p>После изменений обязательно нажмите <strong>«Сохранить»</strong> внизу окна — без этого изменения не применятся.</p>
+    <div class="faq-item">
+      <div class="faq-question">Зачем создавать аккаунт, если я пользуюсь один?</div>
+      <div class="faq-answer">
+        <p>Без аккаунта расписание хранится только на вашем телефоне. Если телефон сломается, потеряется или вы переустановите приложение — все данные пропадут без возможности восстановления.</p>
+        <p>Аккаунт (бесплатно, нужна PRO версия) даёт:</p>
+        <ul>
+          <li>Резервную копию расписания в облаке</li>
+          <li>Восстановление при смене телефона</li>
+          <li>Синхронизацию между устройствами</li>
+        </ul>
+        <p>Создать аккаунт: <strong>Настройки → Синхронизация → Создать аккаунт</strong>.</p>
+      </div>
     </div>
-  </div>
 
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Как считается подработка?</span>
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Если на календаре есть дни со статусом <strong>«Подработка»</strong>, они автоматически учитываются в расчёте зарплаты.</p>
-      <br>
-      <p>По умолчанию подработка считается по той же ставке, что и обычная смена. Если у вас подработка оплачивается по-другому (например, в полуторном размере) — включите чекбокс <strong>«Ставка подработки»</strong> в настройках расчёта и укажите свою сумму за одну смену подработки.</p>
-      <br>
-      <p>Ночная надбавка начисляется и на ночные подработки тоже.</p>
+    <div class="faq-category">Вкладка «Доход»</div>
+    <div class="faq-item">
+      <div class="faq-question">Как открыть вкладку «Доход»?</div>
+      <div class="faq-answer"><p>Потяните нижнюю панель вкладок вверх свайпом — откроется вкладка «Доход». Так же открывается вкладка «Вместе». Это PRO-функция.</p></div>
     </div>
-  </div>
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Чем отличается оплата дневной и ночной смены?</span>
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Базовая ставка за дневную и ночную смену одинаковая — как и по Трудовому кодексу. Разница идёт через <strong>ночную надбавку</strong>: это процент, который начисляется сверх ставки за каждую ночную смену.</p>
-      <br>
-      <p>Например: ставка 2 400 ₽/смену, ночная надбавка 20%. За дневную смену — 2 400 ₽, за ночную — 2 400 + 480 = 2 880 ₽.</p>
-      <br>
-      <p>Чтобы включить: в настройках расчёта отметьте чекбокс <strong>«Ночная надбавка %»</strong> и укажите процент. Надбавка применяется ко всем ночным сменам — и основным, и подработкам.</p>
+    <div class="faq-item">
+      <div class="faq-question">Как настроить расчёт зарплаты?</div>
+      <div class="faq-answer">
+        <p>На вкладке «Доход» нажмите <strong>«Настроить расчёт»</strong>. В открывшемся окне:</p>
+        <ul>
+          <li><strong>Режим расчёта</strong> — выберите ₽/час, ₽/смену или ₽/месяц (оклад)</li>
+          <li><strong>Ставка</strong> — укажите сумму (часовую, сменную или оклад)</li>
+          <li><strong>Ночная надбавка %</strong> — процент доплаты за каждую ночную смену (начисляется сверх базовой ставки)</li>
+          <li><strong>Праздничная надбавка %</strong> — процент доплаты за смены в государственные праздники</li>
+          <li><strong>Налог %</strong> — процент НДФЛ (по умолчанию 13%)</li>
+          <li><strong>Дата аванса / зарплаты</strong> — число месяца для отображения ближайших выплат</li>
+        </ul>
+        <p>После изменений обязательно нажмите <strong>«Сохранить»</strong> внизу окна — без этого изменения не применятся.</p>
+      </div>
     </div>
-  </div>
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Как добавить премию или штраф?</span>
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>В настройках расчёта прокрутите вниз до раздела <strong>«Надбавки и вычеты»</strong>. Нажмите <strong>«+ Добавить надбавку»</strong> или <strong>«+ Добавить вычет»</strong>.</p>
-      <br>
-      <p>Для каждой записи можно указать название, сумму и режим — фиксированная сумма (₽) или процент от зарплаты (%). Переключение между ₽ и % — кнопка рядом с полем суммы.</p>
-      <br>
-      <p>Премии и вычеты привязаны к конкретному месяцу. При переходе на другой месяц их нужно добавить заново.</p>
+    <div class="faq-item">
+      <div class="faq-question">Как считается подработка?</div>
+      <div class="faq-answer">
+        <p>Если на календаре есть дни со статусом <strong>«Подработка»</strong>, они автоматически учитываются в расчёте зарплаты.</p>
+        <p>По умолчанию подработка считается по той же ставке, что и обычная смена. Если у вас подработка оплачивается по-другому (например, в полуторном размере) — включите чекбокс <strong>«Ставка подработки»</strong> в настройках расчёта и укажите свою сумму за одну смену подработки.</p>
+        <p>Ночная надбавка начисляется и на ночные подработки тоже.</p>
+      </div>
     </div>
-  </div>
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Данные о зарплате отправляются в облако?</span>
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Нет. Все данные о зарплате (ставка, надбавки, премии, вычеты) хранятся <strong>только на вашем устройстве</strong> и никуда не отправляются. Об этом есть подпись внизу вкладки «Доход».</p>
+    <div class="faq-item">
+      <div class="faq-question">Чем отличается оплата дневной и ночной смены?</div>
+      <div class="faq-answer">
+        <p>Базовая ставка за дневную и ночную смену одинаковая — как и по Трудовому кодексу. Разница идёт через <strong>ночную надбавку</strong>: это процент, который начисляется сверх ставки за каждую ночную смену.</p>
+        <p>Например: ставка 2 400 ₽/смену, ночная надбавка 20%. За дневную смену — 2 400 ₽, за ночную — 2 400 + 480 = 2 880 ₽.</p>
+        <p>Чтобы включить: в настройках расчёта отметьте чекбокс <strong>«Ночная надбавка %»</strong> и укажите процент. Надбавка применяется ко всем ночным сменам — и основным, и подработкам.</p>
+      </div>
     </div>
-  </div>
-
-  <!-- КАТЕГОРИЯ: ДРУГОЕ -->
-  <div class="faq-category">Другое</div>
-  
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Приложение работает без интернета?</span>
-      
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Да. Календарь, ручные отметки и заметки работают полностью офлайн. Интернет нужен только для облачной синхронизации, прогноза погоды и покупки/восстановления PRO.</p>
-      
+    <div class="faq-item">
+      <div class="faq-question">Как добавить премию или штраф?</div>
+      <div class="faq-answer">
+        <p>В настройках расчёта прокрутите вниз до раздела <strong>«Надбавки и вычеты»</strong>. Нажмите <strong>«+ Добавить надбавку»</strong> или <strong>«+ Добавить вычет»</strong>.</p>
+        <p>Для каждой записи можно указать название, сумму и режим — фиксированная сумма (₽) или процент от зарплаты (%). Переключение между ₽ и % — кнопка рядом с полем суммы.</p>
+        <p>Премии и вычеты привязаны к конкретному месяцу. При переходе на другой месяц их нужно добавить заново.</p>
+      </div>
     </div>
-  </div>
-
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Приложение запрашивает много разрешений — зачем?</span>
-      
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <ul>
-        <li><strong>Календарь</strong> — для экспорта смен в системный календарь (по запросу)</li>
-        <li><strong>Уведомления</strong> — для напоминаний о начале смены (по запросу)</li>
-        <li><strong>Геолокация</strong> — только для прогноза погоды (по запросу, можно отказать)</li>
-      </ul>
-      
+    <div class="faq-item">
+      <div class="faq-question">Данные о зарплате отправляются в облако?</div>
+      <div class="faq-answer"><p>Нет. Все данные о зарплате (ставка, надбавки, премии, вычеты) хранятся <strong>только на вашем устройстве</strong> и никуда не отправляются. Об этом есть подпись внизу вкладки «Доход».</p></div>
     </div>
-  </div>
 
-  <div class="faq-item">
-    <button class="faq-question" onclick="toggle(this)">
-      <span>Поддерживается ли iPhone / iOS?</span>
-      
-      <div class="faq-arrow">▼</div>
-    </button>
-    <div class="faq-answer">
-      <p>Пока нет — приложение доступно только для Android через RuStore. iOS-версия рассматривается, но конкретных сроков нет.</p>
-      
+    <div class="faq-category">Другое</div>
+    <div class="faq-item">
+      <div class="faq-question">Приложение работает без интернета?</div>
+      <div class="faq-answer"><p>Да. Календарь, ручные отметки и заметки работают полностью офлайн. Интернет нужен только для облачной синхронизации, прогноза погоды и покупки/восстановления PRO.</p></div>
     </div>
-  </div>
-
-</div>
-
-<!-- CONTACT -->
-<div class="contact-block">
-  <div class="contact-card">
-    <h3>Не нашли ответ?</h3>
-    
-    <p>Напишите нам — ответим в течение 24 часов</p>
-    
-    <div class="contact-buttons">
-      <a href="https://max.ru/id611120366153_bot" class="btn-primary" target="_blank">
-        💬 <span>Написать боту</span>
-      </a>
-      <a href="mailto:ruslanmirorstar@yandex.ru" class="btn-secondary">
-        ✉️ <span>Написать на почту</span>
-      </a>
+    <div class="faq-item">
+      <div class="faq-question">Приложение запрашивает много разрешений — зачем?</div>
+      <div class="faq-answer">
+        <ul>
+          <li><strong>Календарь</strong> — для экспорта смен в системный календарь (по запросу)</li>
+          <li><strong>Уведомления</strong> — для напоминаний о начале смены (по запросу)</li>
+          <li><strong>Геолокация</strong> — только для прогноза погоды (по запросу, можно отказать)</li>
+        </ul>
+      </div>
     </div>
+    <div class="faq-item">
+      <div class="faq-question">Поддерживается ли iPhone / iOS?</div>
+      <div class="faq-answer"><p>Пока нет — приложение доступно только для Android через RuStore. iOS-версия рассматривается, но конкретных сроков нет.</p></div>
+    </div>
+
   </div>
 </div>
 
+<footer>
+  <p>© 2026 MIRORSTAR · <a href="privacy.html">Политика конфиденциальности</a> · <a href="requisites.html">Реквизиты</a> · <a href="index.html">Главная</a></p>
+</footer>
 <script>
-  function toggle(btn) {
-    const item = btn.closest('.faq-item');
-    item.classList.toggle('open');
-  }
+  const themeBtn = document.getElementById('themeToggle');
+  const htmlEl = document.documentElement;
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  htmlEl.setAttribute('data-theme', savedTheme);
+  themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+  themeBtn.addEventListener('click', () => {
+    const current = htmlEl.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    htmlEl.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
 
-  let lang = localStorage.getItem('lang') || 'ru';
-  function setLang(l) {
-    lang = l;
-    localStorage.setItem('lang', l);
-    document.querySelectorAll('[data-ru]').forEach(el => el.style.display = l === 'ru' ? '' : 'none');
-    document.querySelectorAll('[data-en]').forEach(el => el.style.display = l === 'en' ? '' : 'none');
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.textContent === l.toUpperCase()));
-    document.documentElement.lang = l;
-  }
-  setLang(lang);
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.addEventListener('click', () => {
+      q.parentElement.classList.toggle('active');
+    });
+  });
 </script>
-
-
-</body></html>
+</body>
+</html>

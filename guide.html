@@ -1,307 +1,222 @@
-<!DOCTYPE html><html lang="ru"><head>
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Руководство пользователя — ShiftSchedule</title>
-  <meta name="description" content="Руководство пользователя ShiftSchedule: как настроить сменный график, якорную дату, уведомления, синхронизацию с партнёром и другие функции.">
+  <meta name="description" content="Полная инструкция по настройке приложения ShiftSchedule: от первого запуска до синхронизации расписания.">
+  <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/guide.html">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f1117; --surface: #1a1d27; --surface2: #22263a;
-      --accent: #4a8fe8; --text: #e8eaf0; --text2: #8b90a0;
-      --border: rgba(255,255,255,0.07);
+      --bg: #07070f; --bg-surface: #10111a; --bg-card: #151724; --bg-card-hover: #1c1f30;
+      --border: rgba(255, 255, 255, 0.08); --border-hover: rgba(102, 184, 178, 0.5);
+      --accent: #4a8fe8; --accent-teal: #66b8b2; --accent-purple: #9b74e0;
+      --text-main: #f8fafc; --text-muted: #94a3b8; --text-dim: #64748b;
+    }
+    [data-theme="light"] {
+      --bg: #f8fafc; --bg-surface: #ffffff; --bg-card: #ffffff; --bg-card-hover: #f1f5f9;
+      --border: rgba(0, 0, 0, 0.08); --border-hover: rgba(37, 99, 235, 0.5);
+      --accent: #2563eb; --accent-teal: #0d9488; --accent-purple: #7c3aed;
+      --text-main: #0f172a; --text-muted: #475569; --text-dim: #94a3b8;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; border-bottom: 1px solid var(--border); }
-    .nav-logo { font-size: 18px; font-weight: 700; }
-    .nav-logo span { color: var(--accent); }
-    nav a { color: var(--accent); text-decoration: none; font-size: 14px; }
-    .content { max-width: 800px; margin: 0 auto; padding: 60px 24px 80px; }
-    h1 { font-size: 36px; font-weight: 800; margin-bottom: 8px; }
-    .subtitle { color: var(--text2); font-size: 16px; margin-bottom: 56px; }
+    body {
+      font-family: 'Montserrat', 'Inter', -apple-system, sans-serif;
+      background: var(--bg); color: var(--text-main);
+      line-height: 1.7; padding: 0; -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 6%; background: var(--bg-surface); border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; text-decoration: none; color: var(--text-main); letter-spacing: 2px; }
+    .nav-logo span { color: var(--accent-teal); }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-right a { color: var(--accent-teal); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+    .theme-toggle {
+      background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main);
+      width: 36px; height: 36px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+    .content { max-width: 860px; margin: 0 auto; padding: 50px 24px 80px; }
+    .page-header { text-align: center; margin-bottom: 40px; }
+    .sub-label { letter-spacing: 4px; font-size: 0.78rem; color: var(--accent-teal); text-transform: uppercase; font-weight: 700; margin-bottom: 12px; display: block; }
+    h1 { font-size: clamp(2rem, 3.8vw, 2.6rem); font-weight: 800; margin-bottom: 12px; }
+    .subtitle { color: var(--text-muted); font-size: 1rem; max-width: 620px; margin: 0 auto; font-weight: 300; }
 
-    .section { margin-bottom: 64px; }
-    .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
-    .section-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; background: var(--surface2); flex-shrink: 0; }
-    .step-num { font-size: 13px; font-weight: 700; color: var(--accent); background: rgba(74,143,232,0.12); border-radius: 20px; padding: 3px 12px; margin-bottom: 4px; display: inline-block; }
-    h2 { font-size: 22px; font-weight: 700; }
-    .section-desc { color: var(--text2); font-size: 15px; margin-bottom: 24px; line-height: 1.75; }
+    .step-card {
+      background: var(--bg-surface); border: 1px solid var(--border); border-radius: 18px;
+      padding: 30px; margin-bottom: 24px;
+      transition: border-color 0.3s;
+    }
+    .step-card:hover { border-color: var(--border-hover); }
+    .step-num { display: inline-block; background: var(--accent-teal); color: #042f2e; font-size: 0.75rem; font-weight: 800; padding: 4px 14px; border-radius: 12px; margin-bottom: 14px; text-transform: uppercase; }
+    .step-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; }
+    .step-card p { color: var(--text-muted); font-size: 0.95rem; font-weight: 300; margin-bottom: 14px; }
+    .step-card ol, .step-card ul { padding-left: 20px; color: var(--text-main); font-size: 0.92rem; }
+    .step-card li { margin-bottom: 8px; }
 
-    .steps { list-style: none; counter-reset: steps; display: flex; flex-direction: column; gap: 12px; }
-    .steps li { counter-increment: steps; display: flex; align-items: flex-start; gap: 14px; background: var(--surface); border-radius: 14px; padding: 16px 20px; }
-    .steps li::before { content: counter(steps); min-width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
-    .steps li span { color: var(--text2); font-size: 15px; }
-    .steps li span strong { color: var(--text); }
+    .video-box {
+      background: var(--bg-surface); border: 1px solid var(--border); border-radius: 18px;
+      padding: 24px; margin-bottom: 40px; text-align: center;
+    }
+    .video-box img { max-width: 100%; border-radius: 12px; margin-bottom: 12px; }
+    .video-box a { color: var(--accent-teal); font-weight: 600; text-decoration: none; }
 
-    .tip { background: var(--surface2); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; padding: 14px 18px; margin-top: 20px; color: var(--text2); font-size: 14px; line-height: 1.65; }
-    .tip strong { color: var(--accent); }
-    .tip-warn { background: var(--surface2); border-left: 3px solid #e8944a; border-radius: 0 12px 12px 0; padding: 14px 18px; margin-top: 12px; color: var(--text2); font-size: 14px; line-height: 1.65; }
-    .tip-warn strong { color: #e8944a; }
-
-    .path { display: inline-flex; align-items: center; gap: 4px; background: var(--surface2); border-radius: 8px; padding: 4px 10px; font-size: 13px; color: var(--accent); margin-bottom: 20px; }
-    .path-sep { color: var(--text2); }
-
-    .divider { border: none; border-top: 1px solid var(--border); margin: 0 0 64px; }
-
-    footer { text-align: center; padding: 32px; color: var(--text2); font-size: 13px; border-top: 1px solid var(--border); }
-    footer a { color: var(--accent); text-decoration: none; }
+    footer {
+      text-align: center; padding: 36px 6%; color: var(--text-dim); font-size: 0.82rem;
+      border-top: 1px solid var(--border); background: var(--bg-surface);
+    }
+    footer a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
+    footer a:hover { color: var(--accent-teal); }
   </style>
-  <script src="theme.js"></script>
-  <link rel="stylesheet" href="theme.css">
-  <!-- Yandex.Metrika -->
-  <script type="text/javascript">
-    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-    m[i].l=1*new Date();
-    for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
-    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
-    ym(109065744,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
-  </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/109065744" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
-  <!-- /Yandex.Metrika -->
-
-  <link rel="alternate" hreflang="ru" href="https://mirorstar.github.io/shiftschedule/guide.html">
-  <link rel="alternate" hreflang="en" href="https://mirorstar.github.io/shiftschedule/en/guide.html">
-  <link rel="alternate" hreflang="x-default" href="https://mirorstar.github.io/shiftschedule/guide.html">
-  </head>
+</head>
 <body>
 <nav>
-  <div class="nav-logo">Shift<span>Schedule</span></div>
-  <div style="display:flex;align-items:center;gap:12px;">
-    <button class="theme-btn" onclick="toggleTheme()" aria-label="Сменить тему">
-      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <circle cx="12" cy="12" r="4"></circle>
-        <line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line>
-        <line x1="2" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="22" y2="12"></line>
-        <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"></line><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"></line>
-        <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"></line><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"></line>
-      </svg>
-      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-      </svg>
-    </button>
+  <a href="index.html" class="nav-logo">SHIFT<span>SCHEDULE</span></a>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" title="Переключить тему">☀️</button>
     <a href="index.html">← На главную</a>
   </div>
 </nav>
 
 <div class="content">
-  <h1>Руководство пользователя</h1>
-  <p class="subtitle">Полная инструкция по настройке приложения — от первого запуска до партнёрской синхронизации.</p>
+  <div class="page-header">
+    <span class="sub-label">РУКОВОДСТВО ПОЛЬЗОВАТЕЛЯ</span>
+    <h1>Как настроить ShiftSchedule</h1>
+    <p class="subtitle">Пошаговая инструкция по настройке графика смен, синхронизации с партнёром и резервному копированию.</p>
+  </div>
 
-  <!-- ВИДЕООБЗОР -->
-  <div style="margin-bottom: 56px;">
-    <div style="font-size:12px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent); margin-bottom:16px;">Видеообзор</div>
-    <div style="position:relative; padding-bottom:56.25%; height:0; border-radius:16px; overflow:hidden; background:var(--surface2);">
+  <div class="step-card">
+    <h3>Видеообзор</h3>
+    <p>Краткий видеообзор всех функций приложения — 7 минут.</p>
+    <div style="position:relative; padding-bottom:56.25%; height:0; border-radius:12px; overflow:hidden; background:var(--bg-card);">
       <iframe src="https://vkvideo.ru/video_ext.php?oid=-238176087&amp;id=456239017&amp;hash=0cd7916ac80c36b6&amp;hd=3" style="position:absolute; top:0; left:0; width:100%; height:100%;" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen=""></iframe>
     </div>
-    <p style="margin-top:12px; font-size:13px; color:var(--text2);">Краткий видеообзор всех функций приложения — 7 минут. Не открывается? <a href="https://youtu.be/zJa296C-ayg" target="_blank" rel="noopener" style="color:var(--accent);">Смотреть на YouTube</a></p>
+    <p style="margin-top:12px; margin-bottom:0;">Не открывается? <a href="https://youtu.be/zJa296C-ayg" target="_blank" rel="noopener" style="color:var(--accent-teal); font-weight:600;">Смотреть на YouTube</a></p>
   </div>
 
-  <!-- ШАГ 1 -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-icon">☁️</div>
-      <div>
-        <div class="step-num">Шаг 1</div>
-        <h2>Регистрация и облачное резервное копирование</h2>
-      </div>
-    </div>
-    <div class="path">
-      <span>Настройки</span><span class="path-sep"> › </span>
-      <span>Синхронизация</span><span class="path-sep"> › </span>
-      <span>Аккаунт</span>
-    </div>
-    <p class="section-desc">
-      Чтобы данные не потерялись при смене телефона — создайте аккаунт. Вход по e-mail и паролю, без привязки к Google или другим сервисам.
-    </p>
-    <ol class="steps">
-      <li><span>Нажмите кнопку меню посередине внизу экрана и выберите <strong>Синхронизация → Аккаунт</strong>.</span></li>
-      <li><span>Введите <strong>e-mail</strong> и придумайте <strong>пароль</strong>, нажмите <strong>Зарегистрироваться</strong>.</span></li>
-      <li><span><strong>Подтвердите почту</strong> — на e-mail придёт письмо. Без подтверждения код для партнёров не активируется. Проверьте папку «Спам».</span></li>
-      <li><span>Нажмите <strong>Синхронизировать сейчас</strong> — создастся первая резервная копия в облаке.</span></li>
+  <div class="step-card">
+    <span class="step-num">ШАГ 1</span>
+    <h3>Регистрация и облачное резервное копирование</h3>
+    <p>Чтобы данные не потерялись при смене телефона — создайте аккаунт. Вход по e-mail и паролю, без привязки к Google или другим сервисам.</p>
+    <ol>
+      <li>Откройте меню и выберите <b>Синхронизация → Аккаунт</b>.</li>
+      <li>Введите <b>e-mail</b> и придумайте <b>пароль</b>, нажмите <b>Зарегистрироваться</b>.</li>
+      <li><b>Подтвердите почту</b> — на e-mail придёт письмо. Без подтверждения код для партнёров не активируется; проверьте папку «Спам».</li>
+      <li>Нажмите <b>Синхронизировать сейчас</b> — создастся первая резервная копия в облаке.</li>
     </ol>
-    <div class="tip">
-      <strong>Совет:</strong> При смене телефона — войдите в тот же аккаунт и нажмите <strong>Скачать из облака</strong>. Все данные восстановятся за секунды.
-    </div>
+    <p>При смене телефона войдите в тот же аккаунт и нажмите <b>Скачать из облака</b> — все данные восстановятся за секунды.</p>
   </div>
 
-  <hr class="divider">
-
-  <!-- ШАГ 2 -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-icon">📅</div>
-      <div>
-        <div class="step-num">Шаг 2</div>
-        <h2>Настройка якоря и графика</h2>
-      </div>
-    </div>
-    <div class="path">
-      <span>Настройки</span><span class="path-sep"> › </span>
-      <span>График</span>
-    </div>
-    <p class="section-desc">
-      Приложение рассчитывает ваш цикл от «якорной даты» — первого рабочего дня. Правильно заданный якорь обеспечивает точность на годы вперёд.
-    </p>
-    <ol class="steps">
-      <li><span>В <strong>Настройках → График</strong> выберите схему цикла: 2/2, 3/3, 5/2 и другие. Или настройте свой цикл в режиме <strong>День/Ночь</strong>.</span></li>
-      <li><span>Нажмите на нужный день в календаре и выберите <strong>«1-й рабочий день»</strong> — это и есть якорная дата.</span></li>
+  <div class="step-card">
+    <span class="step-num">ШАГ 2</span>
+    <h3>Настройка цикла смен и якорной даты</h3>
+    <p>Якорная дата — это первый рабочий день вашего цикла. От неё приложение считает расписание на все месяцы и годы вперёд.</p>
+    <ol>
+      <li>Откройте <b>Настройки → График смен</b>.</li>
+      <li>Выберите шаблон (например, 2/2 или День/Ночь) или задайте свой произвольный цикл.</li>
+      <li>Нажмите на нужный день в календаре и выберите <b>«1-й рабочий день»</b> — это и есть якорная дата.</li>
     </ol>
-    <div class="tip">
-      <strong>Правило якоря:</strong> ставьте строго на <strong>первый рабочий день</strong> вашего цикла. Если у вас, например, 2/2 и вы сейчас на втором рабочем дне — найдите в календаре начало этого цикла.
-    </div>
+    <p><b>Правило якоря:</b> ставьте строго на первый рабочий день цикла. Если у вас, например, график 2/2 и сегодня второй рабочий день — найдите в календаре начало этого цикла и укажите именно его.</p>
   </div>
 
-  <hr class="divider">
-
-  <!-- ШАГ 3 -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-icon">⏰</div>
-      <div>
-        <div class="step-num">Шаг 3</div>
-        <h2>Будильники и уведомления</h2>
-      </div>
-    </div>
-    <div class="path">
-      <span>Настройки</span><span class="path-sep"> › </span>
-      <span>График</span><span class="path-sep"> › </span>
-      <span>Будильники</span>
-    </div>
-    <p class="section-desc">
-      Приложение расставляет системные будильники на ближайшие рабочие дни автоматически. Если вы отметили день как «Отпуск» или «Больничный» — будильник на это утро снимается сам.
-    </p>
-    <ol class="steps">
-      <li><span>Откройте <strong>Настройки → График → Будильники</strong> и включите переключатель.</span></li>
-      <li><span>Настройте <strong>время упреждения</strong> (5–240 минут) — за сколько минут до начала смены сработает будильник.</span></li>
-      <li><span>Выберите <strong>горизонт</strong>: на 7, 14 или 30 дней вперёд.</span></li>
-      <li><span>Нажмите <strong>Установить будильники</strong>. Рядом с рабочими сменами в списке появится значок колокольчика.</span></li>
+  <div class="step-card">
+    <span class="step-num">ШАГ 3</span>
+    <h3>Настройка умных будильников</h3>
+    <p>ShiftSchedule расставляет системные будильники на ближайшие рабочие дни автоматически. Если день отмечен как «Отпуск» или «Больничный» — будильник на это утро снимается сам.</p>
+    <ol>
+      <li>Перейдите в <b>Настройки → График → Будильники</b> и включите переключатель.</li>
+      <li>Настройте <b>время упреждения</b> (5–240 минут) — за сколько минут до начала смены сработает будильник.</li>
+      <li>Выберите <b>горизонт</b>: на 7, 14 или 30 дней вперёд, и нажмите <b>Установить будильники</b>. Рядом со сменой в списке появится значок колокольчика.</li>
     </ol>
-    <div class="tip">
-      <strong>Уведомления о смене:</strong> в разделе <strong>Уведомления</strong> включите напоминание за 6, 12 или 24 часа до начала смены — это отдельная функция от будильников.
-    </div>
-    <div class="tip-warn">
-      <strong>Важно для Android 12+:</strong> система запросит разрешение на точные будильники (<em>Батарея → Будильники и напоминания</em>). Без него будильники могут срабатывать с задержкой. Также отключите энергосбережение для ShiftSchedule в настройках телефона (раздел «Батарея» → «Приложения»).
-    </div>
+    <p>Отдельно в разделе <b>Уведомления</b> можно включить напоминание за 6, 12 или 24 часа до начала смены — это отдельная функция от будильников.</p>
+    <p><b>Важно для Android 12+:</b> система запросит разрешение на точные будильники (<i>Батарея → Будильники и напоминания</i>) — без него будильники могут срабатывать с задержкой. Также отключите энергосбережение для ShiftSchedule в настройках телефона (раздел «Батарея» → «Приложения»).</p>
   </div>
 
-  <hr class="divider">
-
-  <!-- ШАГ 4 -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-icon">👥</div>
-      <div>
-        <div class="step-num">Шаг 4 · PRO</div>
-        <h2>Партнёры: общие выходные</h2>
-      </div>
-    </div>
-    <div class="path">
-      <span>Настройки</span><span class="path-sep"> › </span>
-      <span>Синхронизация</span><span class="path-sep"> › </span>
-      <span>Партнёры</span>
-    </div>
-    <p class="section-desc">
-      Добавьте партнёра — и видите общие выходные прямо в своём календаре. Дни, когда вы оба отдыхаете, отмечаются цветным маркером снизу ячейки.
-    </p>
-    <ol class="steps">
-      <li><span>Оба пользователя должны иметь <strong>PRO</strong> и подтверждённую почту. 6-значный код появится в разделе Партнёры только после верификации e-mail.</span></li>
-      <li><span>Первый пользователь копирует свой <strong>код</strong> и отправляет его партнёру (мессенджер, SMS).</span></li>
-      <li><span>Второй вставляет код в поле <strong>Код партнёра</strong>, при желании вводит никнейм, нажимает <strong>Добавить</strong>.</span></li>
-      <li><span>Партнёр появится в списке. Переключатель слева включает отображение его выходных на вашем календаре.</span></li>
+  <div class="step-card">
+    <span class="step-num">ШАГ 4 · PRO</span>
+    <h3>Партнёры и общие выходные (вкладка «Вместе»)</h3>
+    <p>Функция доступна с PRO-подпиской и требует подтверждённую почту у обоих пользователей. Дни, когда вы оба отдыхаете, подсвечиваются цветным маркером на календаре.</p>
+    <ol>
+      <li>Подтвердите почту в <b>Настройки → Синхронизация → Аккаунт</b> — только после этого в разделе «Партнёры» появится 6-значный код.</li>
+      <li>Откройте вкладку <b>«Вместе»</b>, скопируйте свой код и отправьте его партнёру (мессенджер, SMS).</li>
+      <li>Партнёр вводит код в поле <b>Код партнёра</b>, при желании указывает никнейм, и нажимает <b>Добавить</b>.</li>
     </ol>
-    <div class="tip">
-      <strong>Одновременно активен только один партнёр.</strong> При включении нового предыдущий отключается автоматически — чтобы цвета на календаре не смешивались. Партнёров можно добавить нескольких и переключаться между ними.
-    </div>
-    <div class="tip">
-      <strong>Обновление:</strong> расписание партнёра обновляется автоматически каждые 30 секунд — никаких ручных действий не нужно. Если хотите обновить прямо сейчас — нажмите <strong>Синхронизировать сейчас</strong>.
-    </div>
+    <p><b>Одновременно активен только один партнёр</b> — при включении нового предыдущий отключается автоматически, чтобы цвета на календаре не смешивались. Партнёров можно добавить несколько и переключаться между ними. Расписание партнёра обновляется само каждые 30 секунд — либо нажмите <b>Синхронизировать сейчас</b> для мгновенного обновления.</p>
   </div>
 
-  <hr class="divider">
-
-  <!-- ШАГ 5 — ВТОРОЙ ГРАФИК -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-icon">💼</div>
-      <div>
-        <div class="step-num">Шаг 5 · PRO</div>
-        <h2>Второй график (вторая работа)</h2>
-      </div>
-    </div>
-    <div class="path">
-      <span>Любой выходной день</span><span class="path-sep"> › </span>
-      <span>Второй график</span>
-    </div>
-    <p class="section-desc">
-      Если вы иногда работаете на второй работе — добавьте её отдельным графиком. Приложение будет учитывать оба расписания одновременно.
-    </p>
-    <ol class="steps">
-      <li><span>Нажмите на любой выходной день в календаре и выберите <strong>Второй график → Настроить</strong>.</span></li>
-      <li><span>Задайте <strong>дату начала цикла</strong> второй работы и количество рабочих/выходных дней.</span></li>
-      <li><span>Сохраните. В дни, когда активен второй график, в ячейке появится значок <strong>портфеля</strong>.</span></li>
-      <li><span>Отдельные дни второго графика можно переопределить вручную — так же, как в основном расписании.</span></li>
+  <div class="step-card">
+    <span class="step-num">ШАГ 5 · PRO</span>
+    <h3>Второй график (вторая работа)</h3>
+    <p>Если вы иногда работаете на второй работе — добавьте её отдельным графиком. Приложение будет учитывать оба расписания одновременно.</p>
+    <ol>
+      <li>Нажмите на любой выходной день в календаре и выберите <b>Второй график → Настроить</b>.</li>
+      <li>Задайте дату начала цикла второй работы и количество рабочих/выходных дней.</li>
+      <li>Сохраните — в дни, когда активен второй график, в ячейке появится значок портфеля.</li>
     </ol>
-    <div class="tip">
-      <strong>Как это видит партнёр:</strong> если у вас день по основному графику выходной, но активен второй — партнёр видит, что вы работаете. Общий выходной в этот день не засчитывается. Всё синхронизируется автоматически.
-    </div>
-    <div class="tip-warn">
-      <strong>Обратите внимание:</strong> второй график — это отдельный цикл смен второй работы. Это не то же самое, что «Подработка» (ручная пометка отдельного дня). Используйте второй график, если у второй работы есть регулярный цикл, например 2 через 2 или 5 через 2.
-    </div>
+    <p>Второй график — это отдельный регулярный цикл смен второй работы, а не разовая «Подработка». Если по основному графику день выходной, но активен второй — партнёр видит, что вы работаете, и общий выходной в этот день не засчитывается. Всё синхронизируется автоматически.</p>
   </div>
 
-  <hr class="divider">
-
-  <!-- ШАГ 6 -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-icon">🎨</div>
-      <div>
-        <div class="step-num">Шаг 6</div>
-        <h2>Темы, стили и погода</h2>
-      </div>
-    </div>
-    <p class="section-desc">
-      Настройте внешний вид приложения под себя. Доступно 3 темы (Светлая / Тёмная / Системная) и 8 визуальных стилей — от минималистичного Graphite Bloom до стеклянного Glass &amp; Air и природного Forest.
-    </p>
-    <ol class="steps">
-      <li><span><strong>Тема</strong> — в настройках выберите Светлую, Тёмную или Системную (подстраивается под Android).</span></li>
-      <li><span><strong>Стиль</strong> — 8 вариантов оформления; Glass &amp; Air, Aurora, Nordic и Forest доступны в PRO.</span></li>
-      <li><span><strong>Погода</strong> — в разделе «Погода» выберите «Все дни» или «Только рабочие». Температура и иконка состояния появятся в списке смен. Требуется разрешение на геолокацию.</span></li>
+  <div class="step-card">
+    <span class="step-num">ШАГ 6</span>
+    <h3>Темы, стили и погода</h3>
+    <p>Настройте внешний вид приложения под себя: 3 темы и 8 визуальных стилей оформления — от минималистичного Graphite Bloom до стеклянного Glass &amp; Air и природного Forest.</p>
+    <ol>
+      <li><b>Тема</b> — Светлая, Тёмная или Системная (подстраивается под Android).</li>
+      <li><b>Стиль</b> — 8 вариантов оформления; Glass &amp; Air, Aurora, Nordic и Forest доступны в PRO.</li>
+      <li><b>Погода</b> — включите «Все дни» или «Только рабочие»: температура и иконка состояния появятся прямо в списке смен (нужно разрешение на геолокацию).</li>
     </ol>
   </div>
 
-  <hr class="divider">
-
-  <!-- ШАГ 6 -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-icon">📊</div>
-      <div>
-        <div class="step-num">Шаг 7</div>
-        <h2>Главный экран и ручные правки</h2>
-      </div>
-    </div>
-    <p class="section-desc">
-      Любой день можно скорректировать вручную — это не сбросит основной цикл, а только переопределит конкретный день.
-    </p>
-    <ol class="steps">
-      <li><span>Нажмите на любой день в календаре — откроется карточка дня.</span></li>
-      <li><span>Выберите статус: <strong>Работа, Подработка, Выходной, Отпуск</strong> или <strong>Больничный</strong>.</span></li>
-      <li><span>Нажмите <strong>Заметка</strong>, чтобы добавить текст к этому дню — видно в списке смен.</span></li>
-      <li><span>Под календарём всегда видна статистика за текущий месяц: количество рабочих дней и дней отдыха.</span></li>
+  <div class="step-card">
+    <span class="step-num">ШАГ 7</span>
+    <h3>Главный экран и ручные правки</h3>
+    <p>Любой день можно скорректировать вручную — это не сбросит основной цикл, а только переопределит конкретный день.</p>
+    <ol>
+      <li>Нажмите на любой день в календаре — откроется карточка дня.</li>
+      <li>Выберите статус: <b>Работа, Подработка, Выходной, Отпуск</b> или <b>Больничный</b>.</li>
+      <li>Нажмите <b>Заметка</b>, чтобы добавить текст к этому дню — он будет виден в списке смен.</li>
     </ol>
-    <div class="tip">
-      <strong>PRO-версия</strong> активируется единоразово в меню настроек. Открывает синхронизацию с партнёрами, облачное резервное копирование, погоду и расширенные стили. Стоимость — 199 ₽ один раз, без подписки.
-    </div>
+    <p>Под календарём всегда видна статистика за текущий месяц: количество рабочих дней и дней отдыха.</p>
   </div>
 
+  <div class="step-card">
+    <span class="step-num">ШАГ 8</span>
+    <h3>Вкладка «Доход» и учёт зарплаты</h3>
+    <p>Автоматический расчёт месячного дохода по часовым ставкам и типам смен.</p>
+    <ol>
+      <li>Откройте <b>Настройки → Доход</b>.</li>
+      <li>Введите ставку за дневную смену, ночную смену и надбавку за переработки.</li>
+      <li>Вся статистика заработка за текущий и прошлые месяцы отобразится во вкладке «Доход».</li>
+    </ol>
+  </div>
 </div>
 
 <footer>
-  © 2026 ShiftSchedule · <a href="help.html">Инструкции PRO</a> · <a href="privacy.html">Политика конфиденциальности</a> · <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a>
+  <p>© 2026 MIRORSTAR · <a href="help.html">Инструкции PRO</a> · <a href="privacy.html">Политика конфиденциальности</a> · <a href="requisites.html">Реквизиты</a> · <a href="index.html">Главная</a></p>
 </footer>
 
-
-</body></html>
+<script>
+  const themeBtn = document.getElementById('themeToggle');
+  const htmlEl = document.documentElement;
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  htmlEl.setAttribute('data-theme', savedTheme);
+  themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+  themeBtn.addEventListener('click', () => {
+    const current = htmlEl.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    htmlEl.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+</script>
+</body>
+</html>

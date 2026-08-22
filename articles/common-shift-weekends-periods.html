@@ -1,4 +1,7 @@
 <!DOCTYPE html><html lang="ru"><head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="yandex-verification" content="7abe6d0b3a4f8029">
@@ -50,7 +53,7 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: 'Montserrat', 'Inter', -apple-system, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.7;
@@ -284,33 +287,16 @@
   <link rel="stylesheet" href="../theme.css">
 
   <link rel="alternate" hreflang="ru" href="https://mirorstar.github.io/shiftschedule/articles/common-shift-weekends-periods.html">
-  <link rel="alternate" hreflang="en" href="https://mirorstar.github.io/shiftschedule/en/articles/common-shift-weekends-periods.html">
   <link rel="alternate" hreflang="x-default" href="https://mirorstar.github.io/shiftschedule/articles/common-shift-weekends-periods.html">
   </head>
 <body class="">
-
-<nav>
-  <a href="../index.html" class="nav-logo">Shift<span>Schedule</span></a>
-  <div style="display:flex;align-items:center;gap:16px;">
-    <button class="theme-btn" onclick="toggleTheme()" aria-label="Сменить тему">
-      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <circle cx="12" cy="12" r="4"></circle>
-        <line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line>
-        <line x1="2" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="22" y2="12"></line>
-        <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"></line><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"></line>
-        <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"></line><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"></line>
-      </svg>
-      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-      </svg>
-    </button>
-    <div class="lang-toggle">
-    <span class="lang-btn active">RU</span>
-    <a href="../en/articles/common-shift-weekends-periods.html" class="lang-btn" style="text-decoration: none;">EN</a>
-  </div>
+<nav style="display: flex; justify-content: space-between; align-items: center; padding: 16px 6%; background: var(--bg-surface, #10111a); border-bottom: 1px solid var(--border, rgba(255,255,255,0.08)); position: sticky; top: 0; z-index: 100;">
+  <a href="../index.html" style="font-weight: 700; font-size: 1.1rem; text-decoration: none; color: var(--text); letter-spacing: 2px;">SHIFT<span style="color: #66b8b2;">SCHEDULE</span></a>
+  <div style="display: flex; align-items: center; gap: 16px;">
+    <a href="../articles.html" style="color: #66b8b2; text-decoration: none; font-size: 0.85rem; font-weight: 600;">← Все статьи</a>
+    <a href="../index.html" style="color: var(--text2); text-decoration: none; font-size: 0.85rem;">На главную</a>
   </div>
 </nav>
-
 <!-- Breadcrumb -->
 <div class="breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
   <span itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">

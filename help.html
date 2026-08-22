@@ -1,337 +1,202 @@
-<!DOCTYPE html><html lang="ru"><head>
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Инструкции — ShiftSchedule</title>
-  <meta name="description" content="Инструкции по настройке и использованию приложения ShiftSchedule: сменный график, синхронизация, уведомления, PRO-функции.">
+  <meta name="description" content="Подробные инструкции по настройке и использованию приложения ShiftSchedule.">
+  <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/help.html">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f1117; --surface: #1a1d27; --surface2: #22263a;
-      --accent: #4a8fe8; --text: #e8eaf0; --text2: #8b90a0;
-      --border: rgba(255,255,255,0.07);
+      --bg: #07070f; --bg-surface: #10111a; --bg-card: #151724; --bg-card-hover: #1c1f30;
+      --border: rgba(255, 255, 255, 0.08); --border-hover: rgba(102, 184, 178, 0.5);
+      --accent: #4a8fe8; --accent-teal: #66b8b2; --accent-purple: #9b74e0;
+      --text-main: #f8fafc; --text-muted: #94a3b8; --text-dim: #64748b;
+    }
+    [data-theme="light"] {
+      --bg: #f8fafc; --bg-surface: #ffffff; --bg-card: #ffffff; --bg-card-hover: #f1f5f9;
+      --border: rgba(0, 0, 0, 0.08); --border-hover: rgba(37, 99, 235, 0.5);
+      --accent: #2563eb; --accent-teal: #0d9488; --accent-purple: #7c3aed;
+      --text-main: #0f172a; --text-muted: #475569; --text-dim: #94a3b8;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; border-bottom: 1px solid var(--border); }
-    .nav-logo { font-size: 18px; font-weight: 700; }
-    .nav-logo span { color: var(--accent); }
-    nav a { color: var(--accent); text-decoration: none; font-size: 14px; }
-    .content { max-width: 800px; margin: 0 auto; padding: 60px 24px 80px; }
-    h1 { font-size: 36px; font-weight: 800; margin-bottom: 8px; }
-    .subtitle { color: var(--text2); font-size: 16px; margin-bottom: 56px; }
+    body {
+      font-family: 'Montserrat', 'Inter', -apple-system, sans-serif;
+      background: var(--bg); color: var(--text-main);
+      line-height: 1.7; padding: 0; -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 6%; background: var(--bg-surface); border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; text-decoration: none; color: var(--text-main); letter-spacing: 2px; }
+    .nav-logo span { color: var(--accent-teal); }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-right a { color: var(--accent-teal); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+    .theme-toggle {
+      background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main);
+      width: 36px; height: 36px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+    .content { max-width: 860px; margin: 0 auto; padding: 50px 24px 80px; }
+    .page-header { text-align: center; margin-bottom: 40px; }
+    .sub-label { letter-spacing: 4px; font-size: 0.78rem; color: var(--accent-teal); text-transform: uppercase; font-weight: 700; margin-bottom: 12px; display: block; }
+    h1 { font-size: clamp(2rem, 3.8vw, 2.6rem); font-weight: 800; margin-bottom: 12px; }
+    .subtitle { color: var(--text-muted); font-size: 1rem; max-width: 620px; margin: 0 auto; font-weight: 300; }
 
-    .section { margin-bottom: 72px; }
-    .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
-    .section-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; background: var(--surface2); flex-shrink: 0; }
-    h2 { font-size: 24px; font-weight: 700; }
-    .section-desc { color: var(--text2); font-size: 15px; margin-bottom: 28px; line-height: 1.75; }
+    .help-card {
+      background: var(--bg-surface); border: 1px solid var(--border); border-radius: 18px;
+      padding: 30px; margin-bottom: 24px;
+    }
+    .help-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; color: var(--text-main); }
+    .help-card p { color: var(--text-muted); font-size: 0.95rem; font-weight: 300; margin-bottom: 12px; }
+    .help-card ul, .help-card ol { padding-left: 20px; color: var(--text-main); font-size: 0.92rem; }
+    .help-card li { margin-bottom: 8px; }
 
-    .screenshots { display: flex; gap: 16px; margin-bottom: 32px; overflow-x: auto; padding-bottom: 4px; }
-    .screenshots img { width: 200px; border-radius: 18px; flex-shrink: 0; border: 1px solid var(--border); }
-    .screenshots.portrait img { width: 180px; aspect-ratio: 9/16; object-fit: cover; object-position: top; }
-
-    .steps { list-style: none; counter-reset: steps; display: flex; flex-direction: column; gap: 14px; }
-    .steps li { counter-increment: steps; display: flex; align-items: flex-start; gap: 14px; background: var(--surface); border-radius: 14px; padding: 16px 20px; }
-    .steps li::before { content: counter(steps); min-width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
-    .steps li span { color: var(--text2); font-size: 15px; }
-    .steps li span strong { color: var(--text); }
-
-    .tip { background: var(--surface2); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; padding: 14px 18px; margin-top: 20px; color: var(--text2); font-size: 14px; line-height: 1.65; }
-    .tip strong { color: var(--accent); }
-
-    .pkg-block { margin-top: 32px; }
-    .pkg-block h3 { font-size: 17px; font-weight: 700; margin-bottom: 12px; color: var(--text); }
-    .pkg-block h4 { font-size: 14px; font-weight: 600; color: var(--text2); margin: 20px 0 8px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .pkg-block { margin-top: 20px; }
+    .pkg-block h4 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin: 20px 0 8px; text-transform: uppercase; letter-spacing: 0.04em; }
     .code-wrap { position: relative; }
-    .code-wrap pre { background: #0a0c12; border: 1px solid var(--border); border-radius: 12px; padding: 20px; overflow-x: auto; font-size: 12.5px; line-height: 1.6; color: #c9d1e0; font-family: 'Consolas', 'Fira Code', monospace; margin: 0; }
-    .code-wrap pre .cm { color: #4a6178; }
-    .copy-btn { position: absolute; top: 10px; right: 10px; background: var(--surface2); border: 1px solid var(--border); color: var(--text2); font-size: 12px; padding: 5px 12px; border-radius: 7px; cursor: pointer; transition: background 0.15s; }
-    .copy-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .install-steps { list-style: none; counter-reset: install; display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
-    .install-steps li { counter-increment: install; display: flex; align-items: flex-start; gap: 10px; color: var(--text2); font-size: 14px; }
-    .install-steps li::before { content: counter(install); min-width: 22px; height: 22px; border-radius: 50%; background: var(--surface2); border: 1px solid var(--border); color: var(--accent); font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
-    .install-steps li code { background: var(--surface2); border-radius: 5px; padding: 1px 6px; font-size: 12px; color: var(--accent); font-family: monospace; }
+    .code-wrap pre { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; overflow-x: auto; font-size: 12.5px; line-height: 1.6; color: var(--text-main); font-family: 'Consolas', 'Fira Code', monospace; margin: 0; }
+    .code-wrap pre .cm { color: var(--text-dim); }
+    .copy-btn { position: absolute; top: 10px; right: 10px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); font-size: 12px; padding: 5px 12px; border-radius: 7px; cursor: pointer; transition: background 0.15s; }
+    .copy-btn:hover { background: var(--accent-teal); color: #fff; border-color: var(--accent-teal); }
+    .install-steps { list-style: none; counter-reset: install; display: flex; flex-direction: column; gap: 10px; margin-top: 12px; padding-left: 0; }
+    .install-steps li { counter-increment: install; display: flex; align-items: flex-start; gap: 10px; color: var(--text-muted); font-size: 0.85rem; }
+    .install-steps li::before { content: counter(install); min-width: 22px; height: 22px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border); color: var(--accent-teal); font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .install-steps li code { background: var(--bg-card); border-radius: 5px; padding: 1px 6px; font-size: 12px; color: var(--accent-teal); font-family: monospace; }
 
-    .path { display: inline-flex; align-items: center; gap: 4px; background: var(--surface2); border-radius: 8px; padding: 4px 10px; font-size: 13px; font-family: monospace; color: var(--accent); margin-bottom: 20px; }
-    .path-sep { color: var(--text2); }
-
-    .divider { border: none; border-top: 1px solid var(--border); margin: 0 0 72px; }
-
-    footer { text-align: center; padding: 32px; color: var(--text2); font-size: 13px; border-top: 1px solid var(--border); }
-    footer a { color: var(--accent); text-decoration: none; }
+    footer {
+      text-align: center; padding: 36px 6%; color: var(--text-dim); font-size: 0.82rem;
+      border-top: 1px solid var(--border); background: var(--bg-surface);
+    }
+    footer a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
+    footer a:hover { color: var(--accent-teal); }
   </style>
-  <script src="theme.js"></script>
-  <link rel="stylesheet" href="theme.css">
-  <!-- Yandex.Metrika -->
-  <script type="text/javascript">
-    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-    m[i].l=1*new Date();
-    for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
-    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
-    ym(109065744,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
-  </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/109065744" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
-  <!-- /Yandex.Metrika -->
-
-  <link rel="alternate" hreflang="ru" href="https://mirorstar.github.io/shiftschedule/help.html">
-  <link rel="alternate" hreflang="en" href="https://mirorstar.github.io/shiftschedule/en/help.html">
-  <link rel="alternate" hreflang="x-default" href="https://mirorstar.github.io/shiftschedule/help.html">
-  </head>
+</head>
 <body>
 <nav>
-  <div class="nav-logo">Shift<span>Schedule</span></div>
-  <div style="display:flex;align-items:center;gap:12px;">
-    <button class="theme-btn" onclick="toggleTheme()" aria-label="Сменить тему">
-      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <circle cx="12" cy="12" r="4"></circle>
-        <line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line>
-        <line x1="2" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="22" y2="12"></line>
-        <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"></line><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"></line>
-        <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"></line><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"></line>
-      </svg>
-      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-      </svg>
-    </button>
+  <a href="index.html" class="nav-logo">SHIFT<span>SCHEDULE</span></a>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" title="Переключить тему">☀️</button>
     <a href="index.html">← На главную</a>
   </div>
 </nav>
 
 <div class="content">
-  <h1>Инструкции</h1>
-  <p class="subtitle">Подробные руководства по PRO-функциям: синхронизация, партнёры и Home Assistant.</p>
-
-  <!-- ── ОБЛАЧНАЯ СИНХРОНИЗАЦИЯ ──────────────────────────────── -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-icon">☁️</div>
-      <h2>Облачная синхронизация</h2>
-    </div>
-
-    <div class="path">
-      <span>Настройки</span><span class="path-sep"> › </span>
-      <span>Синхронизация</span><span class="path-sep"> › </span>
-      <span>Аккаунт</span>
-    </div>
-
-    <p class="section-desc">
-      Зарегистрируйтесь один раз — и ваш график автоматически сохраняется в облаке. Установите приложение на второй телефон или планшет, войдите в тот же аккаунт и скачайте данные. Всё синхронизировано.
-    </p>
-
-    <div class="screenshots">
-      <img src="screenshots/account_dark.png" alt="Аккаунт — тёмная тема">
-      <img src="screenshots/account_light.png" alt="Аккаунт — светлая тема">
-    </div>
-
-    <ol class="steps">
-      <li><span>Откройте <strong>Настройки → Синхронизация → Аккаунт</strong>.</span></li>
-      <li><span>Нажмите <strong>Войти</strong> и введите email и пароль. Если аккаунта нет — нажмите <strong>Зарегистрироваться</strong>.</span></li>
-      <li><span>После входа ваши данные загрузятся в облако автоматически. Дата последней синхронизации отображается под email.</span></li>
-      <li><span>На втором устройстве войдите в тот же аккаунт и нажмите <strong>Скачать из облака</strong> — данные появятся мгновенно.</span></li>
-      <li><span>Используйте <strong>Синхронизировать сейчас</strong>, чтобы вручную загрузить свежие данные с устройства в облако.</span></li>
-    </ol>
-
-    <div class="tip">
-      <strong>Совет:</strong> Если на двух устройствах разные данные — нажмите <strong>Скачать из облака</strong> на том, которое нужно обновить. Это заменит локальные данные облачными.
-    </div>
+  <div class="page-header">
+    <span class="sub-label">БАЗА ПОМОЩИ</span>
+    <h1>Инструкции и решения вопросов</h1>
+    <p class="subtitle">Подробные ответы на технические вопросы по настройке синхронизации, Алисы и виджетов.</p>
   </div>
 
-  <hr class="divider">
-
-  <!-- ── ПАРТНЁРЫ ────────────────────────────────────────────── -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-icon">👥</div>
-      <h2>Партнёры</h2>
-    </div>
-
-    <div class="path">
-      <span>Настройки</span><span class="path-sep"> › </span>
-      <span>Синхронизация</span><span class="path-sep"> › </span>
-      <span>Партнёры</span>
-    </div>
-
-    <p class="section-desc">
-      Добавьте коллегу или члена семьи как партнёра — и видите его выходные прямо на своём календаре. Дни, когда вы оба отдыхаете, выделяются цветным маркером снизу.
-    </p>
-
-    <div class="screenshots">
-      <img src="screenshots/partners_dark.png" alt="Партнёры — тёмная тема">
-      <img src="screenshots/partners_light.png" alt="Партнёры — светлая тема">
-    </div>
-
-    <ol class="steps">
-      <li><span>Оба пользователя должны иметь <strong>PRO</strong> и быть <strong>авторизованы</strong> в приложении.</span></li>
-      <li><span>Первый пользователь открывает экран Партнёров и нажимает <strong>Скопировать</strong> под своим кодом — код попадает в буфер обмена. Отправьте этот код партнёру любым удобным способом: мессенджер, SMS и т.д.</span></li>
-      <li><span>Второй пользователь вставляет код в поле <strong>Код партнёра</strong>, при желании вводит никнейм и нажимает <strong>Добавить</strong>.</span></li>
-      <li><span>Партнёр появится в списке. Чекбокс слева включает и выключает отображение его расписания на вашем календаре.</span></li>
-      <li><span>На календаре дни, когда <em>все активные партнёры</em> тоже отдыхают, получают жёлтый маркер снизу — сразу видно, когда у всех выходной.</span></li>
+  <div class="help-card">
+    <h3>Облачная синхронизация</h3>
+    <p>Зарегистрируйтесь один раз — и ваш график автоматически сохраняется в облаке. Установите приложение на второй телефон или планшет, войдите в тот же аккаунт и скачайте данные. Всё синхронизировано.</p>
+    <ol>
+      <li>Откройте <b>Настройки → Синхронизация → Аккаунт</b>.</li>
+      <li>Нажмите <b>Войти</b> и введите email и пароль. Если аккаунта нет — нажмите <b>Зарегистрироваться</b>.</li>
+      <li>После входа ваши данные загрузятся в облако автоматически. Дата последней синхронизации отображается под email.</li>
+      <li>На втором устройстве войдите в тот же аккаунт и нажмите <b>Скачать из облака</b> — данные появятся мгновенно.</li>
+      <li>Используйте <b>Синхронизировать сейчас</b>, чтобы вручную загрузить свежие данные с устройства в облако.</li>
     </ol>
-
-    <div class="tip">
-      <strong>Совет:</strong> Добавьте партнёра с никнеймом — например «Катя» или «Напарник». Никнейм отображается в строках расписания рядом с каждым его выходным.
-    </div>
+    <p><b>Совет:</b> если на двух устройствах разные данные — нажмите «Скачать из облака» на том, которое нужно обновить. Это заменит локальные данные облачными.</p>
   </div>
 
-  <hr class="divider">
-
-  <!-- ── СМЕНЫ ДЕНЬ/НОЧЬ ───────────────────────────────────────── -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-icon">🌙</div>
-      <h2>Смены день/ночь</h2>
-    </div>
-
-    <div class="path">
-      <span>Настройки</span><span class="path-sep"> › </span>
-      <span>Расписание</span><span class="path-sep"> › </span>
-      <span>Тип смен день/ночь</span>
-    </div>
-
-    <p class="section-desc">
-      Если в вашем цикле чередуются дневные и ночные смены, используйте редактор день/ночь. Каждому слоту цикла можно задать тип: <strong>Дневная</strong>, <strong>Ночная</strong> или <strong>Выходной</strong>. В списке дней ночные смены отображаются со значком 🌙.
-    </p>
-
-    <ol class="steps">
-      <li><span>Откройте <strong>Настройки → Расписание</strong> и настройте базовый цикл (якорная дата, количество рабочих и выходных дней).</span></li>
-      <li><span>Нажмите кнопку <strong>Тип смен день/ночь</strong> — откроется редактор слотов цикла.</span></li>
-      <li><span>Каждый слот представлен кнопкой с номером. Нажмите на слот, чтобы переключить его тип: <strong>День → Ночь → Выходной → День…</strong></span></li>
-      <li><span>Настройте время начала дневной и ночной смены: поля <strong>Начало дневной</strong> и <strong>Начало ночной</strong> внизу экрана (формат ЧЧ:ММ).</span></li>
-      <li><span>Нажмите <strong>Применить</strong> — цикл сохранится, календарь пересчитается.</span></li>
+  <div class="help-card">
+    <h3>Партнёры</h3>
+    <p>Добавьте коллегу или члена семьи как партнёра — и видите его выходные прямо на своём календаре. Дни, когда вы оба отдыхаете, выделяются цветным маркером снизу.</p>
+    <ol>
+      <li>Оба пользователя должны иметь <b>PRO</b> и быть <b>авторизованы</b> в приложении.</li>
+      <li>Первый пользователь открывает экран Партнёров и нажимает «Скопировать» под своим кодом — код попадает в буфер обмена. Отправьте этот код партнёру любым удобным способом: мессенджер, SMS и т.д.</li>
+      <li>Второй пользователь вставляет код в поле <b>Код партнёра</b>, при желании вводит никнейм и нажимает <b>Добавить</b>.</li>
+      <li>Партнёр появится в списке. Чекбокс слева включает и выключает отображение его расписания на вашем календаре.</li>
+      <li>На календаре дни, когда <b>все активные партнёры</b> тоже отдыхают, получают жёлтый маркер снизу — сразу видно, когда у всех выходной.</li>
     </ol>
-
-    <div class="tip">
-      <strong>Пример для графика 2/2 с чередованием:</strong> слот 1 — День, слот 2 — Ночь, слот 3 — Выходной, слот 4 — Выходной. Каждая четвёртая смена ночная автоматически.
-    </div>
+    <p><b>Совет:</b> добавьте партнёра с никнеймом — например «Катя» или «Напарник». Никнейм отображается в строках расписания рядом с каждым его выходным.</p>
   </div>
 
-  <hr class="divider">
-
-  <!-- ── СЛОЖНЫЙ ЦИКЛ ──────────────────────────────────────────── -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-icon">📋</div>
-      <h2>Сложный цикл: неравномерные смены</h2>
-    </div>
-
-    <div class="path">
-      <span>Настройки</span><span class="path-sep"> › </span>
-      <span>График</span><span class="path-sep"> › </span>
-      <span>Тип смены: День / Ночь</span>
-    </div>
-
-    <p class="section-desc">
-      Если ваш цикл содержит и дневные, и ночные смены, а между ними — выходные дни внутри рабочего периода, используйте редактор слотов. Каждому слоту цикла можно задать тип: <strong>День</strong>, <strong>Ночь</strong> или <strong>Выходной</strong>.
-      <br><br>
-      Пример: 5 дневных + 2 выходных + 4 ночных + 10 выходных = цикл из 21 слота.
-    </p>
-
-    <div class="screenshots portrait">
-      <img src="screenshots/complex_1_calendar.png" alt="Календарь с разными типами смен">
-      <img src="screenshots/complex_2_settings.png" alt="Настройки — График">
-      <img src="screenshots/complex_3_type.png" alt="Выбор типа смены">
-      <img src="screenshots/complex_4_editor.png" alt="Редактор слотов">
-      <img src="screenshots/complex_5_times.png" alt="Настройка времени и Применить">
-    </div>
-
-    <ol class="steps">
-      <li><span>Откройте <strong>Настройки → График</strong>.</span></li>
-      <li><span>Нажмите <strong>«Тип смены: День / Ночь»</strong>.</span></li>
-      <li><span>Используйте кнопку <strong>«+ Добавить смену»</strong>, чтобы создать нужное количество слотов. Для примера выше — <strong>21 слот</strong>.</span></li>
-      <li><span>Назначьте тип каждому слоту, нажимая кнопки <strong>День / Ночь / Выходной</strong> напротив каждой строки.<br>
-        Пример: слоты 1–5 → День · слоты 6–7 → Выходной · слоты 8–11 → Ночь · слоты 12–21 → Выходной.</span></li>
-      <li><span>Внизу экрана настройте время: <strong>Дневная — начало/конец</strong> и <strong>Ночная — начало/конец</strong>.</span></li>
-      <li><span>Нажмите <strong>«Применить»</strong>.</span></li>
-      <li><span>Вернитесь в календарь, нажмите на первый рабочий день вашего текущего цикла и нажмите <strong>«1-й рабочий день»</strong> — это якорная дата, от которой считается весь цикл.</span></li>
+  <div class="help-card">
+    <h3>Смены день/ночь</h3>
+    <p>Если в вашем цикле чередуются дневные и ночные смены, используйте редактор день/ночь. Каждому слоту цикла можно задать тип: <b>Дневная</b>, <b>Ночная</b> или <b>Выходной</b>. В списке дней ночные смены отображаются со значком 🌙.</p>
+    <ol>
+      <li>Откройте <b>Настройки → Расписание</b> и настройте базовый цикл (якорная дата, количество рабочих и выходных дней).</li>
+      <li>Нажмите кнопку <b>Тип смен день/ночь</b> — откроется редактор слотов цикла.</li>
+      <li>Каждый слот представлен кнопкой с номером. Нажмите на слот, чтобы переключить его тип: <b>День → Ночь → Выходной → День…</b></li>
+      <li>Настройте время начала дневной и ночной смены: поля <b>Начало дневной</b> и <b>Начало ночной</b> внизу экрана (формат ЧЧ:ММ).</li>
+      <li>Нажмите <b>Применить</b> — цикл сохранится, календарь пересчитается.</li>
     </ol>
-
-    <div class="tip">
-      <strong>Разовые корректировки:</strong> если в конкретный день цикл нарушается — добавили внеплановую смену или убрали рабочий день — нажмите на этот день в календаре и вручную выберите нужный статус. Ручные правки имеют приоритет над циклом и не сбивают его для остальных дней.
-    </div>
+    <p><b>Пример для графика 2/2 с чередованием:</b> слот 1 — День, слот 2 — Ночь, слот 3 — Выходной, слот 4 — Выходной. Каждая четвёртая смена ночная автоматически.</p>
   </div>
 
-  <hr class="divider">
-
-  <!-- ── БУДИЛЬНИКИ ─────────────────────────────────────────────── -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-icon">⏰</div>
-      <h2>Будильники <span style="font-size:13px;color:var(--text2);font-weight:400;margin-left:8px;">бета</span></h2>
-    </div>
-
-    <div class="path">
-      <span>Настройки</span><span class="path-sep"> › </span>
-      <span>Расписание</span><span class="path-sep"> › </span>
-      <span>Будильники</span>
-    </div>
-
-    <p class="section-desc">
-      Приложение расставляет системные будильники на ближайшие рабочие дни — за указанное количество минут до начала смены. Будильники обновляются автоматически при изменении статуса дня.
-    </p>
-
-    <ol class="steps">
-      <li><span>Откройте <strong>Настройки → Расписание → Будильники</strong>.</span></li>
-      <li><span>Нажмите <strong>Будильники: выкл.</strong>, чтобы включить их. Кнопка станет активной.</span></li>
-      <li><span>Настройте <strong>Заранее (минуты)</strong> — за сколько минут до смены сработает будильник. Нажмите на значение в центре, чтобы ввести число вручную, или используйте кнопки <strong>−</strong> и <strong>+</strong> (удерживайте для быстрого изменения).</span></li>
-      <li><span>Выберите горизонт: <strong>7, 14 или 30 дней</strong> вперёд — на сколько дней расставлять будильники.</span></li>
-      <li><span>Нажмите <strong>Установить будильники</strong>. В списке дней рядом с рабочими сменами появится значок 🔔.</span></li>
+  <div class="help-card">
+    <h3>Сложный цикл: неравномерные смены</h3>
+    <p>Если ваш цикл содержит и дневные, и ночные смены, а между ними — выходные дни внутри рабочего периода, используйте редактор слотов. Каждому слоту цикла можно задать тип: <b>День</b>, <b>Ночь</b> или <b>Выходной</b>. Пример: 5 дневных + 2 выходных + 4 ночных + 10 выходных = цикл из 21 слота.</p>
+    <ol>
+      <li>Откройте <b>Настройки → График</b>.</li>
+      <li>Нажмите <b>«Тип смены: День / Ночь»</b>.</li>
+      <li>Используйте кнопку <b>«+ Добавить смену»</b>, чтобы создать нужное количество слотов. Для примера выше — <b>21 слот</b>.</li>
+      <li>Назначьте тип каждому слоту, нажимая кнопки <b>День / Ночь / Выходной</b> напротив каждой строки. Пример: слоты 1–5 → День · слоты 6–7 → Выходной · слоты 8–11 → Ночь · слоты 12–21 → Выходной.</li>
+      <li>Внизу экрана настройте время: <b>Дневная — начало/конец</b> и <b>Ночная — начало/конец</b>.</li>
+      <li>Нажмите <b>«Применить»</b>.</li>
+      <li>Вернитесь в календарь, нажмите на первый рабочий день вашего текущего цикла и нажмите <b>«1-й рабочий день»</b> — это якорная дата, от которой считается весь цикл.</li>
     </ol>
-
-    <div class="tip">
-      <strong>Важно:</strong> На Android 12 и выше приложение запросит разрешение на точные будильники (<em>Батарея → Будильники и напоминания</em>). Без этого разрешения будильники не сработают вовремя.<br><br>
-      <strong>Своя мелодия:</strong> откройте <em>Настройки телефона → Приложения → ShiftSchedule → Уведомления</em>. Там вы увидите два отдельных канала — <strong>Будильники смен</strong> и <strong>Напоминания</strong>. Для каждого можно выбрать свою мелодию, вибрацию и громкость.<br><br>
-      <strong>Функция в тестировании.</strong> Если будильник не сработал, отработал не в то время или вы нашли другую проблему — напишите нам на <a href="mailto:mirorstar@yandex.ru" style="color:var(--accent)">mirorstar@yandex.ru</a> или в канал <a href="https://max.ru/id611120366153_biz" style="color:var(--accent)">MAX</a>. Ваш отзыв поможет сделать будильники надёжнее.
-    </div>
+    <p><b>Разовые корректировки:</b> если в конкретный день цикл нарушается — добавили внеплановую смену или убрали рабочий день — нажмите на этот день в календаре и вручную выберите нужный статус. Ручные правки имеют приоритет над циклом и не сбивают его для остальных дней.</p>
   </div>
 
-  <hr class="divider">
+  <div class="help-card">
+    <h3>Будильники <span style="font-size:0.7rem;color:var(--text-muted);font-weight:400;">· бета</span></h3>
+    <p>Приложение расставляет системные будильники на ближайшие рабочие дни — за указанное количество минут до начала смены. Будильники обновляются автоматически при изменении статуса дня.</p>
+    <ol>
+      <li>Откройте <b>Настройки → Расписание → Будильники</b>.</li>
+      <li>Нажмите <b>Будильники: выкл.</b>, чтобы включить их. Кнопка станет активной.</li>
+      <li>Настройте <b>Заранее (минуты)</b> — за сколько минут до смены сработает будильник. Нажмите на значение в центре, чтобы ввести число вручную, или используйте кнопки <b>−</b> и <b>+</b> (удерживайте для быстрого изменения).</li>
+      <li>Выберите горизонт: <b>7, 14 или 30 дней</b> вперёд — на сколько дней расставлять будильники.</li>
+      <li>Нажмите <b>Установить будильники</b>. В списке дней рядом с рабочими сменами появится значок 🔔.</li>
+    </ol>
+    <p><b>Важно:</b> на Android 12 и выше приложение запросит разрешение на точные будильники (<i>Батарея → Будильники и напоминания</i>). Без этого разрешения будильники не сработают вовремя.</p>
+    <p><b>Своя мелодия:</b> откройте <i>Настройки телефона → Приложения → ShiftSchedule → Уведомления</i>. Там вы увидите два отдельных канала — <b>Будильники смен</b> и <b>Напоминания</b>. Для каждого можно выбрать свою мелодию, вибрацию и громкость.</p>
+    <p><b>Функция в тестировании.</b> Если будильник не сработал, отработал не в то время или вы нашли другую проблему — напишите нам на <a href="mailto:mirorstar@yandex.ru" style="color:var(--accent-teal);">mirorstar@yandex.ru</a> или в канал <a href="https://max.ru/id611120366153_biz" style="color:var(--accent-teal);" target="_blank" rel="noopener">MAX</a>. Ваш отзыв поможет сделать будильники надёжнее.</p>
+  </div>
 
-  <!-- ── HOME ASSISTANT ──────────────────────────────────────── -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-icon">🏠</div>
-      <h2>Home Assistant</h2>
+  <div class="help-card">
+    <h3>Экспорт смен в системный календарь</h3>
+    <p>PRO-функция, которая экспортирует смены в отдельный календарь устройства «ShiftSchedule» — он создаётся автоматически, ничего настраивать заранее не нужно.</p>
+    <ul>
+      <li>Это <b>односторонний экспорт</b> (приложение → системный календарь), а не двусторонняя синхронизация. Смены нельзя редактировать через сторонний календарь и импортировать обратно в приложение.</li>
+      <li>Отдельно приложение умеет <b>показывать</b> (только просмотр, без импорта в расписание) события из других календарей устройства прямо под датой в списке смен — удобно, если на телефоне уже подключён личный календарь (Google, Samsung Calendar и т.д.), чтобы видеть личные события и смены рядом.</li>
+      <li>Если исходный calendarId/аккаунт синхронизируется с облаком Google или Samsung через настройки самого Android — экспортированные смены появятся и там, но это происходит на уровне системы Android, а не как отдельная интеграция приложения именно с Google или Samsung.</li>
+    </ul>
+  </div>
+
+  <div class="help-card">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+      <h3 style="margin-bottom:0;">Home Assistant</h3>
     </div>
-
-    <div class="path">
-      <span>Настройки</span><span class="path-sep"> › </span>
-      <span>Синхронизация</span><span class="path-sep"> › </span>
-      <span>Home Assistant</span>
-    </div>
-
-    <p class="section-desc">
-      Передавайте статус текущего дня в Home Assistant как сенсор. Используйте его в автоматизациях: включайте будильник в рабочие дни, меняйте освещение в выходные, отправляйте уведомления.
-    </p>
-
-    <div class="screenshots">
-      <img src="screenshots/ha_dark.png" alt="Home Assistant — тёмная тема">
-      <img src="screenshots/ha_light.png" alt="Home Assistant — светлая тема">
-    </div>
-
-    <ol class="steps">
-      <li><span>В Home Assistant откройте <strong>Профиль → Долгосрочные токены доступа</strong> и создайте новый токен. Скопируйте его — он отображается один раз.</span></li>
-      <li><span>В приложении откройте <strong>Настройки → Синхронизация → Home Assistant</strong>.</span></li>
-      <li><span>Введите <strong>URL вебхука</strong> в формате:<br>
+    <p>Передавайте статус текущего дня в Home Assistant как сенсор. Используйте его в автоматизациях: включайте будильник в рабочие дни, меняйте освещение в выходные, отправляйте уведомления.</p>
+    <ol>
+      <li>В Home Assistant откройте <b>Профиль → Долгосрочные токены доступа</b> и создайте новый токен. Скопируйте его — он отображается один раз.</li>
+      <li>В приложении откройте <b>Настройки → Синхронизация → Home Assistant</b>.</li>
+      <li>Введите <b>URL вебхука</b> в формате:<br>
         <code>http://192.168.1.100:8123/api/webhook/shift_schedule</code><br>
         или для внешнего доступа:<br>
         <code>https://myhome.duckdns.org/api/webhook/shift_schedule</code><br>
-        Где <code>shift_schedule</code> — это <code>webhook_id</code> из пакета.</span></li>
-      <li><span>Вставьте скопированный <strong>токен доступа</strong> в соответствующее поле.</span></li>
-      <li><span>Задайте <strong>имя сенсора</strong> (например, <code>shift_schedule</code>). В HA он появится как <code>sensor.shift_schedule</code>.</span></li>
-      <li><span>Нажмите <strong>Сохранить</strong>. Состояние сенсора будет обновляться при каждом открытии приложения и при смене даты.</span></li>
+        Где <code>shift_schedule</code> — это <code>webhook_id</code> из пакета.</li>
+      <li>Вставьте скопированный <b>токен доступа</b> в соответствующее поле.</li>
+      <li>Задайте <b>имя сенсора</b> (например, <code>shift_schedule</code>). В HA он появится как <code>sensor.shift_schedule</code>.</li>
+      <li>Нажмите <b>Сохранить</b>. Состояние сенсора будет обновляться при каждом открытии приложения и при смене даты.</li>
     </ol>
-
-    <div class="tip">
-      <strong>Пример автоматизации:</strong> триггер — <code>sensor.shift_schedule</code> меняет состояние на <code>work</code>, действие — включить умный будильник. Или наоборот: при <code>day_off</code> — выключить.
-    </div>
+    <p><b>Пример автоматизации:</b> триггер — <code>sensor.shift_schedule</code> меняет состояние на <code>work</code>, действие — включить умный будильник. Или наоборот: при <code>day_off</code> — выключить.</p>
 
     <div class="pkg-block">
-      <h3>Готовый пакет для Home Assistant</h3>
-      <p style="color:var(--text2);font-size:14px;margin-bottom:16px;">
-        Ниже — справочный пакет с нужными сущностями, автоматизацией и сенсорами. Скопируйте его себе и настройте под свои нужды.
-      </p>
+      <h4>Готовый пакет для Home Assistant</h4>
+      <p style="margin-bottom:16px;">Ниже — справочный пакет с нужными сущностями, автоматизацией и сенсорами. Скопируйте его себе и настройте под свои нужды.</p>
 
       <h4>Шаг 1 — разрешите пакеты в configuration.yaml</h4>
       <div class="code-wrap">
@@ -498,7 +363,7 @@ shift_schedule:
 
       <h4>Шаг 3 — перезапустите Home Assistant</h4>
       <ol class="install-steps">
-        <li>Перезапустите HA: <strong>Настройки → Система → Перезапустить</strong>.</li>
+        <li>Перезапустите HA: <b>Настройки → Система → Перезапустить</b>.</li>
         <li>Проверьте, что появились сущности <code>input_text.shift_today_status</code> и другие.</li>
         <li>В приложении укажите URL вашего HA и <code>webhook_id</code> из пакета (<code>shift_schedule</code> по умолчанию).</li>
         <li>Откройте приложение — данные придут в HA автоматически.</li>
@@ -508,18 +373,30 @@ shift_schedule:
 </div>
 
 <footer>
-  © 2026 ShiftSchedule · <a href="privacy.html">Политика конфиденциальности</a> · <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a>
+  <p>© 2026 MIRORSTAR · <a href="privacy.html">Политика конфиденциальности</a> · <a href="requisites.html">Реквизиты</a> · <a href="index.html">Главная</a></p>
 </footer>
 <script>
-function copyCode(btn) {
-  const pre = btn.nextElementSibling;
-  const text = pre.innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = 'Скопировано!';
-    setTimeout(() => btn.textContent = 'Копировать', 2000);
+  const themeBtn = document.getElementById('themeToggle');
+  const htmlEl = document.documentElement;
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  htmlEl.setAttribute('data-theme', savedTheme);
+  themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+  themeBtn.addEventListener('click', () => {
+    const current = htmlEl.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    htmlEl.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
   });
-}
+
+  function copyCode(btn) {
+    const pre = btn.nextElementSibling;
+    const text = pre.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Скопировано!';
+      setTimeout(() => btn.textContent = 'Копировать', 2000);
+    });
+  }
 </script>
-
-
-</body></html>
+</body>
+</html>

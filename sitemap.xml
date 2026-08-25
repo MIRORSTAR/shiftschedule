@@ -85,4 +85,9 @@
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
+  <url>
+    <loc>https://mirorstar.github.io/shiftschedule/articles/kak-sovmestit-smennyy-grafik-s-google-kalendarem-smeny-lichnye-dela-i-plany-v-odnom-meste.html</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 </urlset>

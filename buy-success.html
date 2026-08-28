@@ -46,6 +46,7 @@
     const card = document.getElementById('card');
 
     function showCode(code) {
+      if (window.ym) ym(109065744,'reachGoal','buy_success');
       card.innerHTML =
         '<div class="icon">✅</div>' +
         '<h1>Оплата прошла успешно!</h1>' +
@@ -59,14 +60,14 @@
       card.innerHTML =
         '<div class="icon">⏳</div>' +
         '<h1>Оплата обрабатывается</h1>' +
-        '<p>Это иногда занимает больше времени, чем обычно. Код придёт на указанную вами почту в течение дня — если этого не произошло, напишите в поддержку: <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a></p>';
+        '<p>Это иногда занимает больше времени, чем обычно. Код придёт на указанную вами почту в течение дня — если этого не произошло, напишите в поддержку: <a href="mailto:mirorstar.reports@yandex.ru">mirorstar.reports@yandex.ru</a></p>';
     }
 
     function showError() {
       card.innerHTML =
         '<div class="icon">❌</div>' +
         '<h1>Заказ не найден</h1>' +
-        '<p>Ссылка недействительна. Если вы оплатили — напишите в поддержку: <a href="mailto:mirorstar@yandex.ru">mirorstar@yandex.ru</a></p>';
+        '<p>Ссылка недействительна. Если вы оплатили — напишите в поддержку: <a href="mailto:mirorstar.reports@yandex.ru">mirorstar.reports@yandex.ru</a></p>';
     }
 
     let attempts = 0;

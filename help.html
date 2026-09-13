@@ -59,6 +59,9 @@
     .help-card p { color: var(--text-muted); font-size: 0.95rem; font-weight: 300; margin-bottom: 12px; }
     .help-card ul, .help-card ol { padding-left: 20px; color: var(--text-main); font-size: 0.92rem; }
     .help-card li { margin-bottom: 8px; }
+    .help-screens { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+    .help-screens a { display: block; flex: 1 1 140px; max-width: 160px; }
+    .help-screens img { width: 100%; display: block; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
 
     .pkg-block { margin-top: 20px; }
     .pkg-block h4 { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin: 20px 0 8px; text-transform: uppercase; letter-spacing: 0.04em; }
@@ -99,6 +102,10 @@
   <div class="help-card">
     <h3>Облачная синхронизация</h3>
     <p>Зарегистрируйтесь один раз — и ваш график автоматически сохраняется в облаке. Установите приложение на второй телефон или планшет, войдите в тот же аккаунт и скачайте данные. Всё синхронизировано.</p>
+    <div class="help-screens">
+      <a href="screenshots/account_dark.png" target="_blank" rel="noopener"><img src="screenshots/account_dark.png" alt="Аккаунт — тёмная тема"></a>
+      <a href="screenshots/account_light.png" target="_blank" rel="noopener"><img src="screenshots/account_light.png" alt="Аккаунт — светлая тема"></a>
+    </div>
     <ol>
       <li>Откройте <b>Настройки → Синхронизация → Аккаунт</b>.</li>
       <li>Нажмите <b>Войти</b> и введите email и пароль. Если аккаунта нет — нажмите <b>Зарегистрироваться</b>.</li>
@@ -112,6 +119,10 @@
   <div class="help-card">
     <h3>Партнёры</h3>
     <p>Добавьте коллегу или члена семьи как партнёра — и видите его выходные прямо на своём календаре. Дни, когда вы оба отдыхаете, выделяются цветным маркером снизу.</p>
+    <div class="help-screens">
+      <a href="screenshots/partners_dark.png" target="_blank" rel="noopener"><img src="screenshots/partners_dark.png" alt="Партнёры — тёмная тема"></a>
+      <a href="screenshots/partners_light.png" target="_blank" rel="noopener"><img src="screenshots/partners_light.png" alt="Партнёры — светлая тема"></a>
+    </div>
     <ol>
       <li>Оба пользователя должны иметь <b>PRO</b> и быть <b>авторизованы</b> в приложении.</li>
       <li>Первый пользователь открывает экран Партнёров и нажимает «Скопировать» под своим кодом — код попадает в буфер обмена. Отправьте этот код партнёру любым удобным способом: мессенджер, SMS и т.д.</li>
@@ -135,9 +146,16 @@
     <p><b>Пример для графика 2/2 с чередованием:</b> слот 1 — День, слот 2 — Ночь, слот 3 — Выходной, слот 4 — Выходной. Каждая четвёртая смена ночная автоматически.</p>
   </div>
 
-  <div class="help-card">
+  <div class="help-card" id="complex-cycle">
     <h3>Сложный цикл: неравномерные смены</h3>
     <p>Если ваш цикл содержит и дневные, и ночные смены, а между ними — выходные дни внутри рабочего периода, используйте редактор слотов. Каждому слоту цикла можно задать тип: <b>День</b>, <b>Ночь</b> или <b>Выходной</b>. Пример: 5 дневных + 2 выходных + 4 ночных + 10 выходных = цикл из 21 слота.</p>
+    <div class="help-screens">
+      <a href="screenshots/complex_1_calendar.png" target="_blank" rel="noopener"><img src="screenshots/complex_1_calendar.png" alt="Календарь с разными типами смен"></a>
+      <a href="screenshots/complex_2_settings.png" target="_blank" rel="noopener"><img src="screenshots/complex_2_settings.png" alt="Настройки — График"></a>
+      <a href="screenshots/complex_3_type.png" target="_blank" rel="noopener"><img src="screenshots/complex_3_type.png" alt="Выбор типа смены"></a>
+      <a href="screenshots/complex_4_editor.png" target="_blank" rel="noopener"><img src="screenshots/complex_4_editor.png" alt="Редактор слотов"></a>
+      <a href="screenshots/complex_5_times.png" target="_blank" rel="noopener"><img src="screenshots/complex_5_times.png" alt="Настройка времени и Применить"></a>
+    </div>
     <ol>
       <li>Откройте <b>Настройки → График</b>.</li>
       <li>Нажмите <b>«Тип смены: День / Ночь»</b>.</li>
@@ -180,6 +198,10 @@
       <h3 style="margin-bottom:0;">Home Assistant</h3>
     </div>
     <p>Передавайте статус текущего дня в Home Assistant как сенсор. Используйте его в автоматизациях: включайте будильник в рабочие дни, меняйте освещение в выходные, отправляйте уведомления.</p>
+    <div class="help-screens">
+      <a href="screenshots/ha_dark.png" target="_blank" rel="noopener"><img src="screenshots/ha_dark.png" alt="Home Assistant — тёмная тема"></a>
+      <a href="screenshots/ha_light.png" target="_blank" rel="noopener"><img src="screenshots/ha_light.png" alt="Home Assistant — светлая тема"></a>
+    </div>
     <ol>
       <li>В Home Assistant откройте <b>Профиль → Долгосрочные токены доступа</b> и создайте новый токен. Скопируйте его — он отображается один раз.</li>
       <li>В приложении откройте <b>Настройки → Синхронизация → Home Assistant</b>.</li>

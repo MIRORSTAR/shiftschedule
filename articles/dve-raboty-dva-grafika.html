@@ -1,0 +1,351 @@
+<!DOCTYPE html><html lang="ru"><head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="yandex-verification" content="7abe6d0b3a4f8029">
+  <meta name="google-site-verification" content="zC341Z0k-D3wu8oVYMRgyzbLlpQUxbtYQMgWmEf64UY">
+  <title>Две работы и два сменных графика: как совмещать смены и подработки — ShiftSchedule</title>
+  <meta name="description" content="Как настроить два независимых сменных графика в одном приложении. Пошаговый гайд по совмещению смен на заводе, дежурств и подработок без накладок.">
+  <meta name="keywords" content="две работы график смен, совмещение графиков, подработка сменный график, как совмещать две работы смены, календарь смен второй профиль, сменный график 2 2 и сутки трое">
+  <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/articles/dve-raboty-dva-grafika.html">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="apple-touch-icon" href="../favicon.png">
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --accent: #4a8fe8;
+      --accent2: #66b8b2;
+      --text: #e8eaf0;
+      --text2: #8b90a0;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Montserrat', 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .breadcrumb {
+      max-width: 760px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .breadcrumb a { color: var(--text2); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+    .article-header { margin-bottom: 40px; }
+    .article-header h1 {
+      font-size: clamp(26px, 5vw, 38px);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .article-meta {
+      font-size: 13px;
+      color: var(--text2);
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .article-body h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 40px 0 16px;
+      color: var(--text);
+    }
+    .article-body h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin: 28px 0 10px;
+      color: var(--text);
+    }
+    .article-body p { margin-bottom: 16px; font-size: 16px; color: var(--text); }
+    .article-body ul, .article-body ol {
+      margin: 0 0 16px 24px;
+      font-size: 16px;
+    }
+    .article-body li { margin-bottom: 8px; }
+    .article-body strong { color: var(--text); }
+    .info-box {
+      background: var(--surface);
+      border: 1px solid rgba(74,143,232,0.25);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+    .info-box p { margin: 0; font-size: 15px; }
+    .steps-list { list-style: none; margin: 0 0 24px 0; padding: 0; }
+    .steps-list li {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .step-num {
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .step-text { padding-top: 4px; font-size: 16px; }
+    .cta-box {
+      background: linear-gradient(135deg, var(--surface), rgba(74,143,232,0.08));
+      border: 1px solid rgba(74,143,232,0.2);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 48px 0 32px;
+      text-align: center;
+    }
+    .cta-box h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .cta-box p { color: var(--text2); margin-bottom: 24px; font-size: 15px; }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+      margin: 4px;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+      margin: 4px;
+    }
+    .btn-secondary:hover { background: #2a2f45; }
+    .related {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .related h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .related-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s;
+    }
+    .related-card:hover { border-color: rgba(74,143,232,0.4); }
+    .related-card p { font-size: 14px; font-weight: 600; margin: 0; line-height: 1.4; }
+    .related-card span { font-size: 12px; color: var(--text2); }
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 32px 20px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px; }
+    .footer-links a { color: var(--text2); text-decoration: none; }
+    .footer-links a:hover { color: var(--accent); }
+    @media (max-width: 600px) {
+      .article-wrap { padding: 24px 16px 60px; }
+    }
+  </style>
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    ym(109065744,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/109065744" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
+  <script src="../theme.js"></script>
+  <link rel="stylesheet" href="../theme.css">
+
+  <link rel="alternate" hreflang="ru" href="https://mirorstar.github.io/shiftschedule/articles/dve-raboty-dva-grafika.html">
+  <link rel="alternate" hreflang="x-default" href="https://mirorstar.github.io/shiftschedule/articles/dve-raboty-dva-grafika.html">
+  </head>
+<body class="">
+<nav style="display: flex; justify-content: space-between; align-items: center; padding: 16px 6%; background: var(--bg-surface, #10111a); border-bottom: 1px solid var(--border, rgba(255,255,255,0.08)); position: sticky; top: 0; z-index: 100;">
+  <a href="../index.html" style="font-weight: 700; font-size: 1.1rem; text-decoration: none; color: var(--text); letter-spacing: 2px;">SHIFT<span style="color: #66b8b2;">SCHEDULE</span></a>
+  <div style="display: flex; align-items: center; gap: 16px;">
+    <a href="../articles.html" style="color: #66b8b2; text-decoration: none; font-size: 0.85rem; font-weight: 600;">← Все статьи</a>
+    <a href="../index.html" style="color: var(--text2); text-decoration: none; font-size: 0.85rem;">На главную</a>
+  </div>
+</nav>
+<div class="article-wrap">
+
+  <div class="breadcrumb">
+    <a href="../index.html">Главная</a>
+    <span> / Статья</span>
+  </div>
+
+  <article>
+    <div class="article-header">
+      <h1>Две работы и два сменных графика: как совмещать смены и подработки в одном календаре</h1>
+      <div class="article-meta">
+        <span>Обновлено: сентябрь 2026</span>
+        <span>ShiftSchedule 2.3.0</span>
+      </div>
+    </div>
+
+    <img src="img/dve-raboty-dva-grafika-hero.jpg" alt="Телефон с приложением ShiftSchedule на столе — планирование двух сменных графиков" style="width:100%; border-radius:16px; margin-bottom:32px; display:block; box-shadow:0 16px 48px rgba(0,0,0,0.5);">
+
+    <div class="article-body">
+
+      <p>Совмещение двух работ со сменным графиком — частая реальность в наше время. Операторы производств берут дежурства в охране, медсёстры совмещают больницу и частные клиники, а работники складов подрабатывают курьерами или в такси.</p>
+
+      <p>Главная сложность такого ритма — не физическая нагрузка, а постоянный хаос в расписании. Когда каждый график живёт по собственному скользящему циклу (например, 2/2 и сутки через трое), бумажные блокноты и стандартные календари быстро перестают справляться.</p>
+
+      <p>В этой статье разберём, как организовать учёт двух независимых графиков на одном смартфоне, избежать накладок смен и находить дни настоящего отдыха.</p>
+
+      <h2>Почему стандартные календари не подходят для двух сменных работ</h2>
+
+      <p>Обычные мобильные календари (Google Календарь, Яндекс Календарь) создавались для пятидневной рабочей недели. При попытке внести туда два скользящих графика возникают три проблемы:</p>
+
+      <ol>
+        <li><strong>Отсутствие циклического алгоритма:</strong> стандартный календарь умеет повторять события «каждую неделю» или «каждый месяц». Но если смена выпадает через 3 или 4 дня, её приходится высчитывать и вносить вручную.</li>
+        <li><strong>Накладки и визуальная перегрузка:</strong> если вбить 80–100 смен на два месяца вперёд, экран превращается в сплошное цветное полотно, где рабочие смены первой работы перемешаны со сменами второй и личными делами.</li>
+        <li><strong>Невозможность быстрого пересчёта:</strong> если на одной работе график сдвинулся из-за больничного или ремонта цеха, в обычном календаре приходится вручную переносить десятки будущих событий.</li>
+      </ol>
+
+      <h2>Решение: два независимых профиля в приложении ShiftSchedule</h2>
+
+      <p>В приложении <strong>ShiftSchedule (Календарь смен)</strong> для совмещения работ предусмотрена функция <strong>«Второй график» (Профиль 2, PRO)</strong>.</p>
+
+      <p>Она добавляет к основному расписанию отдельный цикл подработки, который отображается значком прямо на той же сетке — не нужно держать в голове два разных календаря:</p>
+
+      <img src="img/dve-raboty-dva-grafika-calendar.jpg" alt="Календарь ShiftSchedule с основным графиком 2/2 и значком подработки на дне" style="width:100%; border-radius:16px; margin:8px 0 32px; display:block; box-shadow:0 16px 48px rgba(0,0,0,0.5);">
+
+      <p>Базовый календарь, будильники и подмены — бесплатны. «Второй график» входит в PRO-функционал, но в приложении есть 14-дневный пробный период, чтобы спокойно всё настроить и проверить на своих сменах.</p>
+
+      <h3>Как настроить два графика</h3>
+
+      <ol class="steps-list">
+        <li>
+          <div class="step-num">1</div>
+          <div class="step-text"><strong>Основной профиль:</strong> настройте цикл первой работы (время начала и окончания смены, время на дорогу, цвет ячеек).</div>
+        </li>
+        <li>
+          <div class="step-num">2</div>
+          <div class="step-text"><strong>Второй график:</strong> в настройках перейдите в «Мои графики», добавьте второй профиль и задайте его цикл — сколько дней работаете, сколько отдыхаете, от какой даты отсчитывать. Отдельные дни можно точечно поправить вручную.</div>
+        </li>
+        <li>
+          <div class="step-num">3</div>
+          <div class="step-text"><strong>Значок на календаре:</strong> дни подработки отмечаются значком-портфелем прямо на сетке основного графика — включается опцией «Показывать в основном графике».</div>
+        </li>
+      </ol>
+
+      <h2>Как находить «настоящие» выходные дни</h2>
+
+      <p>При совмещении двух сменных графиков самая частая ошибка — считать «выходным» день между сменами, в который на самом деле стоит дежурство на второй работе.</p>
+
+      <p>Когда оба графика оцифрованы в приложении, значок подработки на календаре сразу подсказывает, где реально свободно:</p>
+
+      <ul>
+        <li>День без основной смены и без значка подработки — это и есть настоящий день тишины, который можно смело бронировать под сон и семью.</li>
+        <li>День с основной сменой и значком подработки рядом — сигнал заранее спланировать переезд между работами, а не полагаться на память после смены.</li>
+      </ul>
+
+      <h2>Облачный бэкап и надёжность данных</h2>
+
+      <p>Оба профиля автоматически синхронизируются с облачным аккаунтом. Если телефон разрядится, потеряется или вы смените устройство, все графики, заметки и настройки будильников мгновенно восстанавливаются в первоначальном виде.</p>
+
+      <h2>FAQ: Часто задаваемые вопросы</h2>
+
+      <h3>Можно ли настроить будильник под смену на подработке?</h3>
+      <p>Умный будильник в приложении привязан к основному графику. Для второго графика отдельного будильника нет — но благодаря значку-портфелю на календаре вы заранее видите день подработки и можете сами поставить будильник на нужное время.</p>
+
+      <h3>Что делать, если на одной работе график сдвинулся?</h3>
+      <p>Достаточно воспользоваться функцией точечной замены: переопределите один конкретный день или сдвиньте якорную дату цикла — расписание автоматически пересчитается вперёд на весь год.</p>
+
+      <h3>Работает ли приложение без интернета?</h3>
+      <p>Да, ShiftSchedule полностью автономен и хранит все графики локально на устройстве. Интернет требуется только для облачной синхронизации.</p>
+
+      <h2>Учёт смен бригады и отчёты для руководства</h2>
+
+      <p>Если помимо личного календаря смен вам требуется вести табель отработанного времени, фиксировать часы и выработку сотрудников или отправлять сменные отчёты руководству — используйте наше специализированное приложение <strong><a href="https://mirorstar.github.io/tabel/" style="color: var(--accent);">Табель: Учёт смен и бригад</a></strong>.</p>
+
+      <div class="cta-box">
+        <h3>ShiftSchedule — бесплатно для Android</h3>
+        <p>Настройте два независимых сменных графика за пару минут. Синхронизация с облаком, будильники под смены, значок подработки прямо в календаре.</p>
+        <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule" class="btn-primary" target="_blank" rel="noopener" onclick="ym(109065744,'reachGoal','download_rustore')">
+          <span>Скачать в RuStore</span>
+        </a>
+        <a href="https://github.com/MIRORSTAR/shiftschedule/releases/latest" class="btn-secondary" target="_blank" rel="noopener" onclick="ym(109065744,'reachGoal','download_apk')">
+          <span>Скачать на GitHub</span>
+        </a>
+      </div>
+
+      <div class="related">
+        <h3>Читайте также</h3>
+        <div class="related-grid">
+          <a href="grafik-2-2.html" class="related-card">
+            <p>График 2/2: как рассчитать смены и не сбиться</p>
+            <span>Графики 2/2</span>
+          </a>
+          <a href="sutki-cherez-troe.html" class="related-card">
+            <p>График «Сутки через трое»: как не сломать здоровье и личную жизнь</p>
+            <span>Графики</span>
+          </a>
+          <a href="kak-ne-poteryat-smennyj-grafik.html" class="related-card">
+            <p>Как не потерять сменный график при смене телефона</p>
+            <span>Синхронизация</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </article>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="../index.html">Главная</a>
+    <a href="../privacy.html">Политика конфиденциальности</a>
+    <a href="../guide.html">Руководство</a>
+    <a href="../help.html">Help</a>
+    <a href="../faq.html">FAQ</a>
+    <a href="mailto:mirorstar.reports@yandex.ru">mirorstar.reports@yandex.ru</a>
+  </div>
+  <div>© 2026 ShiftSchedule · <span>Все права защищены</span></div>
+</footer>
+
+<div class="floating-cta" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,0.3); border-radius: 20px;">
+  <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule?utm_source=website&amp;utm_medium=button&amp;utm_campaign=main" class="btn-primary" target="_blank" onclick="if(window.ym) ym(109065744,'reachGoal','download_rustore')" style="margin: 0;">Скачать приложение</a>
+</div>
+</body></html>

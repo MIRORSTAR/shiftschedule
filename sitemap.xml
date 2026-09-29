@@ -11,18 +11,8 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://mirorstar.github.io/shiftschedule/faq.html</loc>
-    <priority>0.8</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://mirorstar.github.io/shiftschedule/guide.html</loc>
-    <priority>0.8</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://mirorstar.github.io/shiftschedule/help.html</loc>
-    <priority>0.7</priority>
+    <loc>https://mirorstar.github.io/shiftschedule/instructions.html</loc>
+    <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
@@ -88,6 +78,11 @@
   <url>
     <loc>https://mirorstar.github.io/shiftschedule/articles/kak-sovmestit-smennyy-grafik-s-google-kalendarem-smeny-lichnye-dela-i-plany-v-odnom-meste.html</loc>
     <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://mirorstar.github.io/shiftschedule/articles/dve-raboty-dva-grafika.html</loc>
+    <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
 </urlset>

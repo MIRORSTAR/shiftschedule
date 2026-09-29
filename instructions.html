@@ -1,0 +1,1093 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<title>Инструкция — ShiftSchedule: календарь смен</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Полная инструкция по ShiftSchedule: настройка графика, конструктор День/Ночь, вкладка «Вместе», будильники, расчёт зарплаты, синхронизация, Home Assistant, PRO.">
+<link rel="canonical" href="https://mirorstar.github.io/shiftschedule/instructions.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mirorstar.github.io/shiftschedule/instructions.html">
+<meta property="og:title" content="Инструкция ShiftSchedule — график, «Вместе», будильники, зарплата">
+<meta property="og:description" content="Полная инструкция по приложению ShiftSchedule: настройка графика, конструктор День/Ночь, синхронизация с партнёром, будильники, расчёт зарплаты, Алиса и Home Assistant.">
+<meta property="og:image" content="https://mirorstar.github.io/shiftschedule/screenshots/screen-calendar.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:opsz,wght@10..72,600;10..72,700;10..72,800&family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #15161b; --bg-surface: #1d1f26; --bg-card: #23252d; --bg-card-hover: #2b2d37;
+    --border: rgba(255, 255, 255, 0.09); --border-hover: rgba(102, 184, 178, 0.5);
+    --accent: #4a8fe8; --accent-teal: #66b8b2; --accent-purple: #9b74e0;
+    --text-main: #f0f0f3; --text-muted: #a3a4b0; --text-dim: #75767f;
+    --num-ghost: rgba(240,240,243,0.10);
+    --gold: #e0a94a; --good: #5fbf8a;
+    --radius: 14px;
+  }
+  [data-theme="light"] {
+    --bg: #f8fafc; --bg-surface: #ffffff; --bg-card: #ffffff; --bg-card-hover: #f1f5f9;
+    --border: rgba(0, 0, 0, 0.08); --border-hover: rgba(37, 99, 235, 0.5);
+    --accent: #2563eb; --accent-teal: #0d9488; --accent-purple: #7c3aed;
+    --text-main: #0f172a; --text-muted: #475569; --text-dim: #94a3b8;
+    --num-ghost: rgba(15,23,42,0.06);
+    --gold: #b5790f; --good: #1f7a4d;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Inter', 'Montserrat', -apple-system, sans-serif;
+    background: var(--bg); color: var(--text-main);
+    line-height: 1.65; -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  a { color: var(--accent-teal); }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px 100px; }
+
+  /* ---------- Header ---------- */
+  header.hero {
+    padding: 40px 28px 44px;
+    border-bottom: 1px solid var(--border);
+    background: radial-gradient(1000px 240px at 12% -25%, rgba(74,143,232,0.12), transparent 60%);
+  }
+  .hero-inner { max-width: 1180px; margin: 0 auto; }
+  .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; }
+  .home-logo { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text-main); font-weight: 700; font-size: 1rem; letter-spacing: 1px; }
+  .home-logo img { width: 26px; height: 26px; border-radius: 7px; display: block; }
+  .home-logo span { color: var(--accent-teal); }
+  .top-right { display: flex; align-items: center; gap: 14px; }
+  .home-link { text-decoration: none; color: var(--accent-teal); font-weight: 600; font-size: 0.85rem; }
+  .theme-toggle {
+    background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main);
+    width: 34px; height: 34px; border-radius: 8px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0;
+  }
+  .kicker {
+    font-size: 0.78rem; letter-spacing: .16em; text-transform: uppercase; font-weight: 700;
+    color: var(--accent-teal); display: flex; align-items: center; gap: 10px; margin: 0 0 16px;
+  }
+  .kicker::before { content: ""; width: 20px; height: 2px; background: var(--gold); display: inline-block; }
+  h1.title {
+    font-family: 'Big Shoulders', 'Montserrat', sans-serif; font-weight: 800; text-transform: uppercase;
+    font-size: clamp(36px, 6vw, 62px); line-height: .92; letter-spacing: .002em; margin: 0 0 16px;
+  }
+  .hero p.lede { max-width: 640px; font-size: 17px; color: var(--text-muted); margin: 0 0 24px; font-weight: 300; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 12.5px; color: var(--text-dim); }
+  .hero-meta b { color: var(--text-muted); font-weight: 600; }
+
+  /* ---------- TOC ---------- */
+  nav.toc { max-width: 1180px; margin: 34px auto 0; padding: 0 28px; }
+  nav.toc ol {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border); border-radius: var(--radius);
+    overflow: hidden;
+  }
+  nav.toc li a {
+    display: flex; align-items: baseline; gap: 12px; background: var(--bg-surface);
+    padding: 13px 18px; text-decoration: none; color: var(--text-main); font-size: 14px;
+  }
+  nav.toc li a:hover { background: var(--bg-card-hover); }
+  nav.toc li.filler { background: var(--bg-surface); }
+  nav.toc .num { font-family: 'Big Shoulders', sans-serif; color: var(--text-dim); font-size: 13px; font-weight: 600; min-width: 20px; font-variant-numeric: tabular-nums; }
+
+  /* ---------- Sections ---------- */
+  main { max-width: 1180px; margin: 0 auto; padding-top: 6px; }
+  section.sec {
+    display: grid; grid-template-columns: 84px minmax(0,1fr); gap: 6px 36px;
+    padding: 52px 28px; border-bottom: 1px solid var(--border); scroll-margin-top: 20px;
+  }
+  section.sec .num {
+    font-family: 'Big Shoulders', sans-serif; font-weight: 700; font-size: 64px; line-height: .8;
+    color: var(--num-ghost); font-variant-numeric: tabular-nums;
+  }
+  section.sec .body-col { min-width: 0; }
+  h2.h {
+    font-family: 'Big Shoulders', 'Montserrat', sans-serif; font-weight: 800; text-transform: uppercase;
+    font-size: clamp(24px, 3vw, 32px); letter-spacing: .005em; margin: 0 0 16px;
+  }
+  h2.h .pro-tag {
+    font-size: 11px; font-weight: 700; letter-spacing: .06em; color: var(--accent-purple);
+    border: 1px solid var(--accent-purple); border-radius: 20px; padding: 2px 9px; margin-left: 10px;
+    vertical-align: middle; text-transform: uppercase;
+  }
+  h3.h3 { font-family: 'Big Shoulders', 'Montserrat', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: .01em; font-size: 21px; margin: 30px 0 12px; color: var(--text-main); }
+  .prose { max-width: 68ch; color: var(--text-muted); font-weight: 300; }
+  .prose p { margin: 0 0 15px; }
+  .prose strong, .prose b { color: var(--text-main); font-weight: 600; }
+  .prose ul, .prose ol { margin: 0 0 15px; padding-left: 1.2em; }
+  .prose li { margin-bottom: 7px; }
+  .prose ol { list-style: none; padding-left: 0; counter-reset: steps; }
+  .prose ol > li { counter-increment: steps; position: relative; padding-left: 38px; margin-bottom: 12px; }
+  .prose ol > li::before {
+    content: counter(steps); position: absolute; left: 0; top: 0;
+    font-weight: 700; font-size: 12.5px; color: #04222b; background: var(--accent-teal);
+    width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  }
+  .dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; }
+  .dot.gold { background: var(--gold); }
+  .dot.good { background: var(--good); }
+
+  /* ---------- Screenshots: shrunk to a fixed width, never cropped, up to ~3 per row ---------- */
+  .shots { display: flex; flex-wrap: wrap; gap: 20px; margin: 22px 0 6px; }
+  figure.shot { margin: 0; width: 190px; flex: 0 0 auto; }
+  figure.shot a { display: block; }
+  figure.shot img {
+    width: 100%; display: block; border-radius: 16px;
+    border: 1px solid var(--border-hover); box-shadow: 0 10px 26px -10px rgba(0,0,0,0.5);
+  }
+  figure.shot figcaption { margin-top: 9px; font-size: 11.5px; color: var(--text-dim); text-align: center; }
+
+  /* ---------- Callout ---------- */
+  .callout {
+    background: var(--bg-surface); border: 1px solid var(--border); border-left: 3px solid var(--accent);
+    border-radius: 10px; padding: 18px 20px; margin: 22px 0; max-width: 68ch;
+  }
+  .callout.gold { border-left-color: var(--gold); }
+  .callout p { margin: 0; }
+  .callout .label {
+    font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 7px; display: block; font-weight: 700;
+  }
+  .callout.gold .label { color: var(--gold); }
+
+  /* ---------- Table ---------- */
+  .tablewrap { overflow-x: auto; margin: 22px 0; max-width: 68ch; }
+  table.tariffs { border-collapse: collapse; width: 100%; font-size: 14.5px; background: var(--bg-surface); border-radius: 10px; overflow: hidden; }
+  table.tariffs th, table.tariffs td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+  table.tariffs th:not(:first-child), table.tariffs td:not(:first-child) { text-align: center; width: 110px; }
+  table.tariffs thead th { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-dim); font-weight: 600; background: var(--bg-card); }
+  table.tariffs td.yes { color: var(--good); font-weight: 700; }
+  table.tariffs td.pro { color: var(--accent-purple); font-weight: 700; }
+  table.tariffs td.no { color: var(--text-dim); }
+  table.tariffs tr:last-child td, table.tariffs tr:last-child th { border-bottom: none; }
+
+  /* ---------- Code blocks (Home Assistant) ---------- */
+  .code-wrap { position: relative; margin: 16px 0; max-width: 68ch; }
+  .code-wrap pre { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 18px; overflow-x: auto; font-size: 12px; line-height: 1.6; color: var(--text-main); font-family: 'Consolas', 'Fira Code', monospace; margin: 0; }
+  .copy-btn { position: absolute; top: 10px; right: 10px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); font-size: 11px; padding: 5px 10px; border-radius: 6px; cursor: pointer; }
+  .copy-btn:hover { color: var(--text-main); border-color: var(--border-hover); }
+  code { background: var(--bg-card); border-radius: 5px; padding: 1px 6px; font-size: 0.85em; color: var(--accent-teal); font-family: monospace; }
+  :not(pre) > code { overflow-wrap: anywhere; }
+  .cm { color: var(--text-dim); }
+
+  /* ---------- Collapsible package (Home Assistant) ---------- */
+  details.pkg {
+    background: var(--bg-surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 4px 20px; margin: 22px 0; max-width: 68ch;
+  }
+  details.pkg summary {
+    padding: 14px 0; cursor: pointer; font-weight: 600; color: var(--text-main);
+    list-style: none; display: flex; align-items: center; justify-content: space-between;
+  }
+  details.pkg summary::-webkit-details-marker { display: none; }
+  details.pkg summary::after { content: "+"; color: var(--accent-teal); font-size: 20px; font-weight: 400; }
+  details.pkg[open] summary::after { content: "–"; }
+  details.pkg summary .sub { display: block; font-size: 12.5px; color: var(--text-dim); font-weight: 400; margin-top: 3px; }
+  details.pkg .pkg-body { padding-bottom: 18px; }
+
+  /* ---------- FAQ (static, not accordion) ---------- */
+  .faq { max-width: 68ch; display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+  .faq-item { background: var(--bg-surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+  .faq-item .q { font-weight: 600; color: var(--text-main); margin: 0 0 7px; display: flex; gap: 9px; }
+  .faq-item .q::before { content: "?"; color: var(--gold); font-weight: 800; }
+  .faq-item .a { margin: 0; color: var(--text-muted); padding-left: 20px; font-weight: 300; }
+
+  footer { max-width: 1180px; margin: 0 auto; padding: 44px 28px 70px; font-size: 12px; color: var(--text-dim); text-align: center; }
+  footer a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
+  footer a:hover { color: var(--accent-teal); }
+
+  @media (max-width: 720px) {
+    section.sec { grid-template-columns: 1fr; }
+    section.sec .num { font-size: 36px; }
+    nav.toc ol { grid-template-columns: 1fr; }
+    figure.shot { width: 42vw; max-width: 190px; }
+  }
+</style>
+
+<!-- Yandex.Metrika -->
+<script type="text/javascript">
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();
+  for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+  k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+  (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+  ym(109065744,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/109065744" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
+<!-- /Yandex.Metrika -->
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="top-bar">
+      <a href="index.html" class="home-logo"><img src="favicon.png" alt="">SHIFT<span>SCHEDULE</span></a>
+      <div class="top-right">
+        <button class="theme-toggle" id="themeToggle" title="Переключить тему">☀️</button>
+        <a href="index.html" class="home-link">← На главную</a>
+      </div>
+    </div>
+    <p class="kicker">ShiftSchedule · руководство пользователя</p>
+    <h1 class="title">Инструкция</h1>
+    <p class="lede">Как настроить график смен, конструктор День/Ночь, синхронизацию с партнёром,
+      будильники и расчёт зарплаты — от первого запуска до тонких настроек.</p>
+    <div class="hero-meta">
+      <span><b>14</b> разделов</span>
+      <span><b>Android</b> · RuStore</span>
+      <span>Обновлено <b>29.09.2026</b></span>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Содержание">
+  <ol>
+    <li><a href="#s1"><span class="num">01</span> Первый запуск и график</a></li>
+    <li><a href="#s2"><span class="num">02</span> Конструктор графиков (День/Ночь)</a></li>
+    <li><a href="#s3"><span class="num">03</span> «Вместе» — график с партнёром</a></li>
+    <li><a href="#s4"><span class="num">04</span> Календарь и ручные правки</a></li>
+    <li><a href="#s5"><span class="num">05</span> Второй график</a></li>
+    <li><a href="#s6"><span class="num">06</span> Будильники</a></li>
+    <li><a href="#s7"><span class="num">07</span> Доход и расчёт зарплаты</a></li>
+    <li><a href="#s8"><span class="num">08</span> Синхронизация и резервная копия</a></li>
+    <li><a href="#s9"><span class="num">09</span> Темы, стили и погода</a></li>
+    <li><a href="#s10"><span class="num">10</span> Экспорт в системный календарь</a></li>
+    <li><a href="#s11"><span class="num">11</span> Навык Алисы — график голосом</a></li>
+    <li><a href="#s12"><span class="num">12</span> Home Assistant</a></li>
+    <li><a href="#s13"><span class="num">13</span> PRO и тарифы</a></li>
+    <li><a href="#s14"><span class="num">14</span> Частые вопросы</a></li>
+  </ol>
+</nav>
+
+<main>
+
+  <section class="sec" id="s1">
+    <div class="num">01</div>
+    <div class="body-col">
+      <h2 class="h">Первый запуск и график</h2>
+      <div class="prose">
+        <p>При первом запуске приложение предлагает выбрать график: один из готовых шаблонов
+          (2/2, 5/2, сутки/трое и другие) — это быстрее всего, но шаблон жёстко задан как есть;
+          либо свой собственный цикл через конструктор (раздел 2) — настраивается дольше, зато
+          подходит для рваных, вахтовых и любых нестандартных графиков.</p>
+        <p><strong>Якорная дата</strong> — это первый рабочий день вашего цикла. От неё приложение
+          считает расписание на все месяцы и годы вперёд.</p>
+        <ol>
+          <li>Откройте <b>Настройки → График</b>.</li>
+          <li>Выберите готовый шаблон или соберите свой цикл в конструкторе.</li>
+          <li>Нажмите на нужный день в календаре и выберите <b>«1-й рабочий день»</b> — это и есть
+            якорная дата.</li>
+        </ol>
+      </div>
+      <div class="callout">
+        <span class="label">Правило якоря</span>
+        <p>Ставьте якорь строго на первый рабочий день цикла. Если сегодня, например, второй
+          рабочий день графика 2/2 — найдите в календаре начало этого цикла и укажите именно его,
+          иначе расчёт разойдётся с реальным графиком.</p>
+      </div>
+      <div class="shots">
+        <figure class="shot">
+          <a href="screenshots/schedule_setup.jpg" target="_blank" rel="noopener"><img src="screenshots/schedule_setup.jpg" alt="Настройка графика"></a>
+          <figcaption>Настройка графика</figcaption>
+        </figure>
+        <figure class="shot">
+          <a href="screenshots/s1_ready_presets_list.jpg" target="_blank" rel="noopener"><img src="screenshots/s1_ready_presets_list.jpg" alt="Список готовых пресетов графика"></a>
+          <figcaption>Готовые пресеты</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="s2">
+    <div class="num">02</div>
+    <div class="body-col">
+      <h2 class="h">Конструктор графиков (День/Ночь)</h2>
+      <div class="prose">
+        <p>Если ваш график не укладывается в простые пресеты — рваный, вахтовый, с чередованием
+          дневных и ночных смен — используйте конструктор: <b>Настройки → График → «Тип смены:
+          День/Ночь»</b>. Это не узкая функция «для тех, кто работает и днём и ночью», а полноценный
+          конструктор любого повторяющегося цикла.</p>
+        <p>Каждому слоту цикла назначается тип: <b>День</b>, <b>Ночь</b> или <b>Выходной</b> —
+          слотов можно добавить сколько угодно. Внизу экрана задаётся время начала и конца дневной
+          и ночной смены — в том числе через полночь, вплоть до полных 24 часов.</p>
+      </div>
+      <div class="shots">
+        <figure class="shot">
+          <a href="screenshots/complex_2_settings.png" target="_blank" rel="noopener"><img src="screenshots/complex_2_settings.png" alt="Настройки — График"></a>
+          <figcaption>Настройки → График</figcaption>
+        </figure>
+        <figure class="shot">
+          <a href="screenshots/complex_3_type.png" target="_blank" rel="noopener"><img src="screenshots/complex_3_type.png" alt="Выбор типа смены"></a>
+          <figcaption>Тип смены: День/Ночь</figcaption>
+        </figure>
+        <figure class="shot">
+          <a href="screenshots/complex_4_editor.png" target="_blank" rel="noopener"><img src="screenshots/complex_4_editor.png" alt="Редактор слотов цикла"></a>
+          <figcaption>Редактор слотов</figcaption>
+        </figure>
+      </div>
+      <h3 class="h3">Пример 1 — обычный «сутки/трое» через конструктор</h3>
+      <div class="prose">
+        <p>Тот же результат, что даёт готовый пресет «1/3», можно собрать и вручную: один слот
+          «День», три слота «Выходной», а в поле времени дневной смены указать одинаковые часы
+          начала и конца (например 08:00 и 08:00) — тогда слот станет полными сутками, а не
+          12-часовой сменой.</p>
+      </div>
+      <h3 class="h3">Пример 2 — сложный цикл с разными сменами</h3>
+      <div class="prose">
+        <p>Реальный пример: 5 дневных смен + 2 выходных + 4 ночных смены + 10 выходных — цикл из
+          21 слота, где рабочий период неоднородный (сначала день, потом ночь) и выходные есть не
+          только между циклами, но и внутри рабочего периода.</p>
+      </div>
+      <div class="shots">
+        <figure class="shot">
+          <a href="screenshots/complex_1_calendar.png" target="_blank" rel="noopener"><img src="screenshots/complex_1_calendar.png" alt="Календарь со сложным циклом"></a>
+          <figcaption>Результат в календаре</figcaption>
+        </figure>
+        <figure class="shot">
+          <a href="screenshots/complex_5_times.png" target="_blank" rel="noopener"><img src="screenshots/complex_5_times.png" alt="Настройка времени и кнопка «Применить»"></a>
+          <figcaption>Время смен и «Применить»</figcaption>
+        </figure>
+      </div>
+      <div class="prose">
+        <p>После сборки цикла вернитесь в календарь, нажмите на первый рабочий день и выберите
+          <b>«1-й рабочий день»</b> — это якорная дата, от которой считается весь цикл.</p>
+      </div>
+      <div class="callout gold">
+        <span class="label">Разовые корректировки</span>
+        <p>Если в конкретный день цикл нарушается — вышли на внеплановую смену или, наоборот,
+          отменили рабочий день — нажмите на этот день в календаре и выберите статус вручную.
+          Ручные правки имеют приоритет над циклом и не сбивают расчёт для остальных дней
+          (подробнее — раздел 4).</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="s3">
+    <div class="num">03</div>
+    <div class="body-col">
+      <h2 class="h">«Вместе» — график с партнёром<span class="pro-tag">PRO</span></h2>
+      <div class="prose">
+        <p>Добавьте супруга, партнёра или коллегу — и видите его выходные прямо на своём
+          календаре. Дни, когда вы оба отдыхаете, подсвечиваются цветным маркером — причём не
+          только на вкладке «Вместе», но и прямо на главном экране календаря.</p>
+      </div>
+      <div class="shots">
+        <figure class="shot">
+          <a href="screenshots/s3_partner_connect.jpg" target="_blank" rel="noopener"><img src="screenshots/s3_partner_connect.jpg" alt="Подключение партнёра по коду"></a>
+          <figcaption>Подключение по коду</figcaption>
+        </figure>
+        <figure class="shot">
+          <a href="screenshots/screen-together.jpg" target="_blank" rel="noopener"><img src="screenshots/screen-together.jpg" alt="Общие выходные на календаре"></a>
+          <figcaption>Общие выходные в календаре</figcaption>
+        </figure>
+        <figure class="shot">
+          <a href="screenshots/s3_main_screen_underline.jpg" target="_blank" rel="noopener"><img src="screenshots/s3_main_screen_underline.jpg" alt="Общий выходной на главном экране"></a>
+          <figcaption>Тот же маркер на главном экране</figcaption>
+        </figure>
+      </div>
+      <div class="prose">
+        <p>Цвет маркера общих выходных настраивается — на скриншотах он показан по-разному
+          (бирюзовый на вкладке «Вместе», красный на главном экране): это два разных
+          пользовательских выбора цвета, а не расхождение в поведении.</p>
+        <ol>
+          <li>Подтвердите e-mail в <b>Настройки → Синхронизация → Аккаунт</b> — без подтверждения
+            код партнёра не активируется.</li>
+          <li>Откройте вкладку <b>«Вместе»</b> (потяните нижнюю панель вкладок вверх свайпом),
+            скопируйте свой 6-значный код и отправьте партнёру любым способом.</li>
+          <li>Партнёр вводит код в поле <b>«Код партнёра»</b>, при желании указывает никнейм и
+            нажимает <b>«Добавить»</b>.</li>
+        </ol>
+      </div>
+      <div class="callout">
+        <span class="label">Один партнёр одновременно</span>
+        <p>Активен только один партнёр — при подключении нового предыдущий отключается
+          автоматически, чтобы цвета на календаре не смешивались. Добавить можно нескольких и
+          переключаться между ними. Расписание партнёра обновляется само раз в 30 секунд — тот
+          же цикл сразу присылает push-уведомление, если у партнёра изменился график (появился
+          новый общий выходной или расписание просто изменилось). Либо нажмите
+          <b>«Синхронизировать сейчас»</b> для мгновенного обновления вручную.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="s4">
+    <div class="num">04</div>
+    <div class="body-col">
+      <h2 class="h">Календарь и ручные правки</h2>
+      <div class="prose">
+        <p>Любой день можно скорректировать вручную — это не сбрасывает основной цикл, а только
+          переопределяет конкретный день.</p>
+        <ol>
+          <li>Нажмите на день в календаре — откроется карточка дня.</li>
+          <li>Выберите статус: <b>Работа, Подработка, Выходной, Отпуск</b> или <b>Больничный</b>
+            (для Работы и Подработки — ещё и День или Ночь).</li>
+          <li>Нажмите <b>«Заметка»</b>, чтобы добавить текст к этому дню — он будет виден в списке
+            смен. Заметке можно задать время оповещения — в указанный момент придёт
+            push-уведомление с её текстом (например, напоминание «через 2 часа стрижка»).</li>
+          <li>Чтобы применить статус сразу к нескольким дням — нажмите и удерживайте день (~0.5
+            сек), затем отметьте второй день границей диапазона.</li>
+        </ol>
+        <p>Под календарём всегда видна статистика за текущий месяц: количество рабочих дней и дней
+          отдыха.</p>
+      </div>
+      <div class="shots">
+        <figure class="shot">
+          <a href="screenshots/day_menu.jpg" target="_blank" rel="noopener"><img src="screenshots/day_menu.jpg" alt="Меню дня по тапу на день"></a>
+          <figcaption>Карточка дня</figcaption>
+        </figure>
+        <figure class="shot">
+          <a href="screenshots/extra_shift_add.jpg" target="_blank" rel="noopener"><img src="screenshots/extra_shift_add.jpg" alt="Отметка дня статусом Подработка"></a>
+          <figcaption>Статус «Подработка»</figcaption>
+        </figure>
+        <figure class="shot">
+          <a href="screenshots/s4_note_notification.jpg" target="_blank" rel="noopener"><img src="screenshots/s4_note_notification.jpg" alt="Заметка с оповещением"></a>
+          <figcaption>Заметка с оповещением</figcaption>
+        </figure>
+      </div>
+      <div class="callout gold">
+        <span class="label">Длительность подработки</span>
+        <p>Статус «Подработка» считается в зарплате по той же длительности, что и обычная
+          «Работа» для того же День/Ночь — отдельного поля часов у подработки пока нет. Если у вас,
+          например, суточный график, а подработка была короче суток — как временный обходной путь
+          можно отметить эту смену «Ночью» вместо «Дня», если ночная длительность в ваших
+          настройках ближе к фактически отработанным часам (раздел 7 — про сам расчёт).</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="s5">
+    <div class="num">05</div>
+    <div class="body-col">
+      <h2 class="h">Второй график<span class="pro-tag">PRO</span></h2>
+      <div class="prose">
+        <p>Если вы иногда работаете на второй работе по собственному регулярному циклу — добавьте
+          его отдельным графиком. Приложение учитывает оба расписания одновременно.</p>
+        <ol>
+          <li>Откройте <b>Меню (☰) → Параметры → График → Мои графики</b>.</li>
+          <li>Добавьте новый график: задайте <b>Название</b> (например «Доставка»), дату начала
+            цикла и количество рабочих/выходных дней.</li>
+          <li>Переключателем <b>«Показывать в основном графике»</b> можно выводить дни второго
+            графика прямо на главный календарь, а не только в его собственной вкладке.</li>
+          <li><b>«Произвольный выбор дней»</b> — вместо регулярного цикла рабочие дни второго
+            графика можно отметить вручную.</li>
+          <li>Сохраните — в дни, когда активен второй график, в ячейке появится значок
+            портфеля.</li>
+        </ol>
+        <p>Это отдельный регулярный цикл, а не разовая «Подработка» из раздела 4. Если по основному
+          графику день выходной, но активен второй — партнёр видит, что вы работаете, и общий
+          выходной в этот день не засчитывается.</p>
+      </div>
+      <div class="shots">
+        <figure class="shot">
+          <a href="screenshots/second_schedule_setup.jpg" target="_blank" rel="noopener"><img src="screenshots/second_schedule_setup.jpg" alt="Настройка второго графика"></a>
+          <figcaption>Настройка второго графика</figcaption>
+        </figure>
+        <figure class="shot">
+          <a href="screenshots/s5_second_schedule_calendar.jpg" target="_blank" rel="noopener"><img src="screenshots/s5_second_schedule_calendar.jpg" alt="Значки второго графика на календаре"></a>
+          <figcaption>На календаре — значком портфеля</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="s6">
+    <div class="num">06</div>
+    <div class="body-col">
+      <h2 class="h">Будильники</h2>
+      <div class="prose">
+        <p>Приложение расставляет системные будильники на ближайшие рабочие дни автоматически —
+          время подстраивается под День/Ночь. Будильники «умные» и следят за статусом дня в обе
+          стороны: если день отмечен как «Отпуск» или «Больничный» — будильник на это утро
+          снимается сам; а если, наоборот, на выходной день поставить статус «Подработка» —
+          будильник на это утро появится сам, вручную ничего переставлять не нужно.</p>
+        <ol>
+          <li>Откройте <b>Настройки → График → Будильники</b> и включите переключатель.</li>
+          <li>Настройте время упреждения (5–240 минут) — за сколько до начала смены сработает
+            будильник.</li>
+          <li>Выберите горизонт — на 7, 14 или 30 дней вперёд — и нажмите <b>«Установить
+            будильники»</b>. Рядом со сменой в списке появится значок колокольчика.</li>
+        </ol>
+      </div>
+      <div class="shots">
+        <figure class="shot">
+          <a href="screenshots/screen-alarms.jpg" target="_blank" rel="noopener"><img src="screenshots/screen-alarms.jpg" alt="Настройка будильников"></a>
+          <figcaption>Настройка будильников</figcaption>
+        </figure>
+      </div>
+      <div class="callout gold">
+        <span class="label">Будильник не срабатывает — Xiaomi/Samsung/Huawei</span>
+        <p>Чаще всего дело в настройках батареи. Три шага: (1) <b>Автозапуск</b> — Настройки →
+          Приложения → ShiftSchedule → Автозапуск → включить (без этого будильник не проснётся,
+          если приложение закрыто); (2) <b>Батарея</b> — Настройки → Батарея → Приложения →
+          ShiftSchedule → «Без ограничений»; (3) на <b>Android 12+</b> система может отдельно
+          запросить разрешение «Будильники и напоминания» — разрешите его.</p>
+      </div>
+      <div class="prose">
+        <p><b>Будильники не продлеваются сами</b> — на выбранный горизонт (7/14/30 дней) сразу
+          ставится вся пачка будильников целиком; когда до конца этой пачки остаётся один день,
+          придёт push-уведомление «Будильники заканчиваются завтра» — это сигнал зайти в
+          приложение и нажать «Установить будильники» ещё раз.</p>
+        <p><b>После перезагрузки телефона</b> Android по умолчанию удаляет все запланированные
+          будильники — но приложение автоматически пытается незаметно перезапустить само себя
+          сразу при включении телефона, без вашего участия. На устройствах, где разрешён
+          автозапуск в фоне (например Xiaomi/MIUI), это срабатывает, и будильники пересчитываются
+          сами. Если автозапуск для приложения запрещён (так по умолчанию на Android 10+) — вместо
+          этого придёт уведомление «Телефон перезагружен — откройте приложение», и будильники
+          пересчитаются при следующем открытии.</p>
+        <p><b>Своя мелодия будильника</b> — настраивается не в приложении, а в системных
+          настройках телефона: Настройки телефона → Приложения → ShiftSchedule → Уведомления —
+          там задаются звук и вибрация для уведомлений приложения.</p>
+        <p><b>Не появился значок колокольчика</b> — он показывается только рядом с рабочими
+          сменами, не с выходными. Проверьте якорную дату и статус ближайших дней; если всё верно —
+          нажмите «Установить будильники» ещё раз.</p>
+      </div>
+      <h3 class="h3">Уведомление о предстоящей смене</h3>
+      <div class="prose">
+        <p>Отдельная от будильника функция — тихое уведомление о приближающейся смене, без звука
+          будильника. Включается в <b>Настройки → Уведомления</b>: нажмите «Включить уведомления»
+          и выберите время упреждения — 6, 12 или 24 часа.</p>
+        <p>Отсчёт идёт от <b>полуночи дня смены</b>, а не от времени её начала: например, при
+          упреждении в 12 часов уведомление придёт в полдень накануне смены, независимо от того,
+          на какое время она сама поставлена.</p>
+      </div>
+      <div class="shots">
+        <figure class="shot">
+          <a href="screenshots/s6_upcoming_shift_notification.jpg" target="_blank" rel="noopener"><img src="screenshots/s6_upcoming_shift_notification.jpg" alt="Уведомление о предстоящей смене"></a>
+          <figcaption>Уведомление о смене</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="s7">
+    <div class="num">07</div>
+    <div class="body-col">
+      <h2 class="h">Доход и расчёт зарплаты<span class="pro-tag">PRO</span></h2>
+      <div class="prose">
+        <p>Автоматический расчёт заработка по типу смены, с надбавками и вычетами. Откройте вкладку
+          свайпом вверх по нижней панели, затем <b>«Настроить расчёт»</b>.</p>
+      </div>
+      <div class="shots">
+        <figure class="shot">
+          <a href="screenshots/screen-income-settings.jpg" target="_blank" rel="noopener"><img src="screenshots/screen-income-settings.jpg" alt="Настройка расчёта зарплаты"></a>
+          <figcaption>Настройка расчёта</figcaption>
+        </figure>
+        <figure class="shot">
+          <a href="screenshots/screen-income.jpg" target="_blank" rel="noopener"><img src="screenshots/screen-income.jpg" alt="Вкладка Доход"></a>
+          <figcaption>Вкладка «Доход»</figcaption>
+        </figure>
+      </div>
+      <div class="prose">
+        <ul>
+          <li><b>Режим расчёта</b> — ₽/час, ₽/смену или ₽/месяц (оклад).</li>
+          <li><b>Ночная надбавка %</b> — доплата сверх ставки за каждую ночную смену (и за ночные
+            подработки тоже). Базовая ставка за день и ночь одинаковая, как по Трудовому кодексу —
+            разница именно в этой надбавке.</li>
+          <li><b>Праздничная надбавка %</b> — доплата за смены в государственные праздники.</li>
+          <li><b>Надбавки и вычеты</b> — премии/штрафы. У каждой записи два переключателя: сумма
+            в <b>₽</b> или в <b>%</b>, и повтор — <b>«Один раз»</b> (только в выбранном месяце)
+            или <b>«Каждый месяц»</b> (применяется автоматически, не нужно добавлять заново
+            каждый раз).</li>
+          <li><b>Дата аванса / зарплаты</b> — число месяца для отображения ближайших выплат.</li>
+        </ul>
+        <p>После любых изменений нажмите <b>«Сохранить»</b> внизу окна.</p>
+      </div>
+      <h3 class="h3">Как считается подработка</h3>
+      <div class="prose">
+        <p>Дни со статусом «Подработка» автоматически учитываются в расчёте. По умолчанию — по той
+          же ставке, что обычная смена; если подработка оплачивается иначе (например, в полуторном
+          размере) — включите чекбокс <b>«Ставка подработки»</b> и укажите свою сумму.</p>
+      </div>
+      <div class="callout gold">
+        <span class="label">Длительность, а не только ставка</span>
+        <p>Ставку подработки настроить можно, а вот её <b>длительность</b> отдельно от обычной
+          смены — пока нет: считается по тем же часам Дня/Ночи, что и «Работа» (подробный разбор и
+          обходной путь — раздел 4).</p>
+      </div>
+      <div class="prose">
+        <p>Все данные о зарплате хранятся только на устройстве и никуда не отправляются — это
+          касается и облачной синхронизации (раздел 8), она распространяется только на график.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="s8">
+    <div class="num">08</div>
+    <div class="body-col">
+      <h2 class="h">Синхронизация, аккаунт, резервная копия<span class="pro-tag">PRO</span></h2>
+      <div class="prose">
+        <p>Без аккаунта расписание хранится только на телефоне — при поломке, потере или
+          переустановке оно пропадёт без возможности восстановления. <b>Создать аккаунт можно
+          бесплатно</b> — вход по e-mail и паролю, либо одной кнопкой через <b>Yandex ID</b> или
+          <b>Google</b>. Сама облачная синхронизация и резервная копия — уже PRO-функция, но
+          первые 14 дней после входа она работает бесплатно, как пробный период.</p>
+        <ol>
+          <li>Откройте <b>Настройки → Синхронизация → Аккаунт</b>.</li>
+          <li>Зарегистрируйтесь по e-mail и паролю или войдите одной кнопкой через Yandex ID /
+            Google.</li>
+          <li>Если регистрировались по e-mail — подтвердите почту по письму (проверьте папку
+            «Спам»): это нужно и для активации кода партнёров, и на случай восстановления пароля
+            — если адрес ненастоящий, восстановить забытый пароль в будущем будет неоткуда.</li>
+          <li>Нажмите <b>«Синхронизировать сейчас»</b> — создастся первая резервная копия в
+            облаке.</li>
+        </ol>
+        <p>При смене телефона войдите в тот же аккаунт и нажмите <b>«Скачать из облака»</b> — все
+          данные восстановятся за секунды. Между устройствами расписание синхронизируется само
+          раз в 30 секунд после изменений — тот же механизм, что и обновление расписания партнёра
+          (раздел 3).</p>
+      </div>
+      <div class="shots">
+        <figure class="shot">
+          <a href="screenshots/s8_account_login_form.jpg" target="_blank" rel="noopener"><img src="screenshots/s8_account_login_form.jpg" alt="Форма входа — e-mail, Yandex ID, Google"></a>
+          <figcaption>Вход в аккаунт</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="s9">
+    <div class="num">09</div>
+    <div class="body-col">
+      <h2 class="h">Темы, стили и погода</h2>
+      <div class="prose">
+        <ul>
+          <li><b>Тема</b> — Светлая, Тёмная или Системная (подстраивается под Android).</li>
+          <li><b>Стиль</b> — 8 вариантов оформления: Graphite Bloom, Moonstone Calm и Warm Slate
+            бесплатны; Glass &amp; Air, iOS, Aurora, Nordic и Forest — PRO.</li>
+          <li><b>Погода</b> — «Все дни» или «Только рабочие»: температура и иконка появятся прямо в
+            списке смен. Бесплатно для всех, нужно разрешение на геолокацию. По умолчанию город
+            определяется автоматически по GPS; в настройках погоды можно задать город вручную.
+            Если пропал интернет — прогноз не ломается навсегда, а обновится, как только связь
+            вернётся.</li>
+          <li><b>Праздники</b> — государственный праздник показывается прямо под датой в списке
+            смен. Страна определяется автоматически по региону телефона; при желании её можно
+            задать вручную из списка — поддерживается 28+ стран.</li>
+        </ul>
+      </div>
+      <div class="callout">
+        <span class="label">Погода не показывается</span>
+        <p>Два условия: разрешение на геолокацию (Настройки телефона → Приложения → ShiftSchedule →
+          Разрешения → Местоположение) и подключение к интернету — прогноз загружается из сети.
+          Если оба условия выполнены, а погоды всё равно нет — напишите нам с указанием версии
+          приложения.</p>
+      </div>
+      <div class="shots">
+        <figure class="shot">
+          <a href="screenshots/themes.jpg" target="_blank" rel="noopener"><img src="screenshots/themes.jpg" alt="Выбор темы и стиля"></a>
+          <figcaption>Темы и стили</figcaption>
+        </figure>
+        <figure class="shot">
+          <a href="screenshots/weather_holidays.jpg" target="_blank" rel="noopener"><img src="screenshots/weather_holidays.jpg" alt="Погода и праздники в списке смен"></a>
+          <figcaption>Погода и праздники</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="s10">
+    <div class="num">10</div>
+    <div class="body-col">
+      <h2 class="h">Экспорт в системный календарь</h2>
+      <div class="prose">
+        <p>Бесплатная функция: приложение выгружает ваши смены и заметки в календарь телефона
+          (Google, Samsung или любой другой, доступный для записи), и они видны рядом с остальными
+          делами. Включается в <b>Настройки → Синхронизация → Календарь устройства</b>: приложение
+          запросит доступ к календарю, вы выбираете календарь, куда выгружать смены, и режим
+          работы.</p>
+        <ul>
+          <li><b>Экспорт</b> — односторонний режим: приложение только выгружает смены и заметки
+            в выбранный календарь («Рабочая смена», «Подработка», «Отпуск», «Больничный»; заметка —
+            отдельным событием). Изменения, сделанные в самом календаре, в приложение не
+            возвращаются, а события других календарей приложение не читает.</li>
+          <li><b>Двусторонняя</b> — режим по умолчанию: делает всё то же, что «Экспорт», и
+            дополнительно читает события из календарей телефона (например, дни рождения и встречи)
+            и показывает их под датой в списке смен — до двух событий, остальные свёрнуты в «+N».
+            Это только просмотр: в расписание эти события не попадают, а правки в приложении
+            «Календарь» обратно в график не переносятся.</li>
+          <li>Если календарь выключить или выбрать другой, приложение убирает из него только свои
+            записи — личные события не трогаются, вручную чистить ничего не нужно.</li>
+          <li>Если выбранный календарь синхронизируется с облаком Google или Samsung через
+            настройки самого Android — экспортированные смены появятся и там на уровне системы,
+            это не отдельная интеграция именно с Google или Samsung.</li>
+        </ul>
+      </div>
+      <div class="callout gold">
+        <span class="label">Небольшая задержка на слабых устройствах</span>
+        <p>При включённом календаре полный пересчёт графика (например, смена якорной даты) может
+          ощущаться с небольшой задержкой — приложение заново переэкспортирует смены примерно на
+          год вперёд. На данные это не влияет, только на скорость отклика в момент
+          пересчёта.</p>
+      </div>
+      <div class="shots">
+        <figure class="shot">
+          <a href="screenshots/calendar_export_settings.jpg" target="_blank" rel="noopener"><img src="screenshots/calendar_export_settings.jpg" alt="Экран «Календарь устройства»: выбор календаря и режимов «Двусторонняя» и «Экспорт»"></a>
+          <figcaption>Календарь устройства</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="s11">
+    <div class="num">11</div>
+    <div class="body-col">
+      <h2 class="h">Навык Алисы — график голосом</h2>
+      <div class="prose">
+        <p>Навык «Мой график смен» для Яндекс Алисы отвечает на вопросы о вашем графике голосом —
+          на колонках, в телефоне и на умных экранах: работаете ли вы сегодня и завтра, когда
+          следующий выходной и следующая смена, сколько смен осталось на неделе и в месяце, когда
+          отпуск. Ещё можно продиктовать заметку на нужный день — она появится в приложении.</p>
+      </div>
+      <div class="callout gold">
+        <span class="label">Навык бесплатный, код подключения — часть PRO</span>
+        <p>Сам навык Алисы бесплатный — за его использование в Яндексе платить не нужно. Но чтобы
+          навык узнал ваш график, ему нужен ваш 6-значный код, а код и отправка графика в облако
+          входят в PRO (первые 14 дней они доступны бесплатно). После пробного периода без PRO
+          код в приложении недоступен, а уже подключённый навык перестаёт получать свежие данные.</p>
+      </div>
+      <div class="prose">
+        <ol>
+          <li>Войдите в аккаунт — <b>Настройки → Синхронизация → Аккаунт</b>. График для Алисы
+            отправляется в облако при синхронизации.</li>
+          <li>Скопируйте свой 6-значный код — тот же, что используется в «Вместе» (раздел 3):
+            <b>Настройки → Синхронизация → Партнёры → «Скопировать»</b>.</li>
+          <li>Скажите Алисе <b>«Алиса, запусти навык Мой график смен»</b> и назовите код вслух —
+            после этого навык знает ваш график.</li>
+          <li>Спрашивайте, например: «Я сегодня работаю?», «Следующий выходной», «Сколько смен в
+            этом месяце?», «Когда отпуск?», «Сделай заметку».</li>
+        </ol>
+      </div>
+      <div class="callout">
+        <span class="label">Открывайте приложение хотя бы раз в месяц</span>
+        <p>Навык читает график из облака: приложение хранит там ближайшие 60 дней. Если не
+          открывать его дольше, ответы про сегодняшний день могут быть неточными. Если вы сменили
+          код в приложении — скажите Алисе «сброс» и назовите новый.</p>
+      </div>
+      <div class="prose">
+        <p>Полный список голосовых команд — в статье
+          <a href="articles/alice-navyk.html">«Голосовые команды Алисы»</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="s12">
+    <div class="num">12</div>
+    <div class="body-col">
+      <h2 class="h">Home Assistant</h2>
+      <div class="prose">
+        <p>Бесплатная интеграция. Передавайте статус текущего дня в Home Assistant как сенсор —
+          используйте в автоматизациях: включайте будильник в рабочие дни, меняйте освещение в
+          выходные, шлите уведомления.</p>
+      </div>
+      <div class="shots">
+        <figure class="shot">
+          <a href="screenshots/ha_dark.png" target="_blank" rel="noopener"><img src="screenshots/ha_dark.png" alt="Home Assistant"></a>
+          <figcaption>Home Assistant</figcaption>
+        </figure>
+      </div>
+      <div class="prose">
+        <ol>
+          <li>В Home Assistant: <b>Профиль → Долгосрочные токены доступа</b> → создать новый токен
+            (показывается один раз, скопируйте сразу).</li>
+          <li>В приложении: <b>Настройки → Синхронизация → Home Assistant</b>.</li>
+          <li>Введите URL вебхука: <code>http://192.168.1.100:8123/api/webhook/shift_schedule</code>
+            (локально) или <code>https://myhome.duckdns.org/api/webhook/shift_schedule</code>
+            (внешний доступ) — где <code>shift_schedule</code> это <code>webhook_id</code> из
+            пакета ниже.</li>
+          <li>Вставьте токен доступа, задайте имя сенсора (например <code>shift_schedule</code> —
+            появится как <code>sensor.shift_schedule</code>) и нажмите «Сохранить».</li>
+        </ol>
+        <p><b>Пример автоматизации:</b> триггер — <code>sensor.shift_schedule</code> меняет
+          состояние на <code>work</code>, действие — включить умный будильник; на
+          <code>day_off</code> — выключить.</p>
+      </div>
+      <details class="pkg">
+        <summary>Готовый пакет для Home Assistant
+          <span class="sub">Сущности, автоматизация и сенсоры одним файлом — нажмите, чтобы развернуть</span>
+        </summary>
+        <div class="pkg-body">
+      <h3 class="h3">Шаг 1 — разрешите пакеты в configuration.yaml</h3>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
+        <pre><span class="cm"># configuration.yaml</span>
+homeassistant:
+  packages: !include_dir_named packages</pre>
+      </div>
+      <h3 class="h3">Шаг 2 — сохраните как packages/shift_schedule.yaml</h3>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
+        <pre><span class="cm"># packages/shift_schedule.yaml — справочный пакет ShiftSchedule.
+# Создаёт сущности, принимает данные через вебхук и формирует русскоязычные сенсоры.</span>
+
+shift_schedule:
+  input_text:
+    shift_today_status:
+      name: Shift Today Status
+      max: 50
+      icon: mdi:calendar-today
+    shift_tomorrow_status:
+      name: Shift Tomorrow Status
+      max: 50
+      icon: mdi:calendar-arrow-right
+    shift_next_work_date:
+      name: Shift Next Work Date
+      max: 50
+      icon: mdi:calendar-check
+    shift_next_work_status:
+      name: Shift Next Work Status
+      max: 50
+      icon: mdi:briefcase-clock
+    shift_last_update:
+      name: Shift Last Update
+      max: 80
+      icon: mdi:clock-check
+
+  input_boolean:
+    shift_work_today:
+      name: Shift Work Today
+      icon: mdi:briefcase
+    shift_work_tomorrow:
+      name: Shift Work Tomorrow
+      icon: mdi:briefcase-clock
+
+  automation:
+    - alias: Shift Schedule Webhook
+      id: shift_schedule_webhook
+      mode: restart
+      trigger:
+        - platform: webhook
+          webhook_id: shift_schedule  <span class="cm"># можно заменить на любое уникальное название</span>
+          allowed_methods:
+            - POST
+      action:
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.shift_today_status
+          data:
+            value: "{{ trigger.json.today_status | default('unknown') }}"
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.shift_tomorrow_status
+          data:
+            value: "{{ trigger.json.tomorrow_status | default('unknown') }}"
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.shift_next_work_date
+          data:
+            value: "{{ trigger.json.next_work_date | default('') }}"
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.shift_next_work_status
+          data:
+            value: "{{ trigger.json.next_work_status | default('') }}"
+        - service: input_text.set_value
+          target:
+            entity_id: input_text.shift_last_update
+          data:
+            value: "{{ trigger.json.updated_at | default('') }}"
+        - choose:
+            - conditions: "{{ trigger.json.is_work_today | default(false) }}"
+              sequence:
+                - service: input_boolean.turn_on
+                  target:
+                    entity_id: input_boolean.shift_work_today
+          default:
+            - service: input_boolean.turn_off
+              target:
+                entity_id: input_boolean.shift_work_today
+        - choose:
+            - conditions: "{{ trigger.json.is_work_tomorrow | default(false) }}"
+              sequence:
+                - service: input_boolean.turn_on
+                  target:
+                    entity_id: input_boolean.shift_work_tomorrow
+          default:
+            - service: input_boolean.turn_off
+              target:
+                entity_id: input_boolean.shift_work_tomorrow
+
+  template:
+    - sensor:
+        - name: Shift Today Status RU
+          unique_id: shift_today_status_ru
+          state: &gt;
+            {% set map = {'Work':'Работа','Rest':'Выходной','Extra':'Подработка','Vacation':'Отпуск','Sick':'Больничный'} %}
+            {{ map.get(states('input_text.shift_today_status'), states('input_text.shift_today_status')) | trim }}
+          icon: &gt;
+            {% set s = states('input_text.shift_today_status') %}
+            {% if s == 'Work' %}mdi:briefcase
+            {% elif s == 'Extra' %}mdi:briefcase-plus
+            {% elif s == 'Vacation' %}mdi:beach
+            {% elif s == 'Sick' %}mdi:medical-bag
+            {% else %}mdi:sofa{% endif %}
+
+        - name: Shift Tomorrow Status RU
+          unique_id: shift_tomorrow_status_ru
+          state: &gt;
+            {% set map = {'Work':'Работа','Rest':'Выходной','Extra':'Подработка','Vacation':'Отпуск','Sick':'Больничный'} %}
+            {{ map.get(states('input_text.shift_tomorrow_status'), states('input_text.shift_tomorrow_status')) | trim }}
+          icon: &gt;
+            {% set s = states('input_text.shift_tomorrow_status') %}
+            {% if s == 'Work' %}mdi:briefcase
+            {% elif s == 'Extra' %}mdi:briefcase-plus
+            {% elif s == 'Vacation' %}mdi:beach
+            {% elif s == 'Sick' %}mdi:medical-bag
+            {% else %}mdi:sofa{% endif %}
+
+        - name: Shift Next Work Status RU
+          unique_id: shift_next_work_status_ru
+          state: &gt;
+            {% set map = {'Work':'Работа','Rest':'Выходной','Extra':'Подработка','Vacation':'Отпуск','Sick':'Больничный'} %}
+            {{ map.get(states('input_text.shift_next_work_status'), states('input_text.shift_next_work_status')) | trim }}
+          icon: &gt;
+            {% set s = states('input_text.shift_next_work_status') %}
+            {% if s == 'Work' %}mdi:briefcase
+            {% elif s == 'Extra' %}mdi:briefcase-plus
+            {% elif s == 'Vacation' %}mdi:beach
+            {% elif s == 'Sick' %}mdi:medical-bag
+            {% else %}mdi:sofa{% endif %}
+
+        - name: Shift Next Work Date RU
+          unique_id: shift_next_work_date_ru
+          icon: mdi:calendar-arrow-right
+          state: &gt;
+            {% set d = states('input_text.shift_next_work_date') %}
+            {% if d and d | length == 10 %}
+              {% set today = now().strftime('%Y-%m-%d') %}
+              {% set tomorrow = (now() + timedelta(days=1)).strftime('%Y-%m-%d') %}
+              {% set day_after = (now() + timedelta(days=2)).strftime('%Y-%m-%d') %}
+              {% if d == today %}Сегодня
+              {% elif d == tomorrow %}Завтра
+              {% elif d == day_after %}Послезавтра
+              {% else %}
+                {% set parts = d.split('-') %}
+                {% set months = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'] %}
+                {{ parts[2] | int }} {{ months[parts[1] | int - 1] }}
+              {% endif %}
+            {% else %}—{% endif %}</pre>
+      </div>
+      <h3 class="h3">Шаг 3 — перезапустите Home Assistant</h3>
+      <div class="prose">
+        <ol>
+          <li>Перезапустите HA: <b>Настройки → Система → Перезапустить</b>.</li>
+          <li>Проверьте, что появились сущности <code>input_text.shift_today_status</code> и
+            другие.</li>
+          <li>В приложении укажите URL вашего HA и <code>webhook_id</code> из пакета
+            (<code>shift_schedule</code> по умолчанию).</li>
+          <li>Откройте приложение — данные придут в HA автоматически.</li>
+        </ol>
+      </div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="sec" id="s13">
+    <div class="num">13</div>
+    <div class="body-col">
+      <h2 class="h">PRO и тарифы</h2>
+      <div class="prose">
+        <p>PRO — разовая покупка, не подписка. После первого входа в аккаунт доступно 14 дней PRO
+          бесплатно со всеми функциями; по истечении пробного периода базовые функции (календарь,
+          ручные отметки, конструктор графиков) остаются без ограничений.</p>
+      </div>
+      <div class="tablewrap">
+        <table class="tariffs">
+          <thead>
+            <tr><th>Функция</th><th>Бесплатно</th><th>PRO</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Календарь, ручные правки, конструктор День/Ночь</td><td class="yes">✓</td><td class="pro">✓</td></tr>
+            <tr><td>Будильники</td><td class="yes">✓</td><td class="pro">✓</td></tr>
+            <tr><td>Погода на карточках смен</td><td class="yes">✓</td><td class="pro">✓</td></tr>
+            <tr><td>Экспорт в системный календарь</td><td class="yes">✓</td><td class="pro">✓</td></tr>
+            <tr><td>Home Assistant</td><td class="yes">✓</td><td class="pro">✓</td></tr>
+            <tr><td>Стили: Graphite Bloom, Moonstone Calm, Warm Slate</td><td class="yes">✓</td><td class="pro">✓</td></tr>
+            <tr><td>«Вместе» — синхронизация с партнёром</td><td class="no">—</td><td class="pro">✓</td></tr>
+            <tr><td>«Доход» — расчёт зарплаты</td><td class="no">—</td><td class="pro">✓</td></tr>
+            <tr><td>Облачная синхронизация и резервная копия</td><td class="no">—</td><td class="pro">✓</td></tr>
+            <tr><td>Код для подключения навыка Алисы (сам навык бесплатный)</td><td class="no">—</td><td class="pro">✓</td></tr>
+            <tr><td>Второй график</td><td class="no">—</td><td class="pro">✓</td></tr>
+            <tr><td>Стили: Glass &amp; Air, iOS, Aurora, Nordic, Forest</td><td class="no">—</td><td class="pro">✓</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="prose">
+        <ul>
+          <li><b>Как купить</b> — в приложении нажмите «Купить PRO», откроется оплата через
+            RuStore.</li>
+          <li><b>Купили на сайте</b> — после оплаты через ЮKassa придёт промокод: Настройки →
+            «ShiftSchedule PRO» → «Ввести промокод».</li>
+          <li><b>PRO пропал после переустановки</b> — Настройки → PRO → «Восстановить покупку»,
+            убедитесь, что вы вошли в тот же аккаунт RuStore, через который оплачивали. Нужен
+            интернет, восстановление бесплатное.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="s14">
+    <div class="num">14</div>
+    <div class="body-col">
+      <h2 class="h">Частые вопросы</h2>
+      <div class="faq">
+        <div class="faq-item">
+          <p class="q">Приложение работает без интернета?</p>
+          <p class="a">Да. Календарь, ручные отметки и заметки работают полностью офлайн. Интернет
+            нужен только для облачной синхронизации, прогноза погоды и покупки/восстановления
+            PRO.</p>
+        </div>
+        <div class="faq-item">
+          <p class="q">Приложение запрашивает много разрешений — зачем?</p>
+          <p class="a">Календарь — для экспорта смен в системный календарь (по запросу).
+            Уведомления — для напоминаний о начале смены (по запросу). Геолокация — только для
+            прогноза погоды (по запросу, можно отказать).</p>
+        </div>
+        <div class="faq-item">
+          <p class="q">Зачем создавать аккаунт, если я пользуюсь один?</p>
+          <p class="a">Без аккаунта расписание хранится только на телефоне — при его поломке, потере
+            или переустановке приложения все данные пропадут без возможности восстановления.
+            Аккаунт создаётся бесплатно и даёт резервную копию в облаке и восстановление при
+            смене телефона — сама синхронизация бесплатна первые 14 дней, дальше нужен PRO.</p>
+        </div>
+        <div class="faq-item">
+          <p class="q">Поддерживается ли iPhone / iOS?</p>
+          <p class="a">Пока нет — приложение доступно только для Android через RuStore. iOS-версия
+            рассматривается, но конкретных сроков нет.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>© 2026 MIRORSTAR · <a href="mailto:mirorstar.reports@yandex.ru">mirorstar.reports@yandex.ru</a> · <a href="privacy.html">Политика конфиденциальности</a> · <a href="requisites.html">Реквизиты</a> · <a href="index.html">Главная</a></p>
+</footer>
+
+<script>
+  const themeBtn = document.getElementById('themeToggle');
+  const htmlEl = document.documentElement;
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  htmlEl.setAttribute('data-theme', savedTheme);
+  themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+  themeBtn.addEventListener('click', () => {
+    const current = htmlEl.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    htmlEl.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+
+  function copyCode(btn) {
+    const pre = btn.nextElementSibling;
+    const text = pre.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Скопировано!';
+      setTimeout(() => btn.textContent = 'Копировать', 2000);
+    });
+  }
+</script>
+</body>
+</html>

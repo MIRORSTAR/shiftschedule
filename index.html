@@ -173,6 +173,7 @@
       align-items: center;
       justify-content: center;
       font-size: 16px;
+      flex-shrink: 0;
       transition: all 0.3s;
     }
     .theme-toggle:hover {
@@ -185,6 +186,7 @@
       color: #fff !important;
       padding: 8px 18px;
       border-radius: 6px;
+      white-space: nowrap;
       font-size: 0.78rem !important;
       font-weight: 700 !important;
       text-decoration: none;
@@ -771,6 +773,22 @@
       .fan-card { width: 190px; }
       .content-overlay { padding-top: 60px; border-radius: 24px 24px 0 0; }
       .pro-features-grid { grid-template-columns: 1fr; }
+    }
+    /* Phones: keep the header on one row — logo, theme toggle and «Купить PRO» */
+    @media (max-width: 480px) {
+      header { padding: 12px 4%; }
+      .logo { gap: 8px; font-size: 0.9rem; letter-spacing: 1px; }
+      .logo img { width: 28px; height: 28px; }
+      .header-actions { gap: 8px; }
+      .theme-toggle { width: 32px; height: 32px; font-size: 14px; }
+      .btn-buy-nav { padding: 7px 12px; font-size: 0.72rem !important; }
+    }
+    @media (max-width: 360px) {
+      .logo { gap: 6px; font-size: 0.8rem; letter-spacing: 0.5px; }
+      .logo img { width: 26px; height: 26px; }
+      .header-actions { gap: 6px; }
+      .theme-toggle { width: 30px; height: 30px; }
+      .btn-buy-nav { padding: 6px 10px; font-size: 0.68rem !important; }
     }
   </style>
 

@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <title>Инструкция — ShiftSchedule: календарь смен</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Полная инструкция по ShiftSchedule: настройка графика, конструктор День/Ночь, вкладка «Вместе», будильники, расчёт зарплаты, синхронизация, Home Assistant, PRO.">
+<meta name="description" content="Полная инструкция по ShiftSchedule: настройка графика, конструктор графиков, вкладка «Вместе», будильники, расчёт зарплаты, синхронизация, Home Assistant, PRO.">
 <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/instructions.html">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mirorstar.github.io/shiftschedule/instructions.html">
 <meta property="og:title" content="Инструкция ShiftSchedule — график, «Вместе», будильники, зарплата">
-<meta property="og:description" content="Полная инструкция по приложению ShiftSchedule: настройка графика, конструктор День/Ночь, синхронизация с партнёром, будильники, расчёт зарплаты, Алиса и Home Assistant.">
+<meta property="og:description" content="Полная инструкция по приложению ShiftSchedule: настройка графика, конструктор графиков, синхронизация с партнёром, будильники, расчёт зарплаты, Алиса и Home Assistant.">
 <meta property="og:image" content="https://mirorstar.github.io/shiftschedule/screenshots/screen-calendar.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="favicon.png">
@@ -232,12 +232,12 @@
     </div>
     <p class="kicker">ShiftSchedule · руководство пользователя</p>
     <h1 class="title">Инструкция</h1>
-    <p class="lede">Как настроить график смен, конструктор День/Ночь, синхронизацию с партнёром,
+    <p class="lede">Как настроить график смен, конструктор графиков, синхронизацию с партнёром,
       будильники и расчёт зарплаты — от первого запуска до тонких настроек.</p>
     <div class="hero-meta">
       <span><b>14</b> разделов</span>
       <span><b>Android</b> · RuStore</span>
-      <span>Обновлено <b>29.09.2026</b></span>
+      <span>Обновлено <b>01.10.2026</b></span>
     </div>
   </div>
 </header>
@@ -245,7 +245,7 @@
 <nav class="toc" aria-label="Содержание">
   <ol>
     <li><a href="#s1"><span class="num">01</span> Первый запуск и график</a></li>
-    <li><a href="#s2"><span class="num">02</span> Конструктор графиков (День/Ночь)</a></li>
+    <li><a href="#s2"><span class="num">02</span> Конструктор графиков</a></li>
     <li><a href="#s3"><span class="num">03</span> «Вместе» — график с партнёром</a></li>
     <li><a href="#s4"><span class="num">04</span> Календарь и ручные правки</a></li>
     <li><a href="#s5"><span class="num">05</span> Второй график</a></li>
@@ -293,8 +293,8 @@
           <figcaption>Настройка графика</figcaption>
         </figure>
         <figure class="shot">
-          <a href="screenshots/s1_ready_presets_list.jpg" target="_blank" rel="noopener"><img src="screenshots/s1_ready_presets_list.jpg" alt="Список готовых пресетов графика"></a>
-          <figcaption>Готовые пресеты</figcaption>
+          <a href="screenshots/schedule_constructor_menu.jpg" target="_blank" rel="noopener"><img src="screenshots/schedule_constructor_menu.jpg" alt="Готовые пресеты графика и плитка «Конструктор графиков»"></a>
+          <figcaption>Готовые пресеты и «Конструктор графиков»</figcaption>
         </figure>
       </div>
     </div>
@@ -303,24 +303,21 @@
   <section class="sec" id="s2">
     <div class="num">02</div>
     <div class="body-col">
-      <h2 class="h">Конструктор графиков (День/Ночь)</h2>
+      <h2 class="h">Конструктор графиков</h2>
       <div class="prose">
         <p>Если ваш график не укладывается в простые пресеты — рваный, вахтовый, с чередованием
-          дневных и ночных смен — используйте конструктор: <b>Настройки → График → «Тип смены:
-          День/Ночь»</b>. Это не узкая функция «для тех, кто работает и днём и ночью», а полноценный
-          конструктор любого повторяющегося цикла.</p>
+          дневных и ночных смен — используйте конструктор: <b>Настройки → График → «Конструктор
+          графиков»</b>. Это не узкая функция «для тех, кто работает и днём и ночью», а полноценный
+          конструктор любого повторяющегося цикла; под названием плитки видно состояние, например
+          «Свой цикл · 4 дн.».</p>
         <p>Каждому слоту цикла назначается тип: <b>День</b>, <b>Ночь</b> или <b>Выходной</b> —
           слотов можно добавить сколько угодно. Внизу экрана задаётся время начала и конца дневной
           и ночной смены — в том числе через полночь, вплоть до полных 24 часов.</p>
       </div>
       <div class="shots">
         <figure class="shot">
-          <a href="screenshots/complex_2_settings.png" target="_blank" rel="noopener"><img src="screenshots/complex_2_settings.png" alt="Настройки — График"></a>
-          <figcaption>Настройки → График</figcaption>
-        </figure>
-        <figure class="shot">
-          <a href="screenshots/complex_3_type.png" target="_blank" rel="noopener"><img src="screenshots/complex_3_type.png" alt="Выбор типа смены"></a>
-          <figcaption>Тип смены: День/Ночь</figcaption>
+          <a href="screenshots/schedule_constructor_menu.jpg" target="_blank" rel="noopener"><img src="screenshots/schedule_constructor_menu.jpg" alt="Плитка «Конструктор графиков» в настройках графика"></a>
+          <figcaption>Настройки → График → «Конструктор графиков»</figcaption>
         </figure>
         <figure class="shot">
           <a href="screenshots/complex_4_editor.png" target="_blank" rel="noopener"><img src="screenshots/complex_4_editor.png" alt="Редактор слотов цикла"></a>
@@ -423,6 +420,12 @@
           <li>Нажмите на день в календаре — откроется карточка дня.</li>
           <li>Выберите статус: <b>Работа, Подработка, Выходной, Отпуск</b> или <b>Больничный</b>
             (для Работы и Подработки — ещё и День или Ночь).</li>
+          <li>Для подработки задайте её длительность в строке <b>«Часы подработки»</b>: кнопки
+            <b>«−»</b> и <b>«+»</b> меняют значение с шагом 0,5 ч, от 0,5 до 24 ч, а если удерживать
+            кнопку, счёт ускоряется. Пока часы не заданы, стоит прочерк «—», и действуют общие часы
+            Дня или Ночи из настроек. Если день уже отмечен подработкой, часы сохраняются сразу; на
+            другом дне сначала задайте часы, потом нажмите «Подработка» (День или Ночь). Выбрав
+            диапазон дней (шаг ниже), вы зададите те же часы каждому дню диапазона.</li>
           <li>Нажмите <b>«Заметка»</b>, чтобы добавить текст к этому дню — он будет виден в списке
             смен. Заметке можно задать время оповещения — в указанный момент придёт
             push-уведомление с её текстом (например, напоминание «через 2 часа стрижка»).</li>
@@ -431,15 +434,17 @@
         </ol>
         <p>Под календарём всегда видна статистика за текущий месяц: количество рабочих дней и дней
           отдыха.</p>
+        <p>Дневная и ночная подработка различаются цветом: дневная светлее, ночная темнее, а в углу
+          ячейки ночной подработки стоит золотая луна.</p>
       </div>
       <div class="shots">
         <figure class="shot">
-          <a href="screenshots/day_menu.jpg" target="_blank" rel="noopener"><img src="screenshots/day_menu.jpg" alt="Меню дня по тапу на день"></a>
-          <figcaption>Карточка дня</figcaption>
+          <a href="screenshots/day_modal_hours.jpg" target="_blank" rel="noopener"><img src="screenshots/day_modal_hours.jpg" alt="Карточка дня со строкой «Часы подработки»"></a>
+          <figcaption>Карточка дня и «Часы подработки»</figcaption>
         </figure>
         <figure class="shot">
-          <a href="screenshots/extra_shift_add.jpg" target="_blank" rel="noopener"><img src="screenshots/extra_shift_add.jpg" alt="Отметка дня статусом Подработка"></a>
-          <figcaption>Статус «Подработка»</figcaption>
+          <a href="screenshots/calendar_extra_day_night.jpg" target="_blank" rel="noopener"><img src="screenshots/calendar_extra_day_night.jpg" alt="Дневная и ночная подработка на календаре"></a>
+          <figcaption>Дневная (20-е) и ночная (21-е) подработка</figcaption>
         </figure>
         <figure class="shot">
           <a href="screenshots/s4_note_notification.jpg" target="_blank" rel="noopener"><img src="screenshots/s4_note_notification.jpg" alt="Заметка с оповещением"></a>
@@ -447,12 +452,13 @@
         </figure>
       </div>
       <div class="callout gold">
-        <span class="label">Длительность подработки</span>
-        <p>Статус «Подработка» считается в зарплате по той же длительности, что и обычная
-          «Работа» для того же День/Ночь — отдельного поля часов у подработки пока нет. Если у вас,
-          например, суточный график, а подработка была короче суток — как временный обходной путь
-          можно отметить эту смену «Ночью» вместо «Дня», если ночная длительность в ваших
-          настройках ближе к фактически отработанным часам (раздел 7 — про сам расчёт).</p>
+        <span class="label">Своя длительность подработки</span>
+        <p>Подработка может быть короче или длиннее обычной смены: задайте ей свои часы, и они
+          войдут в расчёт дохода (раздел 7). Это удобно, например, при суточном графике, когда
+          подработка короче суток. Часы нужны именно для расчёта: время будильников и событий в
+          системном календаре по-прежнему берётся из общего времени Дня и Ночи. Если сменить статус
+          дня на другой, часы сбрасываются. Часы сохраняются вместе с расписанием, в том числе в
+          облаке при входе в аккаунт (раздел 8); партнёру во «Вместе» они не передаются.</p>
       </div>
     </div>
   </section>
@@ -598,17 +604,22 @@
       <div class="prose">
         <p>Дни со статусом «Подработка» автоматически учитываются в расчёте. По умолчанию — по той
           же ставке, что обычная смена; если подработка оплачивается иначе (например, в полуторном
-          размере) — включите чекбокс <b>«Ставка подработки»</b> и укажите свою сумму.</p>
+          размере) — включите чекбокс <b>«Сумма подработки»</b> и укажите свою сумму: в режиме ₽/час это
+          ставка за час подработки, в режимах ₽/смену и ₽/мес — сумма за одну подработку.</p>
       </div>
       <div class="callout gold">
-        <span class="label">Длительность, а не только ставка</span>
-        <p>Ставку подработки настроить можно, а вот её <b>длительность</b> отдельно от обычной
-          смены — пока нет: считается по тем же часам Дня/Ночи, что и «Работа» (подробный разбор и
-          обходной путь — раздел 4).</p>
+        <span class="label">Часы подработки</span>
+        <p>В режиме ₽/час подработка и ночная надбавка за ночные подработки считаются по часам,
+          которые вы задали каждому дню (раздел 4); если часы не заданы — по общим часам Дня или
+          Ночи. В разбивке дохода строки «Подработка» и «Ночная надбавка» показывают эти часы,
+          например «12 ч = …». В режимах ₽/смену и ₽/мес подработка оплачивается за смену, поэтому
+          часы на сумму не влияют.</p>
       </div>
       <div class="prose">
-        <p>Все данные о зарплате хранятся только на устройстве и никуда не отправляются — это
-          касается и облачной синхронизации (раздел 8), она распространяется только на график.</p>
+        <p>Все данные о зарплате (ставки, надбавки, суммы) хранятся только на устройстве и никуда
+          не отправляются — облачная синхронизация (раздел 8) распространяется только на график.
+          Часы подработки — часть расписания, а не денежные данные, поэтому они сохраняются в
+          облаке вместе с графиком.</p>
       </div>
     </div>
   </section>
@@ -675,8 +686,8 @@
       </div>
       <div class="shots">
         <figure class="shot">
-          <a href="screenshots/themes.jpg" target="_blank" rel="noopener"><img src="screenshots/themes.jpg" alt="Выбор темы и стиля"></a>
-          <figcaption>Темы и стили</figcaption>
+          <a href="screenshots/styles_selected_tile.jpg" target="_blank" rel="noopener"><img src="screenshots/styles_selected_tile.jpg" alt="Выбор стиля оформления, выбранный стиль подсвечен"></a>
+          <figcaption>Стили оформления</figcaption>
         </figure>
         <figure class="shot">
           <a href="screenshots/weather_holidays.jpg" target="_blank" rel="noopener"><img src="screenshots/weather_holidays.jpg" alt="Погода и праздники в списке смен"></a>
@@ -998,7 +1009,7 @@ shift_schedule:
             <tr><th>Функция</th><th>Бесплатно</th><th>PRO</th></tr>
           </thead>
           <tbody>
-            <tr><td>Календарь, ручные правки, конструктор День/Ночь</td><td class="yes">✓</td><td class="pro">✓</td></tr>
+            <tr><td>Календарь, ручные правки, конструктор графиков</td><td class="yes">✓</td><td class="pro">✓</td></tr>
             <tr><td>Будильники</td><td class="yes">✓</td><td class="pro">✓</td></tr>
             <tr><td>Погода на карточках смен</td><td class="yes">✓</td><td class="pro">✓</td></tr>
             <tr><td>Экспорт в системный календарь</td><td class="yes">✓</td><td class="pro">✓</td></tr>

@@ -88,7 +88,21 @@
     }
     footer a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
     footer a:hover { color: var(--accent-teal); }
-  </style>
+      /* Header on phones: logo and links on one line */
+    @media (max-width: 480px) {
+      nav { padding: 12px 16px; gap: 10px; }
+      .nav-logo { font-size: 0.95rem; letter-spacing: 1px; white-space: nowrap; }
+      .nav-right { gap: 10px; }
+      .nav-right a { font-size: 0.8rem; white-space: nowrap; }
+      .theme-toggle { width: 32px; height: 32px; font-size: 14px; }
+    }
+    @media (max-width: 374px) {
+      nav { padding: 10px 12px; gap: 8px; }
+      .nav-logo { font-size: 0.82rem; letter-spacing: 0.5px; }
+      .nav-right { gap: 8px; }
+      .nav-right a { font-size: 0.72rem; }
+    }
+</style>
 
 <!-- Yandex.Metrika -->
 <script type="text/javascript">

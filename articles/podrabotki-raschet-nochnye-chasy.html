@@ -1,0 +1,372 @@
+<!DOCTYPE html><html lang="ru"><head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="yandex-verification" content="7abe6d0b3a4f8029">
+  <meta name="google-site-verification" content="zC341Z0k-D3wu8oVYMRgyzbLlpQUxbtYQMgWmEf64UY">
+  <title>Как рассчитать подработки сменщику: ночные смены, почасовая оплата и учёт часов — ShiftSchedule</title>
+  <meta name="description" content="Как учитывать подработки при сменном графике: дробные часы, ночная надбавка по ст. 154 ТК РФ, НДФЛ и проверка расчётного листка. Счётчик часов подработки в ShiftSchedule 2.4.0.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://mirorstar.github.io/shiftschedule/articles/podrabotki-raschet-nochnye-chasy.html">
+  <meta property="og:title" content="Как рассчитать подработки сменщику: ночные смены, почасовая оплата и учёт часов — ShiftSchedule">
+  <meta property="og:description" content="Как учитывать подработки при сменном графике: дробные часы, ночная надбавка по ст. 154 ТК РФ, НДФЛ и проверка расчётного листка. Счётчик часов подработки в ShiftSchedule 2.4.0.">
+  <meta property="og:image" content="https://mirorstar.github.io/shiftschedule/articles/img/podrabotki-raschet-hero.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="keywords" content="расчёт подработки, оплата подработки сменщику, ночные часы ст 154 ТК РФ, учёт часов подработки, почасовая оплата смены, проверить расчётный листок, калькулятор зарплаты сменный график">
+  <link rel="canonical" href="https://mirorstar.github.io/shiftschedule/articles/podrabotki-raschet-nochnye-chasy.html">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="apple-touch-icon" href="../favicon.png">
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --accent: #4a8fe8;
+      --accent2: #66b8b2;
+      --text: #e8eaf0;
+      --text2: #8b90a0;
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Montserrat', 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .breadcrumb {
+      max-width: 760px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .breadcrumb a { color: var(--text2); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+    .article-header { margin-bottom: 40px; }
+    .article-header h1 {
+      font-size: clamp(26px, 5vw, 38px);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .article-meta {
+      font-size: 13px;
+      color: var(--text2);
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .article-body h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 40px 0 16px;
+      color: var(--text);
+    }
+    .article-body h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin: 28px 0 10px;
+      color: var(--text);
+    }
+    .article-body p { margin-bottom: 16px; font-size: 16px; color: var(--text); }
+    .article-body ul, .article-body ol {
+      margin: 0 0 16px 24px;
+      font-size: 16px;
+    }
+    .article-body li { margin-bottom: 8px; }
+    .article-body strong { color: var(--text); }
+    .info-box {
+      background: var(--surface);
+      border: 1px solid rgba(74,143,232,0.25);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+    .info-box p { margin: 0; font-size: 15px; }
+    .steps-list { list-style: none; margin: 0 0 24px 0; padding: 0; }
+    .steps-list li {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .step-num {
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .step-text { padding-top: 4px; font-size: 16px; }
+    .cta-box {
+      background: linear-gradient(135deg, var(--surface), rgba(74,143,232,0.08));
+      border: 1px solid rgba(74,143,232,0.2);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 48px 0 32px;
+      text-align: center;
+    }
+    .cta-box h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .cta-box p { color: var(--text2); margin-bottom: 24px; font-size: 15px; }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+      margin: 4px;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+      margin: 4px;
+    }
+    .btn-secondary:hover { background: #2a2f45; }
+    .related {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .related h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .related-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s;
+    }
+    .related-card:hover { border-color: rgba(74,143,232,0.4); }
+    .related-card p { font-size: 14px; font-weight: 600; margin: 0; line-height: 1.4; }
+    .related-card span { font-size: 12px; color: var(--text2); }
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 32px 20px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px; }
+    .footer-links a { color: var(--text2); text-decoration: none; }
+    .footer-links a:hover { color: var(--accent); }
+    @media (max-width: 600px) {
+      .article-wrap { padding: 24px 16px 60px; }
+    }
+  </style>
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    ym(109065744,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/109065744" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
+  <script src="../theme.js"></script>
+  <link rel="stylesheet" href="../theme.css">
+
+  <link rel="alternate" hreflang="ru" href="https://mirorstar.github.io/shiftschedule/articles/podrabotki-raschet-nochnye-chasy.html">
+  <link rel="alternate" hreflang="x-default" href="https://mirorstar.github.io/shiftschedule/articles/podrabotki-raschet-nochnye-chasy.html">
+  </head>
+<body class="">
+<nav style="display: flex; justify-content: space-between; align-items: center; padding: 16px 6%; background: var(--bg-surface, #10111a); border-bottom: 1px solid var(--border, rgba(255,255,255,0.08)); position: sticky; top: 0; z-index: 100;">
+  <a href="../index.html" style="font-weight: 700; font-size: 1.1rem; text-decoration: none; color: var(--text); letter-spacing: 2px;">SHIFT<span style="color: #66b8b2;">SCHEDULE</span></a>
+  <div style="display: flex; align-items: center; gap: 16px;">
+    <a href="../articles.html" style="color: #66b8b2; text-decoration: none; font-size: 0.85rem; font-weight: 600;">← Все статьи</a>
+    <a href="../index.html" style="color: var(--text2); text-decoration: none; font-size: 0.85rem;">На главную</a>
+  </div>
+</nav>
+<div class="article-wrap">
+
+  <div class="breadcrumb">
+    <a href="../index.html">Главная</a>
+    <span> / Статья</span>
+  </div>
+
+  <article>
+    <div class="article-header">
+      <h1>Как сменщику правильно рассчитать подработки и не потерять деньги: ночные смены, почасовая оплата и учёт часов</h1>
+      <div class="article-meta">
+        <span>Обновлено: октябрь 2026</span>
+        <span>ShiftSchedule 2.4.0</span>
+      </div>
+    </div>
+
+    <img src="img/podrabotki-raschet-hero.jpg" alt="Сменщик проверяет расчёт подработок и ночных часов в приложении ShiftSchedule" style="width:100%; border-radius:16px; margin-bottom:32px; display:block; box-shadow:0 16px 48px rgba(0,0,0,0.5);">
+
+    <div class="article-body">
+
+      <div class="info-box">
+        <p>Практическое руководство по расчёту сменных подработок, контролю ночных надбавок по ст. 154 ТК РФ и автоматической проверке расчётного листка.</p>
+      </div>
+
+      <p>Каждый, кто работает по сменному графику — на промышленных предприятиях, в охране, складской логистике, транспорте или медицине — регулярно выходит на подработки. Необходимость подменить заболевшего напарника, остаться на пересменку или закрыть авральный участок в свой законный выходной — обычная практика сменного труда.</p>
+
+      <p>Однако в день выдачи зарплаты многие сменщики сталкиваются с неприятным сюрпризом: фактическая сумма в расчётном листке оказывается заметно ниже той, на которую рассчитывал работник. Разница может достигать от 3 000 до 15 000 рублей за один расчётный период.</p>
+
+      <p>В этой статье разберём, почему возникают ошибки при начислении оплаты за подработки, как защитить свои трудовые доходы и как автоматизировать учёт смен с точностью до получаса.</p>
+
+      <h2>3 главные причины потери денег при сменных подработках</h2>
+
+      <h3>1. Человеческий фактор и устные договорённости</h3>
+      <p>Подработка чаще всего возникает стихийно: бригадир или начальник смены устно просит остаться или выйти вне графика, обещая «закрыть всё по наряду». Спустя месяц при составлении табеля мастер банально забывает точное количество часов или ошибочно проставляет стандартную 8-часовую смену вместо фактически отработанных 12 часов. Доказать устную договорённость задним числом практически невозможно.</p>
+
+      <h3>2. Дробная длительность сверхурочных выходов</h3>
+      <p>В отличие от стандартной смены (8, 11 или 12 часов), подработки имеют плавающую продолжительность:</p>
+      <ul>
+        <li>остался закрыть поломку на 4,5 часа;</li>
+        <li>вышел на усиление на 6 часов;</li>
+        <li>задержка пересменки на 1,5 часа;</li>
+        <li>полная дополнительная смена на 12,5 часов.</li>
+      </ul>
+      <p>При фиксации «по памяти» или в виде простых галочек в бумажном календаре работник к концу месяца теряет детализацию дробных часов.</p>
+
+      <h3>3. Неучтённые ночные часы (ст. 154 ТК РФ)</h3>
+      <p>Ключевая финансовая потеря сменщиков связана с ночным временем. Согласно <strong>статье 154 Трудового кодекса РФ</strong>, каждый час работы в ночное время (в период с 22:00 до 06:00) оплачивается в повышенном размере по сравнению с работой в нормальных условиях:</p>
+      <ul>
+        <li>минимальная государственная доплата составляет <strong>не менее 20%</strong> часовой тарифной ставки (оклада);</li>
+        <li>на многих промышленных предприятиях коллективным договором установлена надбавка <strong>до 40%</strong>.</li>
+      </ul>
+      <p>Если ночная подработка ошибочно проведена табельщиком как дневная, работник полностью лишается положенной по закону ночной надбавки.</p>
+
+      <h2>Как правильно вести учёт подработок: пошаговый алгоритм</h2>
+
+      <p>Для гарантированной защиты заработанных средств соблюдайте три правила:</p>
+
+      <ol class="steps-list">
+        <li>
+          <div class="step-num">1</div>
+          <div class="step-text"><strong>Ежедневная фиксация часов:</strong> заносите точное количество отработанных часов сразу после смены, не откладывая на выходные.</div>
+        </li>
+        <li>
+          <div class="step-num">2</div>
+          <div class="step-text"><strong>Раздельный учёт дневных и ночных смен:</strong> чётко разделяйте смены, приходящиеся на ночное время, чтобы контролировать начисление надбавки.</div>
+        </li>
+        <li>
+          <div class="step-num">3</div>
+          <div class="step-text"><strong>Автоматический расчёт перед получением расчётки:</strong> к моменту выдачи расчётного листка у вас на руках должен быть готовый расчёт: количество основных часов, часов подработок, сумма ночных и чистый доход «на руки» за вычетом НДФЛ 13%.</div>
+        </li>
+      </ol>
+
+      <h2>Автоматизация учёта подработок в ShiftSchedule 2.4.0</h2>
+
+      <p>В версии <strong>ShiftSchedule 2.4.0</strong> реализован специализированный инструментарий для сменщиков с подработками:</p>
+
+      <h3>1. Индивидуальный счётчик часов в окне дня</h3>
+      <p>Для любого дня в календаре можно активировать статус «Подработка» и с шагом в 0,5 часа задать точную продолжительность выхода (от 0,5 до 24 часов). Кнопки управления поддерживают плавное ускорение счёта при удержании и сопровождаются тактильным откликом.</p>
+
+      <img src="img/podrabotki-raschet-day-window.jpg" alt="Настройка индивидуальных часов подработки в окне дня ShiftSchedule" style="width:100%; border-radius:16px; margin:8px 0 32px; display:block; box-shadow:0 16px 48px rgba(0,0,0,0.5);">
+
+      <h3>2. Цветовая дифференциация дня и ночи</h3>
+      <p>В сетке календаря дневные и ночные подработки визуально разделены:</p>
+      <ul>
+        <li>дневная подработка выделена чистым светлым тоном;</li>
+        <li>ночная подработка отображается глубоким тёмным оттенком со значком полумесяца.</li>
+      </ul>
+      <p>Это позволяет мгновенно оценить баланс нагрузок за весь месяц.</p>
+
+      <img src="img/podrabotki-raschet-calendar.jpg" alt="Разделение тонов дневной и ночной подработки в сетке календаря ShiftSchedule" style="width:100%; border-radius:16px; margin:8px 0 32px; display:block; box-shadow:0 16px 48px rgba(0,0,0,0.5);">
+
+      <h3>3. Вкладка «Доход» с расчётом ночных и налогов</h3>
+      <p>Калькулятор доходов ShiftSchedule автоматически:</p>
+      <ul>
+        <li>рассчитывает базовый заработок по вашей тарифной ставке (если у вас почасовая оплата, выберите в настройках расчёта режим «₽/час» — тогда каждая подработка считается по её фактическим часам);</li>
+        <li>отдельно начисляет оплату за подработки;</li>
+        <li>начисляет ночную надбавку на часы ночных смен — процент задаёте сами (по умолчанию 20%, как минимум по ТК РФ);</li>
+        <li>вычитает подоходный налог (по умолчанию НДФЛ 13%, ставку можно изменить) и показывает точную сумму к выплате «на руки».</li>
+      </ul>
+
+      <img src="img/podrabotki-raschet-income.jpg" alt="Вкладка «Доход»: расчёт дневных смен, подработок и ночной надбавки в ShiftSchedule" style="width:100%; border-radius:16px; margin:8px 0 32px; display:block; box-shadow:0 16px 48px rgba(0,0,0,0.5);">
+
+      <p>Вкладка «Доход» входит в пакет PRO — это разовая покупка навсегда без подписок, с бесплатным пробным периодом 14 дней. Календарь смен, умные цикловые будильники и счётчик часов подработки полностью бесплатны.</p>
+
+      <p>Все базовые функции планирования смен, умных цикловых будильников и счётчика часов работают локально на устройстве без обязательного подключения к интернету.</p>
+
+      <h2>Учёт смен бригады и отчёты для руководства</h2>
+
+      <p>Если помимо личного календаря смен вам требуется вести табель отработанного времени, фиксировать часы и выработку сотрудников или отправлять сменные отчёты руководству — используйте наше специализированное приложение <strong><a href="https://mirorstar.github.io/tabel/" style="color: var(--accent);">Табель: Учёт смен и бригад</a></strong>.</p>
+
+      <div class="cta-box">
+        <h3>ShiftSchedule — бесплатно для Android</h3>
+        <p>Отмечайте подработки с точностью до получаса, различайте дневные и ночные выходы и сверяйте расчётный листок во вкладке «Доход».</p>
+        <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule" class="btn-primary" target="_blank" rel="noopener" onclick="ym(109065744,'reachGoal','download_rustore')">
+          <span>Скачать в RuStore</span>
+        </a>
+        <a href="https://github.com/MIRORSTAR/shiftschedule/releases/latest" class="btn-secondary" target="_blank" rel="noopener" onclick="ym(109065744,'reachGoal','download_apk')">
+          <span>Скачать на GitHub</span>
+        </a>
+      </div>
+
+      <div class="related">
+        <h3>Читайте также</h3>
+        <div class="related-grid">
+          <a href="kak-rasschitat-zarplatu-pri-smennom-grafike.html" class="related-card">
+            <p>Как рассчитать зарплату при сменном графике: ночные, переработки</p>
+            <span>Зарплата</span>
+          </a>
+          <a href="dve-raboty-dva-grafika.html" class="related-card">
+            <p>Две работы и два сменных графика: как совмещать смены и подработки</p>
+            <span>Второй график</span>
+          </a>
+          <a href="sutki-cherez-troe.html" class="related-card">
+            <p>График «Сутки через трое»: как не сломать здоровье и личную жизнь</p>
+            <span>Графики</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </article>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="../index.html">Главная</a>
+    <a href="../privacy.html">Политика конфиденциальности</a>
+    <a href="../instructions.html">Инструкции</a>
+    <a href="mailto:mirorstar.reports@yandex.ru">mirorstar.reports@yandex.ru</a>
+  </div>
+  <div>© 2026 ShiftSchedule · <span>Все права защищены</span></div>
+</footer>
+
+<div class="floating-cta" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,0.3); border-radius: 20px;">
+  <a href="https://www.rustore.ru/catalog/app/com.mirorstar.shiftschedule?utm_source=website&amp;utm_medium=button&amp;utm_campaign=main" class="btn-primary" target="_blank" onclick="if(window.ym) ym(109065744,'reachGoal','download_rustore')" style="margin: 0;">Скачать приложение</a>
+</div>
+</body></html>

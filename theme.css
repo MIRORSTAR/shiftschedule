@@ -42,3 +42,10 @@ html.light .section-title {
   -webkit-text-fill-color: transparent;
 }
 html.light .section-sub { color: #404560; }
+
+/* Floating "download" button on articles: always one line (left:50% otherwise caps its width at half the screen) */
+.floating-cta { width: max-content; max-width: calc(100vw - 32px); }
+.floating-cta .btn-primary { display: inline-block; white-space: nowrap; }
+@media (max-width: 480px) {
+  .floating-cta .btn-primary { padding: 10px 22px; font-size: 15px; }
+}

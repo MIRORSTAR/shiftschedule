@@ -1,2 +1,3 @@
 (function(){var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:light)').matches?'light':'dark');if(t==='light')document.documentElement.classList.add('light');})();
 function toggleTheme(){var l=document.documentElement.classList.toggle('light');localStorage.setItem('theme',l?'light':'dark');}
+document.addEventListener("DOMContentLoaded",function(){var b=document.querySelectorAll(".article-theme-toggle");function icon(){var l=document.documentElement.classList.contains("light");b.forEach(function(x){x.textContent=l?"🌙":"☀️";});}icon();b.forEach(function(x){x.addEventListener("click",function(){toggleTheme();icon();});});});
